@@ -11,7 +11,12 @@ import { mockState, mockAPI } from "./mock";
 
 const Home = () => {
   const [tables, setTables] = useState(mockState.tables);
-  const [stats, setStats] = useState({});
+  const [stats, setStats] = useState({
+    activeTables: 0,
+    totalTables: 5,
+    currentRevenue: 0,
+    dailyTotal: 0
+  });
   const [selectedTable, setSelectedTable] = useState(null);
   const [isAddPlayerModalOpen, setIsAddPlayerModalOpen] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
