@@ -2,12 +2,15 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
 import { Button } from './ui/button';
 import { LogOut, Clock, DollarSign, User } from 'lucide-react';
+import { formatTime, calculateElapsedTime } from '../mock';
 
 const CheckoutModal = ({ isOpen, onClose, onConfirm, player }) => {
   if (!player) return null;
 
-  const timeCharge = (player.timeMinutes / 60) * player.rate;
+  const totalSeconds = calculateElapsedTime(player);
+  const timeCharge = (totalSeconds / 3600) * player.rate;
   const totalCharge = timeCharge + player.additionalCharges;
+  const timeDisplay = formatTime(totalSeconds);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -25,6 +28,9 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, player }) => {
               <User className="h-4 w-4 text-slate-600" />
               <span className="font-medium">{player.name}</span>
               <span className="text-sm text-slate-500">({player.rateType})</span>
+              {player.isPaused && (
+                <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">PAUSED</span>
+              )}
             </div>
             
             <div className="space-y-2 text-sm">
@@ -33,7 +39,7 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, player }) => {
                   <Clock className="h-4 w-4 text-slate-500" />
                   Time played:
                 </span>
-                <span>{player.timeMinutes} minutes</span>
+                <span className="font-mono font-bold text-blue-600">{timeDisplay}</span>
               </div>
               
               <div className="flex items-center justify-between">
