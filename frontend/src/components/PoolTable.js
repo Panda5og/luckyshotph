@@ -21,18 +21,22 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
 
   return (
     <Card 
-      className="bg-white/95 backdrop-blur-sm shadow-lg cursor-pointer transition-all duration-200 hover:shadow-xl"
+      className="bg-gradient-to-br from-amber-50 via-white to-amber-50 backdrop-blur-sm shadow-xl cursor-pointer transition-all duration-200 hover:shadow-2xl border-2 border-amber-200 hover:border-amber-300"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <CardContent className="p-4">
         <div className="flex justify-between items-center">
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-slate-800 flex items-center gap-2">
-                <User className="h-4 w-4 text-slate-600" />
+              <h4 className="font-bold text-slate-800 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+                  <User className="h-4 w-4 text-white" />
+                </div>
                 {player.name}
                 {player.isPaused && (
-                  <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">PAUSED</span>
+                  <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full border border-orange-200 font-medium">
+                    PAUSED
+                  </span>
                 )}
               </h4>
               {isExpanded ? (
@@ -41,10 +45,10 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                 <ChevronDown className="h-4 w-4 text-slate-400" />
               )}
             </div>
-            <div className="flex items-center gap-4 mt-1">
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-slate-500" />
-                <span className={`text-base font-mono font-bold ${player.isPaused ? 'text-orange-600' : 'text-blue-600'}`}>
+            <div className="flex items-center gap-4 mt-2">
+              <div className="flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">
+                <Clock className="h-4 w-4 text-slate-600" />
+                <span className={`text-lg font-mono font-bold ${player.isPaused ? 'text-orange-600' : 'text-blue-600'}`}>
                   {timeDisplay}
                 </span>
               </div>
@@ -55,10 +59,10 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                 }}
                 variant="outline"
                 size="sm"
-                className={`${
+                className={`font-medium shadow-md border-2 ${
                   player.isPaused 
-                    ? 'text-green-600 border-green-200 hover:bg-green-50' 
-                    : 'text-orange-600 border-orange-200 hover:bg-orange-50'
+                    ? 'text-green-700 border-green-300 hover:bg-green-50 bg-green-50/50' 
+                    : 'text-orange-700 border-orange-300 hover:bg-orange-50 bg-orange-50/50'
                 }`}
               >
                 {player.isPaused ? (
@@ -78,14 +82,14 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
         </div>
         
         {isExpanded && (
-          <div className="mt-4 pt-3 border-t border-slate-200" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center gap-4 mb-3 text-sm text-slate-600">
+          <div className="mt-4 pt-3 border-t border-amber-200" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-4 mb-3 text-sm text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-200">
               <span className="flex items-center gap-1">
-                <DollarSign className="h-3 w-3" />
-                {player.rateType} (${player.rate}/hr)
+                <DollarSign className="h-4 w-4 text-emerald-600" />
+                <strong>{player.rateType}</strong> (${player.rate}/hr)
               </span>
               {player.additionalCharges > 0 && (
-                <span className="text-orange-600 font-medium">
+                <span className="text-orange-700 font-bold bg-orange-100 px-2 py-1 rounded border border-orange-200">
                   +${player.additionalCharges} extra
                 </span>
               )}
@@ -99,7 +103,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                 }}
                 variant="outline"
                 size="sm"
-                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                className="text-blue-700 border-blue-300 hover:bg-blue-50 bg-blue-50/50 shadow-md font-medium"
               >
                 <Plus className="h-3 w-3 mr-1" />
                 +15 min
@@ -112,7 +116,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                 }}
                 variant="outline"
                 size="sm"
-                className="text-orange-600 border-orange-200 hover:bg-orange-50"
+                className="text-orange-700 border-orange-300 hover:bg-orange-50 bg-orange-50/50 shadow-md font-medium"
               >
                 <Plus className="h-3 w-3 mr-1" />
                 +$1
@@ -125,7 +129,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                 }}
                 variant="outline"
                 size="sm"
-                className="text-red-600 border-red-200 hover:bg-red-50"
+                className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
               >
                 <LogOut className="h-3 w-3 mr-1" />
                 Checkout
