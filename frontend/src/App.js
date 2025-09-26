@@ -122,6 +122,23 @@ const Home = () => {
     }
   };
 
+  const handleDeleteTable = (tableId) => {
+    const result = mockAPI.deleteTable(tableId);
+    if (result.success) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Table Deleted",
+        description: `${result.deletedTable.name} has been removed from your pool hall`,
+      });
+    } else {
+      toast({
+        title: "Cannot Delete Table",
+        description: result.error,
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleResetDaily = () => {
     mockAPI.resetDailyTotal();
     updateStats();
