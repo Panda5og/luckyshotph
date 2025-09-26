@@ -138,7 +138,10 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
   );
 };
 
-const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onToggleTimer }) => {
+const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onToggleTimer, onDeleteTable }) => {
+  const canDelete = table.id > 5; // Only allow deletion of added tables
+  const hasPlayers = table.players.length > 0;
+
   return (
     <Card className="bg-gradient-to-br from-emerald-800 to-emerald-900 border-emerald-700 shadow-xl min-h-[400px]">
       <CardHeader className="pb-6">
@@ -147,14 +150,31 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onT
             <div className="w-4 h-4 bg-white rounded-full"></div>
             {table.name}
           </h3>
-          <Button
-            onClick={() => onAddPlayer(table.id)}
-            className="bg-white hover:bg-slate-100 text-emerald-800 font-medium"
-            size="sm"
-          >
-            <UserPlus className="h-4 w-4 mr-2" />
-            Add Player
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => onAddPlayer(table.id)}
+              className="bg-white hover:bg-slate-100 text-emerald-800 font-medium"
+              size="sm"
+            >
+              <UserPlus className="h-4 w-4 mr-2" />
+              Add Player
+            </Button>
+            
+            {canDelete && (
+              <Button
+                onClick={() => onDeleteTable(table.id)}
+                variant="outline"
+                size="sm"
+                className={`text-red-600 border-red-300 hover:bg-red-50 ${
+                  hasPlayers ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                disabled={hasPlayers}
+                title={hasPlayers ? 'Cannot delete table with active players' : 'Delete this table'}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
       </CardHeader>
       
@@ -163,6 +183,11 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onT
           <div className="text-emerald-200 text-center py-16 border-2 border-dashed border-emerald-600 rounded-lg">
             <User className="h-12 w-12 mx-auto mb-3 opacity-60" />
             <p className="text-base">No players currently seated</p>
+            {canDelete && (
+              <p className="text-sm text-emerald-300 mt-2">
+                This table can be deleted
+              </p>
+            )}
           </div>
         ) : (
           <div className="space-y-3">
