@@ -1,38 +1,144 @@
-import { useEffect } from "react";
-import "@/App.css";
+import React, { useState, useEffect, useCallback } from "react";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { Toaster } from "./components/ui/toaster";
+import { useToast } from "./hooks/use-toast";
+import Dashboard from "./components/Dashboard";
+import PoolTable from "./components/PoolTable";
+import AddPlayerModal from "./components/AddPlayerModal";
+import CheckoutModal from "./components/CheckoutModal";
+import { mockState, mockAPI } from "./mock";
 
 const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+  const [tables, setTables] = useState(mockState.tables);
+  const [stats, setStats] = useState({});
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [isAddPlayerModalOpen, setIsAddPlayerModalOpen] = useState(false);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const { toast } = useToast();
+
+  // Update stats whenever tables change
+  const updateStats = useCallback(() => {
+    const newStats = mockAPI.getStats();
+    setStats(newStats);
+  }, []);
+
+  useEffect(() => {
+    updateStats();
+  }, [tables, updateStats]);
+
+  const handleAddPlayer = (tableId) => {
+    const table = tables.find(t => t.id === tableId);
+    setSelectedTable(table);
+    setIsAddPlayerModalOpen(true);
+  };
+
+  const handlePlayerAdded = (playerData) => {
+    const newPlayer = mockAPI.addPlayer(selectedTable.id, playerData);
+    if (newPlayer) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Player Added",
+        description: `${playerData.name} has been added to ${selectedTable.name}`,
+      });
     }
   };
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+  const handleAddTime = (tableId, playerId) => {
+    const updatedPlayer = mockAPI.updatePlayerTime(tableId, playerId, 15);
+    if (updatedPlayer) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Time Added",
+        description: `Added 15 minutes to ${updatedPlayer.name}`,
+      });
+    }
+  };
+
+  const handleAddCharge = (tableId, playerId) => {
+    const updatedPlayer = mockAPI.addPlayerCharge(tableId, playerId, 1);
+    if (updatedPlayer) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Charge Added",
+        description: `Added $1 to ${updatedPlayer.name}'s tab`,
+      });
+    }
+  };
+
+  const handleCheckout = (tableId, playerId) => {
+    const table = tables.find(t => t.id === tableId);
+    const player = table.players.find(p => p.id === playerId);
+    setSelectedPlayer(player);
+    setIsCheckoutModalOpen(true);
+  };
+
+  const handleCheckoutConfirmed = () => {
+    const result = mockAPI.checkoutPlayer(
+      selectedPlayer.tableId || tables.find(t => t.players.some(p => p.id === selectedPlayer.id)).id,
+      selectedPlayer.id
+    );
+    
+    if (result) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Player Checked Out",
+        description: `${result.player.name} has been checked out. Total: $${result.totalCharge.toFixed(2)}`,
+      });
+    }
+    setIsCheckoutModalOpen(false);
+    setSelectedPlayer(null);
+  };
+
+  const handleResetDaily = () => {
+    mockAPI.resetDailyTotal();
+    updateStats();
+    toast({
+      title: "Daily Total Reset",
+      description: "Daily totals have been reset to $0.00",
+    });
+  };
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
+    <div className="min-h-screen bg-slate-100">
+      <Dashboard 
+        stats={stats} 
+        onReset={handleResetDaily}
+      />
+      
+      <div className="p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {tables.map((table) => (
+              <PoolTable
+                key={table.id}
+                table={table}
+                onAddPlayer={handleAddPlayer}
+                onAddTime={handleAddTime}
+                onAddCharge={handleAddCharge}
+                onCheckout={handleCheckout}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <AddPlayerModal
+        isOpen={isAddPlayerModalOpen}
+        onClose={() => setIsAddPlayerModalOpen(false)}
+        onAddPlayer={handlePlayerAdded}
+        tableName={selectedTable?.name}
+      />
+
+      <CheckoutModal
+        isOpen={isCheckoutModalOpen}
+        onClose={() => setIsCheckoutModalOpen(false)}
+        onConfirm={handleCheckoutConfirmed}
+        player={selectedPlayer}
+      />
+
+      <Toaster />
     </div>
   );
 };
@@ -42,9 +148,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route path="/" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>
