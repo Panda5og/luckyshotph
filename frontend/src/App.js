@@ -7,7 +7,8 @@ import Dashboard from "./components/Dashboard";
 import PoolTable from "./components/PoolTable";
 import AddPlayerModal from "./components/AddPlayerModal";
 import CheckoutModal from "./components/CheckoutModal";
-import { mockState, mockAPI } from "./mock";
+import AddTableButton from "./components/AddTableButton";
+import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
 
 const Home = () => {
   const [tables, setTables] = useState(mockState.tables);
@@ -23,7 +24,7 @@ const Home = () => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const { toast } = useToast();
 
-  // Update stats whenever tables change
+  // Update stats every second to reflect timer changes
   const updateStats = useCallback(() => {
     const newStats = mockAPI.getStats();
     setStats(newStats);
@@ -31,6 +32,8 @@ const Home = () => {
 
   useEffect(() => {
     updateStats();
+    const interval = setInterval(updateStats, 1000); // Update every second
+    return () => clearInterval(interval);
   }, [tables, updateStats]);
 
   const handleAddPlayer = (tableId) => {
@@ -46,6 +49,17 @@ const Home = () => {
       toast({
         title: "Player Added",
         description: `${playerData.name} has been added to ${selectedTable.name}`,
+      });
+    }
+  };
+
+  const handleToggleTimer = (tableId, playerId) => {
+    const updatedPlayer = mockAPI.togglePlayerTimer(tableId, playerId);
+    if (updatedPlayer) {
+      setTables([...mockState.tables]);
+      toast({
+        title: updatedPlayer.isPaused ? "Timer Paused" : "Timer Resumed",
+        description: `${updatedPlayer.name}'s timer ${updatedPlayer.isPaused ? 'paused' : 'resumed'}`,
       });
     }
   };
@@ -87,13 +101,25 @@ const Home = () => {
     
     if (result) {
       setTables([...mockState.tables]);
+      const timeDisplay = formatTime(result.totalSeconds);
       toast({
         title: "Player Checked Out",
-        description: `${result.player.name} has been checked out. Total: $${result.totalCharge.toFixed(2)}`,
+        description: `${result.player.name} checked out. Time: ${timeDisplay}, Total: $${result.totalCharge.toFixed(2)}`,
       });
     }
     setIsCheckoutModalOpen(false);
     setSelectedPlayer(null);
+  };
+
+  const handleAddTable = () => {
+    const newTable = mockAPI.addTable();
+    if (newTable) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Table Added",
+        description: `${newTable.name} has been added to your pool hall`,
+      });
+    }
   };
 
   const handleResetDaily = () => {
@@ -123,8 +149,10 @@ const Home = () => {
                 onAddTime={handleAddTime}
                 onAddCharge={handleAddCharge}
                 onCheckout={handleCheckout}
+                onToggleTimer={handleToggleTimer}
               />
             ))}
+            <AddTableButton onAddTable={handleAddTable} />
           </div>
         </div>
       </div>
