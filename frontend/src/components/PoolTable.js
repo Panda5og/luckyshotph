@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardContent } from './ui/card';
-import { UserPlus, Clock, Plus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause } from 'lucide-react';
+import { UserPlus, Clock, Plus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause, Trash2 } from 'lucide-react';
 import { formatTime, calculateElapsedTime } from '../mock';
 
 const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onToggleTimer }) => {
