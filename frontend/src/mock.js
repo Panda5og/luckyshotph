@@ -86,23 +86,20 @@ export const mockAPI = {
   getStats: () => {
     const activeTables = mockState.tables.filter(t => t.players.length > 0).length;
     
-    // Calculate current revenue from all active players
-    let activePlayerRevenue = 0;
+    // Calculate current revenue from ONLY active players (not completed checkouts)
+    let currentRevenue = 0;
     mockState.tables.forEach(table => {
       table.players.forEach(player => {
         const timeCharge = (player.timeMinutes / 60) * player.rate;
-        activePlayerRevenue += timeCharge + player.additionalCharges;
+        currentRevenue += timeCharge + player.additionalCharges;
       });
     });
-    
-    // Current revenue = completed checkouts + what active players currently owe
-    const currentRevenue = mockState.revenue.current + activePlayerRevenue;
     
     return {
       activeTables,
       totalTables: mockState.tables.length,
-      currentRevenue: currentRevenue,
-      dailyTotal: mockState.revenue.daily
+      currentRevenue: currentRevenue, // Only active players
+      dailyTotal: mockState.revenue.daily // Completed checkouts
     };
   }
 };
