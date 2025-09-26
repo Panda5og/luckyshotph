@@ -66,11 +66,10 @@ export const mockAPI = {
         const timeCharge = (player.timeMinutes / 60) * player.rate;
         const totalCharge = timeCharge + player.additionalCharges;
         
-        // Update revenue (this goes to completed checkouts, not current active revenue)
-        mockState.revenue.current += totalCharge;
+        // Add to daily total only (not current revenue)
         mockState.revenue.daily += totalCharge;
         
-        // Remove player (this will reduce the active player revenue automatically)
+        // Remove player (this will automatically reduce current revenue since it's calculated from active players only)
         table.players.splice(playerIndex, 1);
         
         return { player, totalCharge };
