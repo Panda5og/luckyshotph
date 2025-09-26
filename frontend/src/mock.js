@@ -80,6 +80,7 @@ export const mockAPI = {
 
   resetDailyTotal: () => {
     mockState.revenue.daily = 0;
+    mockState.revenue.current = 0; // Reset this too for consistency
   },
 
   getStats: () => {
