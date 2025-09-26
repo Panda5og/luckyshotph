@@ -146,6 +146,27 @@ export const mockAPI = {
     return newTable;
   },
 
+  deleteTable: (tableId) => {
+    // Only allow deletion of tables with id > 5 (added tables)
+    if (tableId <= 5) {
+      return { error: "Cannot delete original tables (1-5)" };
+    }
+    
+    const tableIndex = mockState.tables.findIndex(t => t.id === tableId);
+    if (tableIndex !== -1) {
+      const table = mockState.tables[tableIndex];
+      
+      // Don't allow deletion if table has active players
+      if (table.players.length > 0) {
+        return { error: "Cannot delete table with active players" };
+      }
+      
+      mockState.tables.splice(tableIndex, 1);
+      return { success: true, deletedTable: table };
+    }
+    return { error: "Table not found" };
+  },
+
   resetDailyTotal: () => {
     mockState.revenue.daily = 0;
     mockState.revenue.current = 0; // Reset this too for consistency
