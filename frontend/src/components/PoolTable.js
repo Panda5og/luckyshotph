@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardContent } from './ui/card';
-import { UserPlus, Clock, Plus, DollarSign, LogOut, User, ChevronDown, ChevronUp } from 'lucide-react';
+import { UserPlus, Clock, Plus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause } from 'lucide-react';
+import { formatTime, calculateElapsedTime } from '../mock';
 
-const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout }) => {
+const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onToggleTimer }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  // Update timer every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(calculateElapsedTime(player));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [player]);
+
+  const timeDisplay = formatTime(currentTime);
 
   return (
     <Card 
@@ -18,6 +31,9 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout }) => 
               <h4 className="font-semibold text-slate-800 flex items-center gap-2">
                 <User className="h-4 w-4 text-slate-600" />
                 {player.name}
+                {player.isPaused && (
+                  <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">PAUSED</span>
+                )}
               </h4>
               {isExpanded ? (
                 <ChevronUp className="h-4 w-4 text-slate-400" />
@@ -25,11 +41,38 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout }) => 
                 <ChevronDown className="h-4 w-4 text-slate-400" />
               )}
             </div>
-            <div className="flex items-center gap-2 mt-1">
-              <Clock className="h-3 w-3 text-slate-500" />
-              <span className="text-sm text-slate-600 font-medium">
-                {player.timeMinutes} minutes
-              </span>
+            <div className="flex items-center gap-4 mt-1">
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-slate-500" />
+                <span className={`text-base font-mono font-bold ${player.isPaused ? 'text-orange-600' : 'text-blue-600'}`}>
+                  {timeDisplay}
+                </span>
+              </div>
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleTimer(tableId, player.id);
+                }}
+                variant="outline"
+                size="sm"
+                className={`${
+                  player.isPaused 
+                    ? 'text-green-600 border-green-200 hover:bg-green-50' 
+                    : 'text-orange-600 border-orange-200 hover:bg-orange-50'
+                }`}
+              >
+                {player.isPaused ? (
+                  <>
+                    <Play className="h-3 w-3 mr-1" />
+                    Resume
+                  </>
+                ) : (
+                  <>
+                    <Pause className="h-3 w-3 mr-1" />
+                    Pause
+                  </>
+                )}
+              </Button>
             </div>
           </div>
         </div>
@@ -95,7 +138,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout }) => 
   );
 };
 
-const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout }) => {
+const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onToggleTimer }) => {
   return (
     <Card className="bg-gradient-to-br from-emerald-800 to-emerald-900 border-emerald-700 shadow-xl min-h-[400px]">
       <CardHeader className="pb-6">
@@ -131,6 +174,7 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout }) =
                 onAddTime={onAddTime}
                 onAddCharge={onAddCharge}
                 onCheckout={onCheckout}
+                onToggleTimer={onToggleTimer}
               />
             ))}
           </div>
