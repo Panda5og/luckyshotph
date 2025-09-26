@@ -167,6 +167,7 @@ const Home = () => {
                 onAddCharge={handleAddCharge}
                 onCheckout={handleCheckout}
                 onToggleTimer={handleToggleTimer}
+                onDeleteTable={handleDeleteTable}
               />
             ))}
             <AddTableButton onAddTable={handleAddTable} />
