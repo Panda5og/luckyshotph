@@ -5,22 +5,64 @@ import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
 const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
     <div className="bg-slate-900 text-white p-6 shadow-lg">
-      <div className="flex justify-between items-center max-w-7xl mx-auto">
-        <div className="flex-1"></div> {/* Left spacer */}
-
-        {/* Logo and Tournament Button grouped together */}
-        <div className="flex items-center gap-6">
-          <img src="/ls_logo.png" alt="Lucky Shot" className="h-20 w-auto" />
-          <Button
-            onClick={() => window.open('/tournament', '_blank')}
-            className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-          >
-            <img src="/bracket.png" alt="Tournament" className="h-5 w-5 mr-3" />
-            Tournament
-          </Button>
-        </div>
+      <div className="flex justify-between items-center max-w-7xl mx-auto gap-6">
+        {/* Logo */}
+        <img src="/ls_logo.png" alt="Lucky Shot" className="h-20 w-auto" />
         
-        <div className="flex items-center gap-6">
+        {/* Tournament Button */}
+        <Button
+          onClick={() => window.open('/tournament', '_blank')}
+          className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+        >
+          <img src="/bracket.png" alt="Tournament" className="h-5 w-5 mr-3" />
+          Tournament
+        </Button>
+
+        {/* Add Purchase Button */}
+        <Button
+          onClick={onMiscPurchase}
+          className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700"
+        >
+          <ShoppingCart className="h-4 w-4 mr-2" />
+          Add Purchase
+        </Button>
+          
+        {/* Active Tables Card */}
+        <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
+          <Clock className="h-5 w-5 text-emerald-400" />
+          <span className="text-sm font-medium">Active Tables:</span>
+          <span className="text-emerald-400 font-bold">
+            {stats.activeTables} / {stats.totalTables}
+          </span>
+        </div>
+
+        {/* Current Revenue Card */}
+        <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
+          <DollarSign className="h-5 w-5 text-green-400" />
+          <span className="text-sm font-medium">Current Revenue:</span>
+          <span className="text-green-400 font-bold">
+            ${stats.currentRevenue.toFixed(2)}
+          </span>
+        </div>
+
+        {/* Daily Total Card */}
+        <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
+          <DollarSign className="h-5 w-5 text-blue-400" />
+          <span className="text-sm font-medium">Daily Total:</span>
+          <span className="text-blue-400 font-bold">
+            ${stats.dailyTotal.toFixed(2)}
+          </span>
+        </div>
+
+        {/* Reset Daily Button */}
+        <Button 
+          onClick={onReset}
+          variant="outline" 
+          className="border-red-600 text-red-400 hover:bg-red-900/20 hover:text-red-300"
+        >
+          <RotateCcw className="h-4 w-4 mr-2" />
+          Reset Daily
+        </Button>
           <Button
             onClick={onMiscPurchase}
             className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700"
