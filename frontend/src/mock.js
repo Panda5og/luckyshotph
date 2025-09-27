@@ -144,7 +144,8 @@ export const mockAPI = {
     if (table) {
       const player = table.players.find(p => p.id === playerId);
       if (player) {
-        player.additionalCharges += amount;
+        // Ensure charges don't go below 0
+        player.additionalCharges = Math.max(0, player.additionalCharges + amount);
         persistData();
         return player;
       }
