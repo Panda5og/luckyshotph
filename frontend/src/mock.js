@@ -361,8 +361,8 @@ export const mockAPI = {
     mockState.revenue.daily += purchaseData.amount;
     
     // Add to analytics for tracking
-    mockState.analytics.totalRevenue += purchaseData.amount;
-    mockState.analytics.extraValue += purchaseData.amount;
+    mockState.dailyAnalytics.totalRevenue += purchaseData.amount;
+    mockState.dailyAnalytics.extraValue += purchaseData.amount;
     
     persistData();
     return purchaseData;
