@@ -319,6 +319,7 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCustomCharge,
                       tableId={table.id}
                       onAddTime={onAddTime}
                       onAddCharge={onAddCharge}
+                      onCustomCharge={onCustomCharge}
                       onCheckout={onCheckout}
                       onToggleTimer={onToggleTimer}
                       onUpdateComment={onUpdateComment}
