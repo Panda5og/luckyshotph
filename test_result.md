@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "The next step is generating a downloadable PDF of this daily analytics data."
+user_problem_statement: "Test the latest updates to the Lucky Shot Pool Hall Management Website: 1) CHECKOUT MODAL STATE RESET FIX - Additional items and tax checkbox should not persist across different checkout sessions, 2) MISCELLANEOUS PURCHASE FEATURE - Purple 'Add Purchase' button for direct revenue additions, 3) PDF DOWNLOAD VERIFICATION - Ensure PDF download still works with miscellaneous purchases included."
 
 frontend:
   - task: "PDF Download for Daily Analytics"
@@ -110,8 +110,8 @@ frontend:
     working: true
     file: "/app/frontend/src/components/DailyAnalyticsModal.js"
     stuck_count: 0
-    priority: "high"
-    needs_retesting: false
+    priority: "medium"
+    needs_retesting: true
     status_history:
         - working: true
           agent: "main"
@@ -120,14 +120,40 @@ frontend:
           agent: "testing"
           comment: "COMPREHENSIVE TESTING COMPLETED SUCCESSFULLY. All PDF download functionality working perfectly: ✅ PDF Download Button present and properly styled with dark theme ✅ PDF Generation works with zero data, comprehensive data, large numbers, and mixed values ✅ PDF Filename follows correct format: daily-analytics-YYYY-MM-DD.pdf ✅ Modal remains open after download ✅ Multiple rapid downloads supported ✅ All modal buttons (Cancel, Reset Daily Analytics) functional ✅ Modal close/reopen functionality works correctly ✅ Responsive design works on desktop, tablet, and mobile viewports ✅ Professional PDF layout with business header 'Lucky Shot Pool Hall', report title, date/time, player statistics, and revenue breakdown ✅ No JavaScript errors detected ✅ UI integration seamless with existing dark theme. PDF functionality is production-ready."
 
+  - task: "Checkout Modal State Reset Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/CheckoutModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Added useEffect to reset all form fields (includeTax, discount, extraItems, newItemDescription, newItemAmount) when modal opens or checkoutData changes. This should prevent additional items and tax checkbox from persisting across different checkout sessions."
+
+  - task: "Miscellaneous Purchase Feature"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/MiscellaneousPurchaseModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented new purple 'Add Purchase' button in Dashboard component positioned to the left of 'Active Tables'. Created MiscellaneousPurchaseModal component for purchase entry with form validation. Added addMiscellaneousPurchase function to mock.js. Purchases are added directly to daily total revenue and not tied to any player/table."
+
 metadata:
   created_by: "main_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "1.1"
+  test_sequence: 2
   run_ui: true
 
 test_plan:
   current_focus:
+    - "Checkout Modal State Reset Fix"
+    - "Miscellaneous Purchase Feature"
     - "PDF Download for Daily Analytics"
   stuck_tasks: []
   test_all: false
@@ -138,3 +164,5 @@ agent_communication:
       message: "Implemented PDF download functionality for daily analytics. Added jsPDF library, created downloadPDF function with professional formatting, and added Download PDF button to existing modal. Initial testing shows functionality works correctly. Requesting comprehensive frontend testing to verify PDF generation with various data scenarios, file naming, content accuracy, and UI behavior."
     - agent: "testing"
       message: "COMPREHENSIVE PDF TESTING COMPLETED - ALL FUNCTIONALITY WORKING PERFECTLY. Tested all requested scenarios: PDF download button styling and positioning in dark-themed modal ✅, PDF generation with zero data ✅, PDF generation with comprehensive data (adults/children/members, extra charges, tax, discounts) ✅, PDF content validation (business header, report title, date/time, player statistics, revenue breakdown) ✅, PDF filename format daily-analytics-YYYY-MM-DD.pdf ✅, UI integration (modal remains open, all buttons functional) ✅, edge cases (large numbers, mixed values, rapid downloads) ✅, responsive design (desktop/tablet/mobile) ✅. No JavaScript errors detected. PDF functionality is production-ready and meets all requirements."
+    - agent: "main"
+      message: "Updated application with two main fixes/features: 1) Checkout Modal State Reset Fix - Added useEffect to reset form fields when modal opens to prevent persistence across sessions, 2) Miscellaneous Purchase Feature - Added purple 'Add Purchase' button and modal for direct revenue additions. Need comprehensive testing of both features plus verification that PDF download still works with miscellaneous purchases."
