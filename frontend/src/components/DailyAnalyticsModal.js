@@ -16,7 +16,8 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
     totalRevenue,
     totalDiscount,
     timeValue,
-    extraValue
+    extraValue,
+    extraItems = []
   } = analytics;
 
   const downloadPDF = () => {
