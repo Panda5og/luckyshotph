@@ -11,20 +11,20 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
             <Users className="h-6 w-6" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Lucky Shot</h1>
-          
-          {/* Tournament Button */}
+        </div>
+
+        {/* Center Tournament Button */}
+        <div className="flex-1 flex justify-center">
           <Button
             onClick={() => window.open('/tournament', '_blank')}
-            variant="outline"
-            size="sm"
-            className="ml-6 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white bg-slate-800/50"
+            className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
           >
-            <img src="/bracket.png" alt="Tournament" className="h-4 w-4 mr-2" />
+            <img src="/bracket.png" alt="Tournament" className="h-5 w-5 mr-3" />
             Tournament
           </Button>
         </div>
         
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
           <Button
             onClick={onMiscPurchase}
             className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700"
