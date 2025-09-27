@@ -48,7 +48,8 @@ export const mockState = {
     totalRevenue: 0,
     totalDiscount: 0,
     timeValue: 0,
-    extraValue: 0
+    extraValue: 0,
+    extraItems: [] // Detailed list of extra items
   })
 };
 
