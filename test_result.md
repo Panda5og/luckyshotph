@@ -232,9 +232,9 @@ frontend:
     implemented: true
     working: false
     file: "/app/frontend/src/components/CustomChargeModal.js"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
@@ -242,6 +242,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "CANNOT TEST PROPERLY: Player persistence issue prevents testing of custom charge modal. Test results: ✅ Player addition modal works ✅ Player appears to be added successfully ❌ Player disappears immediately after addition ❌ Cannot access $ button to test custom charge modal ❌ Cannot test Drink/Scratch preset buttons ❌ Cannot test custom charge functionality ❌ Cannot verify extra items display. Root cause appears to be related to data persistence/reset issues affecting player state management."
+        - working: false
+          agent: "testing"
+          comment: "CRITICAL ISSUE CONFIRMED: Custom Charge Modal ($ button) is completely NON-FUNCTIONAL. Testing results: ✅ Player addition works correctly ✅ Player persists after addition ✅ $ button is visible in player controls ❌ Clicking $ button does NOT open any modal ❌ No dialog elements found after clicking $ button ❌ No preset buttons (Drink - $1, Scratch - $1) available ❌ Enhanced custom charge functionality is NOT IMPLEMENTED. The CustomChargeModal component exists in code but is not being triggered when $ button is clicked. This is a critical functionality failure - the core enhanced custom charge feature requested for testing is completely broken."
 
   - task: "Extra Items Analytics Categorization"
     implemented: true
