@@ -130,7 +130,8 @@ export const mockAPI = {
       const player = table.players.find(p => p.id === playerId);
       if (player) {
         // Add time as additional seconds to total elapsed
-        player.totalElapsedSeconds = (player.totalElapsedSeconds || 0) + (additionalMinutes * 60);
+        const newTime = Math.max(0, (player.totalElapsedSeconds || 0) + (additionalMinutes * 60));
+        player.totalElapsedSeconds = newTime;
         persistData();
         return player;
       }
