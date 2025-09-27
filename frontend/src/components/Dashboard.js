@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from './ui/button';
 import { RotateCcw, DollarSign, Users, Clock, ShoppingCart } from 'lucide-react';
 
-const Dashboard = ({ stats, onReset }) => {
+const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
     <div className="bg-slate-900 text-white p-6 shadow-lg">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
