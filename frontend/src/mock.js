@@ -2,7 +2,8 @@
 const STORAGE_KEYS = {
   TABLES: 'poolhall_tables',
   REVENUE: 'poolhall_revenue',
-  NEXT_TABLE_ID: 'poolhall_next_table_id'
+  NEXT_TABLE_ID: 'poolhall_next_table_id',
+  DAILY_ANALYTICS: 'poolhall_daily_analytics'
 };
 
 // Load data from localStorage or use defaults
@@ -27,17 +28,28 @@ const saveToStorage = (key, data) => {
 
 export const mockState = {
   tables: loadFromStorage(STORAGE_KEYS.TABLES, [
-    { id: 1, name: 'Table 1', players: [] },
-    { id: 2, name: 'Table 2', players: [] },
-    { id: 3, name: 'Table 3', players: [] },
-    { id: 4, name: 'Table 4', players: [] },
-    { id: 5, name: 'Table 5', players: [] }
+    { id: 1, name: 'Table 1', players: [], tableTimerHours: 0 },
+    { id: 2, name: 'Table 2', players: [], tableTimerHours: 0 },
+    { id: 3, name: 'Table 3', players: [], tableTimerHours: 0 },
+    { id: 4, name: 'Table 4', players: [], tableTimerHours: 0 },
+    { id: 5, name: 'Table 5', players: [], tableTimerHours: 0 }
   ]),
   revenue: loadFromStorage(STORAGE_KEYS.REVENUE, {
     current: 0,
     daily: 0
   }),
-  nextTableId: loadFromStorage(STORAGE_KEYS.NEXT_TABLE_ID, 6)
+  nextTableId: loadFromStorage(STORAGE_KEYS.NEXT_TABLE_ID, 6),
+  dailyAnalytics: loadFromStorage(STORAGE_KEYS.DAILY_ANALYTICS, {
+    totalPlayers: 0,
+    adults: 0,
+    children: 0,
+    members: 0,
+    totalTax: 0,
+    totalRevenue: 0,
+    totalDiscount: 0,
+    timeValue: 0,
+    extraValue: 0
+  })
 };
 
 // Helper function to format time in hh:mm:ss
@@ -74,6 +86,7 @@ const persistData = () => {
   saveToStorage(STORAGE_KEYS.TABLES, mockState.tables);
   saveToStorage(STORAGE_KEYS.REVENUE, mockState.revenue);
   saveToStorage(STORAGE_KEYS.NEXT_TABLE_ID, mockState.nextTableId);
+  saveToStorage(STORAGE_KEYS.DAILY_ANALYTICS, mockState.dailyAnalytics);
 };
 
 // Mock functions to simulate backend operations with offline persistence
@@ -85,7 +98,7 @@ export const mockAPI = {
         id: Date.now(),
         name: playerData.name,
         rate: playerData.rate,
-        rateType: playerData.rateType, // 'Adult' or 'Child'
+        rateType: playerData.rateType, // 'Adult', 'Child', or 'Member'
         startTime: new Date().toISOString(),
         lastResumeTime: new Date().toISOString(),
         totalElapsedSeconds: 0,
@@ -94,8 +107,25 @@ export const mockAPI = {
         comment: ''
       };
       table.players.push(newPlayer);
+      
+      // Update analytics
+      mockState.dailyAnalytics.totalPlayers++;
+      if (playerData.rateType === 'Adult') mockState.dailyAnalytics.adults++;
+      else if (playerData.rateType === 'Child') mockState.dailyAnalytics.children++;
+      else if (playerData.rateType === 'Member') mockState.dailyAnalytics.members++;
+      
       persistData();
       return newPlayer;
+    }
+    return null;
+  },
+
+  setTableTimer: (tableId, hours) => {
+    const table = mockState.tables.find(t => t.id === tableId);
+    if (table) {
+      table.tableTimerHours = Math.max(0, hours);
+      persistData();
+      return table;
     }
     return null;
   },
@@ -220,10 +250,21 @@ export const mockAPI = {
     return null;
   },
 
-  completeCheckout: (checkoutData, includeTax = false) => {
+  completeCheckout: (checkoutData, checkoutOptions) => {
+    const { 
+      includeTax = false, 
+      discount = 0, 
+      extraItems = [], 
+      subtotal, 
+      extraItemsTotal = 0 
+    } = checkoutOptions;
+    
     const taxRate = 0.0575; // 5.75%
-    const tax = includeTax ? checkoutData.subtotal * taxRate : 0;
-    const total = checkoutData.subtotal + tax;
+    const subtotalWithExtras = subtotal + extraItemsTotal;
+    const discountAmount = Math.min(discount, subtotalWithExtras);
+    const afterDiscount = subtotalWithExtras - discountAmount;
+    const tax = includeTax ? afterDiscount * taxRate : 0;
+    const total = afterDiscount + tax;
     
     // Now actually remove the players from the table
     const table = mockState.tables.find(t => t.id === checkoutData.tableId);
@@ -236,15 +277,25 @@ export const mockAPI = {
       });
     }
     
+    // Update analytics
+    mockState.dailyAnalytics.totalRevenue += total;
+    mockState.dailyAnalytics.totalTax += tax;
+    mockState.dailyAnalytics.totalDiscount += discountAmount;
+    mockState.dailyAnalytics.timeValue += subtotal;
+    mockState.dailyAnalytics.extraValue += extraItemsTotal;
+    
     // Add to daily total
     mockState.revenue.daily += total;
     persistData();
     
     return { 
-      ...checkoutData, 
+      ...checkoutData,
+      ...checkoutOptions,
       tax, 
       total, 
-      taxRate: includeTax ? taxRate : 0 
+      taxRate: includeTax ? taxRate : 0,
+      discountAmount,
+      afterDiscount
     };
   },
 
@@ -252,7 +303,8 @@ export const mockAPI = {
     const newTable = {
       id: mockState.nextTableId,
       name: `Table ${mockState.nextTableId}`,
-      players: []
+      players: [],
+      tableTimerHours: 0
     };
     mockState.tables.push(newTable);
     mockState.nextTableId++;
@@ -283,9 +335,25 @@ export const mockAPI = {
   },
 
   resetDailyTotal: () => {
+    const analytics = { ...mockState.dailyAnalytics };
+    
+    // Reset everything
     mockState.revenue.daily = 0;
     mockState.revenue.current = 0;
+    mockState.dailyAnalytics = {
+      totalPlayers: 0,
+      adults: 0,
+      children: 0,
+      members: 0,
+      totalTax: 0,
+      totalRevenue: 0,
+      totalDiscount: 0,
+      timeValue: 0,
+      extraValue: 0
+    };
+    
     persistData();
+    return analytics;
   },
 
   getStats: () => {
