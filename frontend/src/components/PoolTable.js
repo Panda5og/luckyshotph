@@ -32,15 +32,21 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
   };
 
   const handleChargeAction = (isAdd) => {
-    onShowConfirmAction({
-      type: 'charge',
-      amount: 1,
-      playerName: player.name,
-      isSubtract: !isAdd,
-      tableId,
-      playerId: player.id,
-      callback: onAddCharge
-    });
+    if (isAdd) {
+      // For adding charges, open the custom charge modal
+      onCustomCharge(tableId, player.id, player.name);
+    } else {
+      // For subtracting charges, use the existing confirmation modal with $1
+      onShowConfirmAction({
+        type: 'charge',
+        amount: 1,
+        playerName: player.name,
+        isSubtract: true,
+        tableId,
+        playerId: player.id,
+        callback: onAddCharge
+      });
+    }
   };
 
   const handleCommentClick = () => {
