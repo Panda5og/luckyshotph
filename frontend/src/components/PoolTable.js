@@ -141,7 +141,27 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                   +${player.additionalCharges} extra
                 </span>
               )}
+              {player.extraItems && player.extraItems.length > 0 && (
+                <span className="text-purple-300 font-bold bg-purple-600/20 px-2 py-1 rounded border border-purple-500/50">
+                  {player.extraItems.length} item{player.extraItems.length > 1 ? 's' : ''}
+                </span>
+              )}
             </div>
+
+            {/* Extra Items List */}
+            {player.extraItems && player.extraItems.length > 0 && (
+              <div className="mt-3 space-y-1">
+                <h4 className="text-xs font-medium text-slate-300 uppercase tracking-wide">Extra Items:</h4>
+                <div className="space-y-1 max-h-20 overflow-y-auto">
+                  {player.extraItems.map((item) => (
+                    <div key={item.id} className="flex justify-between items-center text-xs bg-slate-700/50 p-1.5 rounded border border-slate-600">
+                      <span className="text-slate-300">{item.description}</span>
+                      <span className="text-purple-300 font-medium">${item.amount.toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             
             <div className="space-y-3">
               {/* Time Controls */}
