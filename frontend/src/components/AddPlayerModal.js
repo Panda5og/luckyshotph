@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { User, UserPlus } from 'lucide-react';
+import { User, UserPlus, Star } from 'lucide-react';
 
 const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName }) => {
   const [playerName, setPlayerName] = useState('');
@@ -13,7 +13,21 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (playerName.trim()) {
-      const rate = rateType === 'Adult' ? 5 : 2;
+      let rate;
+      switch(rateType) {
+        case 'Adult':
+          rate = 5;
+          break;
+        case 'Child':
+          rate = 2;
+          break;
+        case 'Member':
+          rate = 0;
+          break;
+        default:
+          rate = 5;
+      }
+      
       onAddPlayer({
         name: playerName.trim(),
         rate,
@@ -84,6 +98,20 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName }) => {
                 <Label htmlFor="child" className="flex-1 cursor-pointer text-slate-200">
                   <span className="font-medium">Child</span>
                   <span className="ml-2 text-blue-400 font-bold">$2/hour</span>
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2 p-3 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors bg-slate-700/50">
+                <RadioGroupItem 
+                  value="Member" 
+                  id="member" 
+                  className="border-slate-400 text-yellow-400 data-[state=checked]:bg-yellow-600 data-[state=checked]:border-yellow-600"
+                />
+                <Label htmlFor="member" className="flex-1 cursor-pointer text-slate-200">
+                  <div className="flex items-center gap-1">
+                    <span className="font-medium">Member</span>
+                    <Star className="h-3 w-3 text-yellow-400" />
+                  </div>
+                  <span className="ml-2 text-yellow-400 font-bold">FREE</span>
                 </Label>
               </div>
             </RadioGroup>
