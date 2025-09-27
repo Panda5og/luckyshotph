@@ -484,7 +484,12 @@ export const mockAPI = {
       table.players.forEach(player => {
         const totalSeconds = calculateElapsedTime(player);
         const timeCharge = (totalSeconds / 3600) * player.rate;
-        currentRevenue += timeCharge + player.additionalCharges;
+        
+        // Calculate total from extra items
+        const extraItemsTotal = player.extraItems ? 
+          player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
+        
+        currentRevenue += timeCharge + player.additionalCharges + extraItemsTotal;
       });
     });
     
