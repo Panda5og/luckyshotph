@@ -90,7 +90,8 @@ export const mockAPI = {
         lastResumeTime: new Date().toISOString(),
         totalElapsedSeconds: 0,
         isPaused: false,
-        additionalCharges: 0
+        additionalCharges: 0,
+        comment: ''
       };
       table.players.push(newPlayer);
       persistData();
