@@ -222,6 +222,21 @@ const Home = () => {
     setAnalyticsData(null);
   };
 
+  const handleMiscPurchase = () => {
+    setIsMiscPurchaseModalOpen(true);
+  };
+
+  const handleMiscPurchaseConfirm = (purchaseData) => {
+    mockAPI.addMiscellaneousPurchase(purchaseData);
+    updateStats();
+    setTables([...mockState.tables]);
+    toast({
+      title: "Purchase Added",
+      description: `${purchaseData.description} - $${purchaseData.amount.toFixed(2)} added to daily total`,
+    });
+    setIsMiscPurchaseModalOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-slate-800">{/* Dark background */}
       <Dashboard 
