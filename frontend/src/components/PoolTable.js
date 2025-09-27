@@ -4,6 +4,30 @@ import { Card, CardHeader, CardContent } from './ui/card';
 import { UserPlus, Clock, Plus, Minus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause, Trash2, MessageSquare } from 'lucide-react';
 import { formatTime, calculateElapsedTime } from '../mock';
 
+// Utility function to consolidate extra items
+const consolidateExtraItems = (extraItems) => {
+  if (!extraItems || extraItems.length === 0) return [];
+  
+  const consolidated = {};
+  
+  extraItems.forEach(item => {
+    const key = item.description;
+    if (consolidated[key]) {
+      consolidated[key].count += 1;
+      consolidated[key].totalAmount += item.amount;
+    } else {
+      consolidated[key] = {
+        description: item.description,
+        count: 1,
+        totalAmount: item.amount,
+        unitAmount: item.amount
+      };
+    }
+  });
+  
+  return Object.values(consolidated);
+};
+
 const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, onCheckout, onToggleTimer, onUpdateComment, onShowConfirmAction }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
