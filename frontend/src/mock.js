@@ -375,6 +375,14 @@ export const mockAPI = {
     mockState.dailyAnalytics.totalRevenue += purchaseData.amount;
     mockState.dailyAnalytics.extraValue += purchaseData.amount;
     
+    // Add to detailed extra items tracking
+    mockState.dailyAnalytics.extraItems.push({
+      description: purchaseData.description,
+      amount: purchaseData.amount,
+      type: 'miscellaneous',
+      timestamp: new Date().toISOString()
+    });
+    
     persistData();
     return purchaseData;
   },
