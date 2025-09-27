@@ -259,16 +259,20 @@ const Home = () => {
     setIsCustomChargeModalOpen(true);
   };
 
-  const handleCustomChargeConfirm = (amount) => {
+  const handleCustomChargeConfirm = (chargeData) => {
     const { tableId, playerId, playerName } = customChargeData;
-    const updatedPlayer = mockAPI.addPlayerCharge(tableId, playerId, amount);
-    if (updatedPlayer) {
-      setTables([...mockState.tables]);
-      toast({
-        title: "Custom Charge Added",
-        description: `$${amount.toFixed(2)} added to ${playerName}`,
-      });
-    }
+    
+    // Add the charge as an extra item (not player charge)
+    mockAPI.addPlayerExtraItem(tableId, playerId, {
+      description: chargeData.description,
+      amount: chargeData.amount
+    });
+    
+    setTables([...mockState.tables]);
+    toast({
+      title: "Extra Item Added",
+      description: `${chargeData.description} - $${chargeData.amount.toFixed(2)} added to ${playerName}`,
+    });
     setIsCustomChargeModalOpen(false);
     setCustomChargeData(null);
   };
