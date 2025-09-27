@@ -86,7 +86,10 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
       doc.setFontSize(10);
       doc.setFont(undefined, 'normal');
       extraItems.forEach((item, index) => {
-        const itemText = `• ${item.description} - $${item.amount.toFixed(2)} (${item.type === 'miscellaneous' ? 'Direct' : 'Checkout'})`;
+        const itemText = `• ${item.description} - $${item.amount.toFixed(2)} (${
+          item.type === 'miscellaneous' ? 'Direct' : 
+          item.type === 'player_item' ? 'Player' : 'Checkout'
+        })`;
         doc.text(itemText, 35, yPosition);
         yPosition += 6;
       });
