@@ -209,12 +209,26 @@ const Home = () => {
   };
 
   const handleResetDaily = () => {
-    const analytics = mockAPI.resetDailyTotal();
-    setAnalyticsData(analytics);
+    // Get current analytics WITHOUT resetting yet
+    const currentAnalytics = {
+      totalPlayers: mockState.dailyAnalytics.totalPlayers,
+      adults: mockState.dailyAnalytics.adults,
+      children: mockState.dailyAnalytics.children,
+      members: mockState.dailyAnalytics.members,
+      totalTax: mockState.dailyAnalytics.totalTax,
+      totalRevenue: mockState.dailyAnalytics.totalRevenue,
+      totalDiscount: mockState.dailyAnalytics.totalDiscount,
+      timeValue: mockState.dailyAnalytics.timeValue,
+      extraValue: mockState.dailyAnalytics.extraValue,
+      extraItems: mockState.dailyAnalytics.extraItems || []
+    };
+    setAnalyticsData(currentAnalytics);
     setIsDailyAnalyticsModalOpen(true);
   };
 
   const handleConfirmReset = () => {
+    // NOW actually reset the data
+    mockAPI.resetDailyTotal();
     updateStats();
     setTables([...mockState.tables]);
     toast({
