@@ -5,13 +5,13 @@ import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
 const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
     <div className="bg-slate-900 text-white p-6 shadow-lg relative">
-      {/* Centered Floating Logo */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 z-10">
+      {/* Far Left Floating Logo */}
+      <div className="absolute left-0 -top-4 z-10">
         <img src="/ls_logo.png" alt="Lucky Shot" className="h-28 w-auto" />
       </div>
       
       <div className="flex justify-between items-center max-w-7xl mx-auto">
-        <div className="flex-1"></div> {/* Left spacer */}
+        <div className="w-32"></div> {/* Left spacer for logo */}
 
         {/* Tournament Button - centered between logo and Add Purchase */}
         <div className="flex-1 flex justify-center">
