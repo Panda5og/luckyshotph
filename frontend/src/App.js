@@ -12,6 +12,7 @@ import PlayerCommentModal from "./components/PlayerCommentModal";
 import DailyAnalyticsModal from "./components/DailyAnalyticsModal";
 import MiscellaneousPurchaseModal from "./components/MiscellaneousPurchaseModal";
 import CustomChargeModal from "./components/CustomChargeModal";
+import Tournament from "./components/Tournament";
 import AddTableButton from "./components/AddTableButton";
 import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
 
