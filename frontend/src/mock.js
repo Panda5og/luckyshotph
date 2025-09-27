@@ -153,22 +153,20 @@ export const mockAPI = {
   checkoutPlayer: (tableId, playerId) => {
     const table = mockState.tables.find(t => t.id === tableId);
     if (table) {
-      const playerIndex = table.players.findIndex(p => p.id === playerId);
-      if (playerIndex !== -1) {
-        const player = table.players[playerIndex];
+      const player = table.players.find(p => p.id === playerId);
+      if (player) {
         const totalSeconds = calculateElapsedTime(player);
         const timeCharge = (totalSeconds / 3600) * player.rate;
         const subtotal = timeCharge + player.additionalCharges;
         
-        // Remove player
-        table.players.splice(playerIndex, 1);
-        persistData();
-        
+        // Don't remove player yet - only prepare checkout data
         return { 
           players: [player], 
           subtotal, 
           totalSeconds: [totalSeconds],
-          isTableCheckout: false 
+          isTableCheckout: false,
+          tableId,
+          playerIds: [playerId]
         };
       }
     }
@@ -181,6 +179,7 @@ export const mockAPI = {
       const players = [...table.players];
       let subtotal = 0;
       const totalSeconds = [];
+      const playerIds = [];
       
       // Calculate total for all players
       players.forEach(player => {
@@ -188,18 +187,18 @@ export const mockAPI = {
         const timeCharge = (seconds / 3600) * player.rate;
         subtotal += timeCharge + player.additionalCharges;
         totalSeconds.push(seconds);
+        playerIds.push(player.id);
       });
       
-      // Clear all players from table
-      table.players = [];
-      persistData();
-      
+      // Don't remove players yet - only prepare checkout data
       return { 
         players, 
         subtotal, 
         totalSeconds,
         isTableCheckout: true,
-        tableName: table.name
+        tableName: table.name,
+        tableId,
+        playerIds
       };
     }
     return null;
@@ -209,6 +208,17 @@ export const mockAPI = {
     const taxRate = 0.0575; // 5.75%
     const tax = includeTax ? checkoutData.subtotal * taxRate : 0;
     const total = checkoutData.subtotal + tax;
+    
+    // Now actually remove the players from the table
+    const table = mockState.tables.find(t => t.id === checkoutData.tableId);
+    if (table) {
+      checkoutData.playerIds.forEach(playerId => {
+        const playerIndex = table.players.findIndex(p => p.id === playerId);
+        if (playerIndex !== -1) {
+          table.players.splice(playerIndex, 1);
+        }
+      });
+    }
     
     // Add to daily total
     mockState.revenue.daily += total;
