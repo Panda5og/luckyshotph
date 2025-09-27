@@ -49,20 +49,20 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
 
   return (
     <Card 
-      className="bg-gradient-to-br from-amber-50 via-white to-amber-50 backdrop-blur-sm shadow-xl cursor-pointer transition-all duration-200 hover:shadow-2xl border-2 border-amber-200 hover:border-amber-300"
+      className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 backdrop-blur-sm shadow-xl cursor-pointer transition-all duration-200 hover:shadow-2xl border-2 border-slate-600 hover:border-slate-500"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <CardContent className="p-4">
         <div className="flex justify-between items-center">
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <h4 className="font-bold text-slate-800 flex items-center gap-2">
+              <h4 className="font-bold text-white flex items-center gap-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
                   <User className="h-4 w-4 text-white" />
                 </div>
                 {player.name}
                 {player.isPaused && (
-                  <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full border border-orange-200 font-medium">
+                  <span className="text-xs bg-orange-600 text-orange-100 px-2 py-1 rounded-full border border-orange-500 font-medium">
                     PAUSED
                   </span>
                 )}
@@ -74,7 +74,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                     }}
                     variant="outline"
                     size="sm"
-                    className="h-6 w-6 p-0 border-blue-300 text-blue-600 hover:bg-blue-50"
+                    className="h-6 w-6 p-0 border-blue-400 text-blue-400 hover:bg-blue-600/20 bg-slate-600/50"
                     title="View/Edit Comment"
                   >
                     <MessageSquare className="h-3 w-3" />
@@ -82,15 +82,15 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                 )}
               </h4>
               {isExpanded ? (
-                <ChevronUp className="h-4 w-4 text-slate-400" />
+                <ChevronUp className="h-4 w-4 text-slate-300" />
               ) : (
-                <ChevronDown className="h-4 w-4 text-slate-400" />
+                <ChevronDown className="h-4 w-4 text-slate-300" />
               )}
             </div>
             <div className="flex items-center gap-4 mt-2">
-              <div className="flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">
-                <Clock className="h-4 w-4 text-slate-600" />
-                <span className={`text-lg font-mono font-bold ${player.isPaused ? 'text-orange-600' : 'text-blue-600'}`}>
+              <div className="flex items-center gap-2 bg-slate-600 px-3 py-1 rounded-lg border border-slate-500">
+                <Clock className="h-4 w-4 text-slate-300" />
+                <span className={`text-lg font-mono font-bold ${player.isPaused ? 'text-orange-400' : 'text-blue-400'}`}>
                   {timeDisplay}
                 </span>
               </div>
@@ -103,8 +103,8 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                 size="sm"
                 className={`font-medium shadow-md border-2 ${
                   player.isPaused 
-                    ? 'text-green-700 border-green-300 hover:bg-green-50 bg-green-50/50' 
-                    : 'text-orange-700 border-orange-300 hover:bg-orange-50 bg-orange-50/50'
+                    ? 'text-green-400 border-green-500 hover:bg-green-600/20 bg-green-600/10' 
+                    : 'text-orange-400 border-orange-500 hover:bg-orange-600/20 bg-orange-600/10'
                 }`}
               >
                 {player.isPaused ? (
@@ -124,14 +124,14 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
         </div>
         
         {isExpanded && (
-          <div className="mt-4 pt-3 border-t border-amber-200" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center gap-4 mb-3 text-sm text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-200">
+          <div className="mt-4 pt-3 border-t border-slate-600" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-4 mb-3 text-sm text-slate-200 bg-slate-600/50 p-2 rounded-lg border border-slate-500">
               <span className="flex items-center gap-1">
-                <DollarSign className="h-4 w-4 text-emerald-600" />
-                <strong>{player.rateType}</strong> (${player.rate}/hr)
+                <DollarSign className="h-4 w-4 text-emerald-400" />
+                <strong className="text-white">{player.rateType}</strong> (${player.rate}/hr)
               </span>
               {player.additionalCharges > 0 && (
-                <span className="text-orange-700 font-bold bg-orange-100 px-2 py-1 rounded border border-orange-200">
+                <span className="text-orange-300 font-bold bg-orange-600/20 px-2 py-1 rounded border border-orange-500/50">
                   +${player.additionalCharges} extra
                 </span>
               )}
@@ -144,7 +144,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                   onClick={() => handleTimeAction(false)}
                   variant="outline"
                   size="sm"
-                  className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
+                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 shadow-md font-medium"
                   disabled={currentTime < 15 * 60} // Disable if less than 15 minutes
                 >
                   <Minus className="h-3 w-3 mr-1" />
@@ -154,7 +154,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                   onClick={() => handleTimeAction(true)}
                   variant="outline"
                   size="sm"
-                  className="text-blue-700 border-blue-300 hover:bg-blue-50 bg-blue-50/50 shadow-md font-medium"
+                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 shadow-md font-medium"
                 >
                   <Plus className="h-3 w-3 mr-1" />
                   +15 min
@@ -167,7 +167,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                   onClick={() => handleChargeAction(false)}
                   variant="outline"
                   size="sm"
-                  className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
+                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 shadow-md font-medium"
                   disabled={player.additionalCharges < 1} // Disable if no charges to remove
                 >
                   <Minus className="h-3 w-3 mr-1" />
@@ -177,7 +177,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                   onClick={() => handleChargeAction(true)}
                   variant="outline"
                   size="sm"
-                  className="text-orange-700 border-orange-300 hover:bg-orange-50 bg-orange-50/50 shadow-md font-medium"
+                  className="text-orange-400 border-orange-500 hover:bg-orange-600/20 bg-orange-600/10 shadow-md font-medium"
                 >
                   <Plus className="h-3 w-3 mr-1" />
                   +$1
@@ -185,12 +185,12 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
               </div>
               
               {/* Other Actions */}
-              <div className="flex gap-2 pt-2 border-t border-amber-200">
+              <div className="flex gap-2 pt-2 border-t border-slate-600">
                 <Button
                   onClick={handleCommentClick}
                   variant="outline"
                   size="sm"
-                  className="text-blue-700 border-blue-300 hover:bg-blue-50 bg-blue-50/50 shadow-md font-medium"
+                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 shadow-md font-medium"
                 >
                   <MessageSquare className="h-3 w-3 mr-1" />
                   {player.comment ? 'Edit Comment' : 'Add Comment'}
@@ -203,7 +203,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                   }}
                   variant="outline"
                   size="sm"
-                  className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
+                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 shadow-md font-medium"
                 >
                   <LogOut className="h-3 w-3 mr-1" />
                   Checkout
