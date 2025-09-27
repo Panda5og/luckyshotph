@@ -14,6 +14,14 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
         </div>
         
         <div className="flex items-center gap-8">
+          <Button
+            onClick={onMiscPurchase}
+            className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700"
+          >
+            <ShoppingCart className="h-4 w-4 mr-2" />
+            Add Purchase
+          </Button>
+          
           <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
             <Clock className="h-5 w-5 text-emerald-400" />
             <span className="text-sm font-medium">Active Tables:</span>
