@@ -356,6 +356,18 @@ export const mockAPI = {
     return analytics;
   },
 
+  addMiscellaneousPurchase: (purchaseData) => {
+    // Add miscellaneous purchase directly to daily total
+    mockState.revenue.daily += purchaseData.amount;
+    
+    // Add to analytics for tracking
+    mockState.analytics.totalRevenue += purchaseData.amount;
+    mockState.analytics.extraValue += purchaseData.amount;
+    
+    persistData();
+    return purchaseData;
+  },
+
   getStats: () => {
     const activeTables = mockState.tables.filter(t => t.players.length > 0).length;
     
