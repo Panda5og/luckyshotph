@@ -198,6 +198,15 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
           <Button 
             type="button" 
             variant="outline" 
+            onClick={downloadPDF}
+            className="border-blue-600 text-blue-400 hover:bg-blue-900/20 hover:text-blue-300"
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Download PDF
+          </Button>
+          <Button 
+            type="button" 
+            variant="outline" 
             onClick={onClose}
             className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
           >
