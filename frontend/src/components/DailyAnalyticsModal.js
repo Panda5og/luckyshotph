@@ -220,7 +220,8 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
                     <div className="flex-1">
                       <span className="text-slate-200">{item.description}</span>
                       <span className="text-xs text-slate-400 ml-2">
-                        ({item.type === 'miscellaneous' ? 'Direct Purchase' : 'Checkout Item'})
+                        ({item.type === 'miscellaneous' ? 'Direct Purchase' : 
+                          item.type === 'player_item' ? 'Player Charge' : 'Checkout Item'})
                       </span>
                     </div>
                     <span className="text-white font-medium">${item.amount.toFixed(2)}</span>
