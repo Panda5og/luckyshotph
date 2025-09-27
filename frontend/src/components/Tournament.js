@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Trophy, Target, Calendar, ArrowLeft, Plus, Trash2, Star } from 'lucide-react';
+import { Users, Trophy, Target, Calendar, Plus, Trash2, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardContent } from './ui/card';
 import { Input } from './ui/input';
@@ -13,6 +13,7 @@ const Tournament = () => {
   const [newPlayerName, setNewPlayerName] = useState('');
   const [isNewPlayerMember, setIsNewPlayerMember] = useState(false);
   const [bracket, setBracket] = useState(null);
+  const [isDashboardHidden, setIsDashboardHidden] = useState(false);
 
   const addPlayer = () => {
     if (newPlayerName.trim()) {
@@ -72,160 +73,171 @@ const Tournament = () => {
     console.log(`Winner ${winner.name} advances from match ${matchId}`);
   };
 
+  const toggleDashboard = () => {
+    setIsDashboardHidden(!isDashboardHidden);
+  };
+
   return (
-    <div className="min-h-screen bg-slate-800 flex">
+    <div className="min-h-screen bg-slate-800 flex relative">
       {/* Left Dashboard */}
-      <div className="w-1/3 bg-slate-900 p-6 overflow-y-auto">
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="bg-yellow-600 p-3 rounded-full">
-              <Trophy className="h-6 w-6" />
+      <div className={`${isDashboardHidden ? 'w-0' : 'w-80'} transition-all duration-300 ease-in-out bg-slate-900 overflow-hidden`}>
+        <div className="p-4 h-full overflow-y-auto">
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-yellow-600 p-2 rounded-full">
+                <Trophy className="h-5 w-5" />
+              </div>
+              <h1 className="text-xl font-bold text-white">Tournament Generator</h1>
             </div>
-            <h1 className="text-2xl font-bold text-white">Tournament Generator</h1>
-          </div>
 
-          {/* Tournament Setup */}
-          <Card className="bg-slate-800 border-slate-600">
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-white">Tournament Details</h2>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="tournament-name" className="text-slate-200">Tournament Name</Label>
-                <Input
-                  id="tournament-name"
-                  value={tournamentName}
-                  onChange={(e) => setTournamentName(e.target.value)}
-                  placeholder="Enter tournament name"
-                  className="bg-slate-700 border-slate-600 text-white"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="tournament-date" className="text-slate-200">Date</Label>
-                <Input
-                  id="tournament-date"
-                  type="date"
-                  value={tournamentDate}
-                  onChange={(e) => setTournamentDate(e.target.value)}
-                  className="bg-slate-700 border-slate-600 text-white"
-                />
-              </div>
-
-              <div>
-                <Label className="text-slate-200">Bracket Type</Label>
-                <div className="flex gap-4 mt-2">
-                  <label className="flex items-center text-white">
-                    <input
-                      type="radio"
-                      value="single"
-                      checked={bracketType === 'single'}
-                      onChange={(e) => setBracketType(e.target.value)}
-                      className="mr-2"
-                    />
-                    Single Elimination
-                  </label>
-                  <label className="flex items-center text-white">
-                    <input
-                      type="radio"
-                      value="double"
-                      checked={bracketType === 'double'}
-                      onChange={(e) => setBracketType(e.target.value)}
-                      className="mr-2"
-                    />
-                    Double Elimination
-                  </label>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Add Players */}
-          <Card className="bg-slate-800 border-slate-600">
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-white">Add Players</h2>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex gap-2">
-                <div className="flex-1">
+            {/* Tournament Setup */}
+            <Card className="bg-slate-800 border-slate-600">
+              <CardHeader className="pb-3">
+                <h2 className="text-lg font-semibold text-white">Tournament Details</h2>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div>
+                  <Label htmlFor="tournament-name" className="text-slate-200 text-sm">Tournament Name</Label>
                   <Input
-                    value={newPlayerName}
-                    onChange={(e) => setNewPlayerName(e.target.value)}
-                    placeholder="Player name"
-                    className="bg-slate-700 border-slate-600 text-white"
-                    onKeyPress={(e) => e.key === 'Enter' && addPlayer()}
+                    id="tournament-name"
+                    value={tournamentName}
+                    onChange={(e) => setTournamentName(e.target.value)}
+                    placeholder="Enter tournament name"
+                    className="bg-slate-700 border-slate-600 text-white text-sm"
                   />
                 </div>
-                <Button onClick={addPlayer} className="bg-blue-600 hover:bg-blue-700">
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
 
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="is-member"
-                  checked={isNewPlayerMember}
-                  onChange={(e) => setIsNewPlayerMember(e.target.checked)}
-                  className="rounded"
-                />
-                <Label htmlFor="is-member" className="text-slate-200 flex items-center gap-1">
-                  Member <Star className="h-4 w-4 text-yellow-400" />
-                </Label>
-              </div>
+                <div>
+                  <Label htmlFor="tournament-date" className="text-slate-200 text-sm">Date</Label>
+                  <Input
+                    id="tournament-date"
+                    type="date"
+                    value={tournamentDate}
+                    onChange={(e) => setTournamentDate(e.target.value)}
+                    className="bg-slate-700 border-slate-600 text-white text-sm"
+                  />
+                </div>
 
-              {/* Players List */}
-              <div className="space-y-2 max-h-60 overflow-y-auto">
-                {players.map((player) => (
-                  <div
-                    key={player.id}
-                    className="flex items-center justify-between bg-slate-700 p-2 rounded border border-slate-600"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-white">{player.name}</span>
-                      {player.isMember && (
-                        <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                      )}
-                    </div>
-                    <Button
-                      onClick={() => removePlayer(player.id)}
-                      size="sm"
-                      variant="outline"
-                      className="border-red-600 text-red-400 hover:bg-red-900/20"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
+                <div>
+                  <Label className="text-slate-200 text-sm">Bracket Type</Label>
+                  <div className="flex gap-3 mt-1">
+                    <label className="flex items-center text-white text-sm">
+                      <input
+                        type="radio"
+                        value="single"
+                        checked={bracketType === 'single'}
+                        onChange={(e) => setBracketType(e.target.value)}
+                        className="mr-1"
+                      />
+                      Single
+                    </label>
+                    <label className="flex items-center text-white text-sm">
+                      <input
+                        type="radio"
+                        value="double"
+                        checked={bracketType === 'double'}
+                        onChange={(e) => setBracketType(e.target.value)}
+                        className="mr-1"
+                      />
+                      Double
+                    </label>
                   </div>
-                ))}
-              </div>
+                </div>
+              </CardContent>
+            </Card>
 
-              <div className="text-slate-400 text-sm">
-                Players: {players.length}
-              </div>
-            </CardContent>
-          </Card>
+            {/* Add Players */}
+            <Card className="bg-slate-800 border-slate-600">
+              <CardHeader className="pb-3">
+                <h2 className="text-lg font-semibold text-white">Add Players</h2>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex gap-2">
+                  <div className="flex-1">
+                    <Input
+                      value={newPlayerName}
+                      onChange={(e) => setNewPlayerName(e.target.value)}
+                      placeholder="Player name"
+                      className="bg-slate-700 border-slate-600 text-white text-sm"
+                      onKeyPress={(e) => e.key === 'Enter' && addPlayer()}
+                    />
+                  </div>
+                  <Button onClick={addPlayer} size="sm" className="bg-blue-600 hover:bg-blue-700">
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
 
-          {/* Generate Bracket */}
-          <Button
-            onClick={generateBracket}
-            disabled={players.length < 2}
-            className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-semibold"
-          >
-            <Trophy className="h-4 w-4 mr-2" />
-            Generate Bracket
-          </Button>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="is-member"
+                    checked={isNewPlayerMember}
+                    onChange={(e) => setIsNewPlayerMember(e.target.checked)}
+                    className="rounded"
+                  />
+                  <Label htmlFor="is-member" className="text-slate-200 flex items-center gap-1 text-sm">
+                    Member <Star className="h-3 w-3 text-yellow-400" />
+                  </Label>
+                </div>
 
-          {/* Back to Main */}
-          <Button
-            onClick={() => window.close()}
-            variant="outline"
-            className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Main
-          </Button>
+                {/* Players List */}
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {players.map((player) => (
+                    <div
+                      key={player.id}
+                      className="flex items-center justify-between bg-slate-700 p-2 rounded border border-slate-600"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-white text-sm">{player.name}</span>
+                        {player.isMember && (
+                          <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" />
+                        )}
+                      </div>
+                      <Button
+                        onClick={() => removePlayer(player.id)}
+                        size="sm"
+                        variant="outline"
+                        className="border-red-600 text-red-400 hover:bg-red-900/20 h-6 w-6 p-0"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="text-slate-400 text-xs">
+                  Players: {players.length}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Generate Bracket */}
+            <Button
+              onClick={generateBracket}
+              disabled={players.length < 2}
+              className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-semibold"
+            >
+              <Trophy className="h-4 w-4 mr-2" />
+              Generate Bracket
+            </Button>
+          </div>
         </div>
+      </div>
+
+      {/* Toggle Dashboard Arrow */}
+      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
+        <Button
+          onClick={toggleDashboard}
+          size="sm"
+          className="bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 rounded-r-md rounded-l-none p-2"
+        >
+          {isDashboardHidden ? (
+            <ChevronRight className="h-4 w-4" />
+          ) : (
+            <ChevronLeft className="h-4 w-4" />
+          )}
+        </Button>
       </div>
 
       {/* Right Side - Bracket Display */}
