@@ -305,6 +305,12 @@ const Home = () => {
         analytics={analyticsData}
       />
 
+      <MiscellaneousPurchaseModal
+        isOpen={isMiscPurchaseModalOpen}
+        onClose={() => setIsMiscPurchaseModalOpen(false)}
+        onConfirm={handleMiscPurchaseConfirm}
+      />
+
       <Toaster />
     </div>
   );
