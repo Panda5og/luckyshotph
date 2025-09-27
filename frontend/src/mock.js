@@ -401,6 +401,27 @@ export const mockAPI = {
     return { error: "Table not found" };
   },
 
+  getCurrentAnalytics: () => {
+    // Ensure extraItems exists for backward compatibility
+    if (!mockState.dailyAnalytics.extraItems) {
+      mockState.dailyAnalytics.extraItems = [];
+    }
+    
+    // Return a copy of current analytics without resetting anything
+    return {
+      totalPlayers: mockState.dailyAnalytics.totalPlayers,
+      adults: mockState.dailyAnalytics.adults,
+      children: mockState.dailyAnalytics.children,
+      members: mockState.dailyAnalytics.members,
+      totalTax: mockState.dailyAnalytics.totalTax,
+      totalRevenue: mockState.dailyAnalytics.totalRevenue,
+      totalDiscount: mockState.dailyAnalytics.totalDiscount,
+      timeValue: mockState.dailyAnalytics.timeValue,
+      extraValue: mockState.dailyAnalytics.extraValue,
+      extraItems: [...mockState.dailyAnalytics.extraItems]
+    };
+  },
+
   resetDailyTotal: () => {
     // Ensure extraItems exists before creating analytics
     if (!mockState.dailyAnalytics.extraItems) {
