@@ -240,6 +240,25 @@ const Home = () => {
     setIsMiscPurchaseModalOpen(false);
   };
 
+  const handleCustomCharge = (tableId, playerId, playerName) => {
+    setCustomChargeData({ tableId, playerId, playerName });
+    setIsCustomChargeModalOpen(true);
+  };
+
+  const handleCustomChargeConfirm = (amount) => {
+    const { tableId, playerId, playerName } = customChargeData;
+    const updatedPlayer = mockAPI.addCharges(tableId, playerId, amount);
+    if (updatedPlayer) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Custom Charge Added",
+        description: `$${amount.toFixed(2)} added to ${playerName}`,
+      });
+    }
+    setIsCustomChargeModalOpen(false);
+    setCustomChargeData(null);
+  };
+
   return (
     <div className="min-h-screen bg-slate-800">{/* Dark background */}
       <Dashboard 
