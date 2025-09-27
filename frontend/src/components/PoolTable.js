@@ -142,9 +142,10 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
   );
 };
 
-const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onToggleTimer, onDeleteTable }) => {
+const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onCheckoutTable, onToggleTimer, onDeleteTable }) => {
   const canDelete = table.id > 5; // Only allow deletion of added tables
   const hasPlayers = table.players.length > 0;
+  const hasMultiplePlayers = table.players.length > 1;
 
   return (
     <div className="relative">
@@ -167,7 +168,7 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onT
                   </div>
                   {table.name}
                 </h3>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   <Button
                     onClick={() => onAddPlayer(table.id)}
                     className="bg-amber-100 hover:bg-amber-200 text-amber-900 font-medium shadow-lg border-2 border-amber-300"
@@ -176,6 +177,17 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onT
                     <UserPlus className="h-4 w-4 mr-2" />
                     Add Player
                   </Button>
+                  
+                  {hasPlayers && (
+                    <Button
+                      onClick={() => onCheckoutTable(table.id)}
+                      className="bg-green-100 hover:bg-green-200 text-green-800 font-medium shadow-lg border-2 border-green-300"
+                      size="sm"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Checkout {hasMultiplePlayers ? 'All' : 'Table'}
+                    </Button>
+                  )}
                   
                   {canDelete && (
                     <Button
