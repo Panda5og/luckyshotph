@@ -179,8 +179,8 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                   size="sm"
                   className="text-orange-400 border-orange-500 hover:bg-orange-600/20 bg-orange-600/10 shadow-md font-medium"
                 >
-                  <Plus className="h-3 w-3 mr-1" />
-                  +$1
+                  <DollarSign className="h-3 w-3 mr-1" />
+                  $
                 </Button>
               </div>
               
