@@ -209,19 +209,8 @@ const Home = () => {
   };
 
   const handleResetDaily = () => {
-    // Get current analytics WITHOUT resetting yet
-    const currentAnalytics = {
-      totalPlayers: mockState.dailyAnalytics.totalPlayers,
-      adults: mockState.dailyAnalytics.adults,
-      children: mockState.dailyAnalytics.children,
-      members: mockState.dailyAnalytics.members,
-      totalTax: mockState.dailyAnalytics.totalTax,
-      totalRevenue: mockState.dailyAnalytics.totalRevenue,
-      totalDiscount: mockState.dailyAnalytics.totalDiscount,
-      timeValue: mockState.dailyAnalytics.timeValue,
-      extraValue: mockState.dailyAnalytics.extraValue,
-      extraItems: mockState.dailyAnalytics.extraItems || []
-    };
+    // Get current analytics WITHOUT resetting yet - use API method
+    const currentAnalytics = mockAPI.getCurrentAnalytics();
     setAnalyticsData(currentAnalytics);
     setIsDailyAnalyticsModalOpen(true);
   };
