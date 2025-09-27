@@ -259,7 +259,9 @@ export const mockAPI = {
       players.forEach(player => {
         const seconds = calculateElapsedTime(player);
         const timeCharge = (seconds / 3600) * player.rate;
-        subtotal += timeCharge + player.additionalCharges;
+        const extraItemsTotal = player.extraItems ? 
+          player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
+        subtotal += timeCharge + player.additionalCharges + extraItemsTotal;
         totalSeconds.push(seconds);
         playerIds.push(player.id);
       });
