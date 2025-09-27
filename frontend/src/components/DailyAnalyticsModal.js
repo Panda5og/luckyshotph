@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
 import { Button } from './ui/button';
-import { BarChart3, Users, DollarSign, Percent, Clock, ShoppingBag } from 'lucide-react';
+import { BarChart3, Users, DollarSign, Percent, Clock, ShoppingBag, Download } from 'lucide-react';
+import { jsPDF } from 'jspdf';
 
 const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
   if (!analytics) return null;
