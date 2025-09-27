@@ -350,14 +350,6 @@ export const mockAPI = {
       mockState.dailyAnalytics.extraValue += item.amount;
       mockState.dailyAnalytics.totalRevenue += item.amount;
     });
-        mockState.dailyAnalytics.extraItems.push({
-          description: item.description,
-          amount: item.amount,
-          type: 'checkout',
-          timestamp: new Date().toISOString()
-        });
-      });
-    }
     
     // Add to daily total
     mockState.revenue.daily += total;
