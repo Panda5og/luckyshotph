@@ -4,6 +4,31 @@ import { Button } from './ui/button';
 import { BarChart3, Users, DollarSign, Percent, Clock, ShoppingBag, Download } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 
+// Utility function to consolidate extra items
+const consolidateExtraItems = (extraItems) => {
+  if (!extraItems || extraItems.length === 0) return [];
+  
+  const consolidated = {};
+  
+  extraItems.forEach(item => {
+    const key = `${item.description}_${item.type}`;
+    if (consolidated[key]) {
+      consolidated[key].count += 1;
+      consolidated[key].totalAmount += item.amount;
+    } else {
+      consolidated[key] = {
+        description: item.description,
+        type: item.type,
+        count: 1,
+        totalAmount: item.amount,
+        unitAmount: item.amount
+      };
+    }
+  });
+  
+  return Object.values(consolidated);
+};
+
 const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
   if (!analytics) return null;
 
