@@ -330,266 +330,385 @@ const Tournament = () => {
               </CardHeader>
             </Card>
 
-            {/* Tournament Bracket Tree View */}
+            {/* Double Elimination Bracket Visualization */}
             <div className="flex justify-center">
               <div className="inline-block">
-                <svg width="800" height="400" className="bg-slate-900 rounded-lg border border-slate-600">
-                  {/* Round 1 Matches */}
-                  {bracket.rounds[0].map((match, index) => {
-                    const yPos = 100 + (index * 200);
-                    return (
-                      <g key={match.id}>
-                        {/* Match Box */}
-                        <rect
-                          x="50"
-                          y={yPos}
-                          width="200"
-                          height="80"
-                          fill="#374151"
-                          stroke="#6b7280"
-                          strokeWidth="1"
-                          rx="8"
-                        />
-                        
-                        {/* Player 1 */}
-                        <rect
-                          x="55"
-                          y={yPos + 5}
-                          width="190"
-                          height="35"
-                          fill="#1f2937"
-                          rx="4"
-                        />
-                        <text
-                          x="65"
-                          y={yPos + 25}
-                          fill="white"
-                          fontSize="14"
-                          fontFamily="system-ui"
-                        >
-                          {match.player1 ? (
+                <svg width="1200" height="800" className="bg-slate-900 rounded-lg border border-slate-600">
+                  {/* Winners Bracket */}
+                  <text
+                    x="200"
+                    y="30"
+                    fill="#10b981"
+                    fontSize="18"
+                    fontFamily="system-ui"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    Winners Bracket
+                  </text>
+                  
+                  {/* Winners Bracket Rounds */}
+                  {bracket.winnersRounds.map((round, roundIndex) => {
+                    return round.map((match, matchIndex) => {
+                      const xPos = 50 + (roundIndex * 200);
+                      const yPos = 60 + (matchIndex * 120) * Math.pow(2, roundIndex);
+                      const matchHeight = 80;
+                      
+                      return (
+                        <g key={match.id}>
+                          {/* Match Box */}
+                          <rect
+                            x={xPos}
+                            y={yPos}
+                            width="180"
+                            height={matchHeight}
+                            fill="#374151"
+                            stroke="#10b981"
+                            strokeWidth="2"
+                            rx="8"
+                          />
+                          
+                          {/* Player 1 */}
+                          <rect
+                            x={xPos + 5}
+                            y={yPos + 5}
+                            width="170"
+                            height="32"
+                            fill="#1f2937"
+                            rx="4"
+                          />
+                          <text
+                            x={xPos + 15}
+                            y={yPos + 24}
+                            fill="white"
+                            fontSize="12"
+                            fontFamily="system-ui"
+                          >
+                            {match.player1 ? (
+                              match.player1.name.substring(0, 15) + 
+                              (match.player1.isMember ? ' ★' : '')
+                            ) : 'TBD'}
+                          </text>
+                          
+                          {/* Player 2 */}
+                          <rect
+                            x={xPos + 5}
+                            y={yPos + 42}
+                            width="170"
+                            height="32"
+                            fill="#1f2937"
+                            rx="4"
+                          />
+                          <text
+                            x={xPos + 15}
+                            y={yPos + 61}
+                            fill="white"
+                            fontSize="12"
+                            fontFamily="system-ui"
+                          >
+                            {match.player2 ? (
+                              match.player2.name.substring(0, 15) + 
+                              (match.player2.isMember ? ' ★' : '')
+                            ) : 'TBD'}
+                          </text>
+                          
+                          {/* Connecting lines to next round */}
+                          {roundIndex < bracket.winnersRounds.length - 1 && (
                             <>
-                              {match.player1.name}
-                              {match.player1.isMember && (
-                                <tspan fill="#fbbf24"> ★</tspan>
+                              <line
+                                x1={xPos + 180}
+                                y1={yPos + 40}
+                                x2={xPos + 220}
+                                y2={yPos + 40}
+                                stroke="white"
+                                strokeWidth="2"
+                              />
+                              
+                              {/* Vertical connector for pairing matches */}
+                              {matchIndex % 2 === 0 && matchIndex + 1 < round.length && (
+                                <>
+                                  <line
+                                    x1={xPos + 220}
+                                    y1={yPos + 40}
+                                    x2={xPos + 220}
+                                    y2={yPos + 160}
+                                    stroke="white"
+                                    strokeWidth="2"
+                                  />
+                                  <line
+                                    x1={xPos + 220}
+                                    y1={yPos + 100}
+                                    x2={xPos + 250}
+                                    y2={yPos + 100}
+                                    stroke="white"
+                                    strokeWidth="2"
+                                  />
+                                </>
                               )}
                             </>
-                          ) : 'BYE'}
-                        </text>
-                        
-                        {/* Player 2 */}
-                        <rect
-                          x="55"
-                          y={yPos + 40}
-                          width="190"
-                          height="35"
-                          fill="#1f2937"
-                          rx="4"
-                        />
-                        <text
-                          x="65"
-                          y={yPos + 60}
-                          fill="white"
-                          fontSize="14"
-                          fontFamily="system-ui"
-                        >
-                          {match.player2 ? (
-                            <>
-                              {match.player2.name}
-                              {match.player2.isMember && (
-                                <tspan fill="#fbbf24"> ★</tspan>
-                              )}
-                            </>
-                          ) : 'BYE'}
-                        </text>
-                        
-                        {/* Connection line to next round */}
-                        <line
-                          x1="250"
-                          y1={yPos + 40}
-                          x2="350"
-                          y2={yPos + 40}
-                          stroke="white"
-                          strokeWidth="2"
-                        />
-                        
-                        {/* Connecting to finals */}
-                        {index === 0 && (
-                          <line
-                            x1="350"
-                            y1={yPos + 40}
-                            x2="350"
-                            y2="200"
-                            stroke="white"
-                            strokeWidth="2"
-                          />
-                        )}
-                        {index === 1 && (
-                          <line
-                            x1="350"
-                            y1={yPos + 40}
-                            x2="350"
-                            y2="200"
-                            stroke="white"
-                            strokeWidth="2"
-                          />
-                        )}
-                      </g>
-                    );
+                          )}
+                        </g>
+                      );
+                    });
                   })}
                   
-                  {/* Finals Box */}
+                  {/* Losers Bracket (if double elimination) */}
+                  {bracket.type === 'double' && bracket.losersRounds.length > 0 && (
+                    <>
+                      <text
+                        x="200"
+                        y="450"
+                        fill="#ef4444"
+                        fontSize="18"
+                        fontFamily="system-ui"
+                        fontWeight="bold"
+                        textAnchor="middle"
+                      >
+                        Losers Bracket
+                      </text>
+                      
+                      {bracket.losersRounds.map((round, roundIndex) => {
+                        return round.map((match, matchIndex) => {
+                          const xPos = 50 + (roundIndex * 120);
+                          const yPos = 480 + (matchIndex * 100);
+                          const matchHeight = 80;
+                          
+                          return (
+                            <g key={match.id}>
+                              {/* Match Box */}
+                              <rect
+                                x={xPos}
+                                y={yPos}
+                                width="100"
+                                height={matchHeight}
+                                fill="#374151"
+                                stroke="#ef4444"
+                                strokeWidth="2"
+                                rx="6"
+                              />
+                              
+                              {/* Player 1 */}
+                              <rect
+                                x={xPos + 3}
+                                y={yPos + 5}
+                                width="94"
+                                height="32"
+                                fill="#1f2937"
+                                rx="3"
+                              />
+                              <text
+                                x={xPos + 8}
+                                y={yPos + 22}
+                                fill="white"
+                                fontSize="10"
+                                fontFamily="system-ui"
+                              >
+                                {match.player1 ? 
+                                  match.player1.name.substring(0, 8) + 
+                                  (match.player1.isMember ? ' ★' : '')
+                                  : 'TBD'}
+                              </text>
+                              
+                              {/* Player 2 */}
+                              <rect
+                                x={xPos + 3}
+                                y={yPos + 42}
+                                width="94"
+                                height="32"
+                                fill="#1f2937"
+                                rx="3"
+                              />
+                              <text
+                                x={xPos + 8}
+                                y={yPos + 59}
+                                fill="white"
+                                fontSize="10"
+                                fontFamily="system-ui"
+                              >
+                                {match.player2 ? 
+                                  match.player2.name.substring(0, 8) + 
+                                  (match.player2.isMember ? ' ★' : '')
+                                  : 'TBD'}
+                              </text>
+                              
+                              {/* Connecting lines */}
+                              {roundIndex < bracket.losersRounds.length - 1 && (
+                                <line
+                                  x1={xPos + 100}
+                                  y1={yPos + 40}
+                                  x2={xPos + 120}
+                                  y2={yPos + 40}
+                                  stroke="white"
+                                  strokeWidth="1"
+                                />
+                              )}
+                            </g>
+                          );
+                        });
+                      })}
+                    </>
+                  )}
+                  
+                  {/* Grand Finals */}
                   <g>
-                    {/* Horizontal connector line */}
-                    <line
-                      x1="350"
-                      y1="140"
-                      x2="400"
-                      y2="140"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                    <line
-                      x1="350"
-                      y1="300"
-                      x2="400"
-                      y2="300"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                    <line
-                      x1="400"
-                      y1="140"
-                      x2="400"
-                      y2="300"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                    <line
-                      x1="400"
-                      y1="220"
-                      x2="450"
-                      y2="220"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
+                    <text
+                      x="1000"
+                      y="30"
+                      fill="#fbbf24"
+                      fontSize="18"
+                      fontFamily="system-ui"
+                      fontWeight="bold"
+                      textAnchor="middle"
+                    >
+                      Grand Finals
+                    </text>
                     
-                    {/* Finals Match Box */}
+                    {/* Grand Finals Box */}
                     <rect
-                      x="450"
-                      y="180"
+                      x="920"
+                      y="200"
                       width="200"
-                      height="80"
+                      height="100"
                       fill="#374151"
-                      stroke="#6b7280"
-                      strokeWidth="1"
-                      rx="8"
+                      stroke="#fbbf24"
+                      strokeWidth="3"
+                      rx="10"
                     />
                     
-                    {/* Finals Players */}
+                    {/* Winners Bracket Champion */}
                     <rect
-                      x="455"
-                      y="185"
+                      x="925"
+                      y="210"
                       width="190"
-                      height="35"
-                      fill="#1f2937"
-                      rx="4"
+                      height="40"
+                      fill="#10b981"
+                      rx="6"
                     />
                     <text
-                      x="465"
-                      y="205"
-                      fill="#9ca3af"
+                      x="935"
+                      y="232"
+                      fill="white"
                       fontSize="14"
                       fontFamily="system-ui"
+                      fontWeight="bold"
                     >
-                      Winner of Match 1
+                      Winners Champion
                     </text>
                     
+                    {/* Losers Bracket Champion */}
                     <rect
-                      x="455"
-                      y="220"
+                      x="925"
+                      y="255"
                       width="190"
-                      height="35"
-                      fill="#1f2937"
-                      rx="4"
+                      height="40"
+                      fill="#ef4444"
+                      rx="6"
                     />
                     <text
-                      x="465"
-                      y="240"
-                      fill="#9ca3af"
+                      x="935"
+                      y="277"
+                      fill="white"
                       fontSize="14"
                       fontFamily="system-ui"
+                      fontWeight="bold"
                     >
-                      Winner of Match 2
+                      Losers Champion
                     </text>
-                    
-                    {/* Championship line */}
-                    <line
-                      x1="650"
-                      y1="220"
-                      x2="700"
-                      y2="220"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
                     
                     {/* Champion Box */}
                     <rect
-                      x="700"
-                      y="200"
-                      width="80"
-                      height="40"
+                      x="950"
+                      y="350"
+                      width="140"
+                      height="60"
                       fill="#fbbf24"
                       stroke="#f59e0b"
-                      strokeWidth="2"
-                      rx="8"
+                      strokeWidth="3"
+                      rx="10"
                     />
                     <text
-                      x="740"
-                      y="223"
+                      x="1020"
+                      y="375"
                       fill="#000"
-                      fontSize="12"
+                      fontSize="16"
                       fontFamily="system-ui"
+                      fontWeight="bold"
+                      textAnchor="middle"
+                    >
+                      TOURNAMENT
+                    </text>
+                    <text
+                      x="1020"
+                      y="395"
+                      fill="#000"
+                      fontSize="16"
+                      fontFamily="system-ui"
+                      fontWeight="bold"
                       textAnchor="middle"
                     >
                       CHAMPION
                     </text>
+                    
+                    {/* Connection from Grand Finals to Champion */}
+                    <line
+                      x1="1020"
+                      y1="300"
+                      x2="1020"
+                      y2="350"
+                      stroke="#fbbf24"
+                      strokeWidth="3"
+                    />
                   </g>
                   
-                  {/* Round Labels */}
-                  <text
-                    x="150"
-                    y="50"
-                    fill="white"
-                    fontSize="16"
-                    fontFamily="system-ui"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    Round 1
-                  </text>
-                  <text
-                    x="550"
-                    y="50"
-                    fill="white"
-                    fontSize="16"
-                    fontFamily="system-ui"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    Finals
-                  </text>
-                  <text
-                    x="740"
-                    y="50"
-                    fill="#fbbf24"
-                    fontSize="16"
-                    fontFamily="system-ui"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    Champion
-                  </text>
+                  {/* Connection lines from brackets to grand finals */}
+                  <line
+                    x1="800"
+                    y1="150"
+                    x2="920"
+                    y2="230"
+                    stroke="#10b981"
+                    strokeWidth="2"
+                  />
+                  
+                  {bracket.type === 'double' && (
+                    <line
+                      x1="800"
+                      y1="550"
+                      x2="920"
+                      y2="275"
+                      stroke="#ef4444"
+                      strokeWidth="2"
+                    />
+                  )}
+                  
+                  {/* Round indicators */}
+                  {bracket.winnersRounds.map((_, roundIndex) => (
+                    <text
+                      key={`wr-${roundIndex}`}
+                      x={140 + (roundIndex * 200)}
+                      y="50"
+                      fill="#10b981"
+                      fontSize="12"
+                      fontFamily="system-ui"
+                      textAnchor="middle"
+                    >
+                      WR{roundIndex + 1}
+                    </text>
+                  ))}
+                  
+                  {bracket.type === 'double' && bracket.losersRounds.map((_, roundIndex) => (
+                    <text
+                      key={`lr-${roundIndex}`}
+                      x={100 + (roundIndex * 120)}
+                      y="470"
+                      fill="#ef4444"
+                      fontSize="12"
+                      fontFamily="system-ui"
+                      textAnchor="middle"
+                    >
+                      LR{roundIndex + 1}
+                    </text>
+                  ))}
                 </svg>
               </div>
             </div>
