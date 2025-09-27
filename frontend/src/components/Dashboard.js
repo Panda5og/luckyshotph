@@ -5,16 +5,16 @@ import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
 const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
     <div className="bg-slate-900 text-white p-6 shadow-lg relative">
+      {/* Centered Floating Logo */}
+      <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 z-10">
+        <img src="/ls_logo.png" alt="Lucky Shot" className="h-28 w-auto" />
+      </div>
+      
       <div className="flex justify-between items-center max-w-7xl mx-auto">
-        <div className="flex items-center relative">
-          <div className="absolute -top-4 -left-2 z-10">
-            <img src="/ls_logo.png" alt="Lucky Shot" className="h-28 w-auto" />
-          </div>
-          <div className="w-20"></div> {/* Spacer to maintain layout */}
-        </div>
+        <div className="flex-1"></div> {/* Left spacer */}
 
-        {/* Tournament Button - positioned slightly to the left */}
-        <div className="flex-1 flex justify-center pr-16">
+        {/* Tournament Button - centered between logo and Add Purchase */}
+        <div className="flex-1 flex justify-center">
           <Button
             onClick={() => window.open('/tournament', '_blank')}
             className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
