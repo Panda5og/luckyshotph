@@ -4,17 +4,13 @@ import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
 
 const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
-    <div className="bg-slate-900 text-white p-6 shadow-lg relative">
-      {/* Far Left Floating Logo */}
-      <div className="absolute left-0 -top-4 z-10">
-        <img src="/ls_logo.png" alt="Lucky Shot" className="h-28 w-auto" />
-      </div>
-      
-      <div className="flex justify-between items-center max-w-7xl mx-auto">
-        <div className="w-32"></div> {/* Left spacer for logo */}
-
-        {/* Tournament Button - centered between logo and Add Purchase */}
-        <div className="flex-1 flex justify-center">
+    <div className="bg-slate-900 text-white p-6 shadow-lg">
+      <div className="flex justify-center items-center max-w-7xl mx-auto">
+        <div className="flex items-center gap-8">
+          {/* Logo to the left of tournament button, centered vertically */}
+          <img src="/ls_logo.png" alt="Lucky Shot" className="h-20 w-auto" />
+          
+          {/* Tournament Button */}
           <Button
             onClick={() => window.open('/tournament', '_blank')}
             className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
@@ -24,7 +20,8 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
           </Button>
         </div>
         
-        <div className="flex items-center gap-6">
+        {/* Right side controls positioned absolutely to maintain right alignment */}
+        <div className="absolute right-6 flex items-center gap-6">
           <Button
             onClick={onMiscPurchase}
             className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700"
