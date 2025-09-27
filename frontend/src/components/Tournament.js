@@ -42,29 +42,90 @@ const Tournament = () => {
     
     // Calculate bracket size (next power of 2)
     const bracketSize = Math.pow(2, Math.ceil(Math.log2(shuffledPlayers.length)));
+    const totalRounds = Math.log2(bracketSize);
     
-    // Create first round matches
-    const firstRound = [];
+    // Create winners bracket first round
+    const winnersFirstRound = [];
     for (let i = 0; i < bracketSize / 2; i++) {
       const player1 = shuffledPlayers[i * 2] || null;
       const player2 = shuffledPlayers[i * 2 + 1] || null;
       
-      firstRound.push({
-        id: `match-${i}`,
+      winnersFirstRound.push({
+        id: `winners-1-${i}`,
         player1,
         player2,
         winner: null,
-        round: 1
+        round: 1,
+        bracket: 'winners'
       });
+    }
+
+    // Create additional winner rounds (empty for now)
+    const winnersRounds = [winnersFirstRound];
+    for (let round = 2; round <= totalRounds; round++) {
+      const roundMatches = [];
+      const previousRoundSize = winnersRounds[round - 2].length;
+      
+      for (let i = 0; i < previousRoundSize / 2; i++) {
+        roundMatches.push({
+          id: `winners-${round}-${i}`,
+          player1: null,
+          player2: null,
+          winner: null,
+          round: round,
+          bracket: 'winners'
+        });
+      }
+      winnersRounds.push(roundMatches);
+    }
+
+    // Create losers bracket structure (double elimination)
+    const losersRounds = [];
+    if (bracketType === 'double') {
+      // Losers bracket has more complex structure
+      const losersRoundCount = (totalRounds - 1) * 2;
+      
+      for (let round = 1; round <= losersRoundCount; round++) {
+        const roundMatches = [];
+        let matchCount;
+        
+        if (round % 2 === 1) {
+          // Odd rounds: players from winners bracket join
+          matchCount = Math.floor(bracketSize / Math.pow(2, Math.floor((round + 1) / 2) + 1));
+        } else {
+          // Even rounds: only losers bracket progression
+          matchCount = Math.floor(bracketSize / Math.pow(2, Math.floor(round / 2) + 2));
+        }
+        
+        for (let i = 0; i < Math.max(1, matchCount); i++) {
+          roundMatches.push({
+            id: `losers-${round}-${i}`,
+            player1: null,
+            player2: null,
+            winner: null,
+            round: round,
+            bracket: 'losers'
+          });
+        }
+        losersRounds.push(roundMatches);
+      }
     }
 
     setBracket({
       name: tournamentName,
       date: tournamentDate,
       type: bracketType,
-      rounds: [firstRound],
-      currentRound: 1,
-      totalRounds: Math.log2(bracketSize)
+      winnersRounds,
+      losersRounds,
+      grandFinals: {
+        id: 'grand-finals',
+        player1: null,
+        player2: null,
+        winner: null,
+        bracket: 'finals'
+      },
+      totalPlayers: shuffledPlayers.length,
+      bracketSize
     });
   };
 
