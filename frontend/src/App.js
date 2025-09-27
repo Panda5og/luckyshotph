@@ -28,6 +28,7 @@ const Home = () => {
   const [isConfirmActionModalOpen, setIsConfirmActionModalOpen] = useState(false);
   const [isPlayerCommentModalOpen, setIsPlayerCommentModalOpen] = useState(false);
   const [isDailyAnalyticsModalOpen, setIsDailyAnalyticsModalOpen] = useState(false);
+  const [isMiscPurchaseModalOpen, setIsMiscPurchaseModalOpen] = useState(false);
   const [checkoutData, setCheckoutData] = useState(null);
   const [confirmActionData, setConfirmActionData] = useState(null);
   const [commentData, setCommentData] = useState(null);
