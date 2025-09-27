@@ -7,6 +7,8 @@ import Dashboard from "./components/Dashboard";
 import PoolTable from "./components/PoolTable";
 import AddPlayerModal from "./components/AddPlayerModal";
 import CheckoutModal from "./components/CheckoutModal";
+import ConfirmActionModal from "./components/ConfirmActionModal";
+import PlayerCommentModal from "./components/PlayerCommentModal";
 import AddTableButton from "./components/AddTableButton";
 import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
 
@@ -21,7 +23,11 @@ const Home = () => {
   const [selectedTable, setSelectedTable] = useState(null);
   const [isAddPlayerModalOpen, setIsAddPlayerModalOpen] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [isConfirmActionModalOpen, setIsConfirmActionModalOpen] = useState(false);
+  const [isPlayerCommentModalOpen, setIsPlayerCommentModalOpen] = useState(false);
   const [checkoutData, setCheckoutData] = useState(null);
+  const [confirmActionData, setConfirmActionData] = useState(null);
+  const [commentData, setCommentData] = useState(null);
   const { toast } = useToast();
 
   // Update stats every second to reflect timer changes
@@ -53,6 +59,51 @@ const Home = () => {
     }
   };
 
+  const handleShowConfirmAction = (actionData) => {
+    setConfirmActionData(actionData);
+    setIsConfirmActionModalOpen(true);
+  };
+
+  const handleConfirmAction = () => {
+    if (confirmActionData) {
+      const { type, amount, isSubtract, tableId, playerId, callback } = confirmActionData;
+      const finalAmount = isSubtract ? -amount : amount;
+      
+      const updatedPlayer = callback(tableId, playerId, finalAmount);
+      if (updatedPlayer) {
+        setTables([...mockState.tables]);
+        const actionText = isSubtract ? 'removed from' : 'added to';
+        const itemText = type === 'time' ? `${Math.abs(finalAmount)} minutes` : `$${Math.abs(finalAmount)}`;
+        
+        toast({
+          title: `${type === 'time' ? 'Time' : 'Charge'} ${isSubtract ? 'Removed' : 'Added'}`,
+          description: `${itemText} ${actionText} ${updatedPlayer.name}`,
+        });
+      }
+    }
+    setIsConfirmActionModalOpen(false);
+    setConfirmActionData(null);
+  };
+
+  const handleUpdateComment = (tableId, playerId, currentComment, playerName) => {
+    setCommentData({ tableId, playerId, currentComment, playerName });
+    setIsPlayerCommentModalOpen(true);
+  };
+
+  const handleSaveComment = (comment) => {
+    if (commentData) {
+      const updatedPlayer = mockAPI.updatePlayerComment(commentData.tableId, commentData.playerId, comment);
+      if (updatedPlayer) {
+        setTables([...mockState.tables]);
+        toast({
+          title: "Comment Updated",
+          description: `Comment ${comment ? 'saved' : 'removed'} for ${commentData.playerName}`,
+        });
+      }
+    }
+    setCommentData(null);
+  };
+
   const handleToggleTimer = (tableId, playerId) => {
     const updatedPlayer = mockAPI.togglePlayerTimer(tableId, playerId);
     if (updatedPlayer) {
@@ -64,26 +115,12 @@ const Home = () => {
     }
   };
 
-  const handleAddTime = (tableId, playerId) => {
-    const updatedPlayer = mockAPI.updatePlayerTime(tableId, playerId, 15);
-    if (updatedPlayer) {
-      setTables([...mockState.tables]);
-      toast({
-        title: "Time Added",
-        description: `Added 15 minutes to ${updatedPlayer.name}`,
-      });
-    }
+  const handleAddTime = (tableId, playerId, minutes = 15) => {
+    return mockAPI.updatePlayerTime(tableId, playerId, minutes);
   };
 
-  const handleAddCharge = (tableId, playerId) => {
-    const updatedPlayer = mockAPI.addPlayerCharge(tableId, playerId, 1);
-    if (updatedPlayer) {
-      setTables([...mockState.tables]);
-      toast({
-        title: "Charge Added",
-        description: `Added $1 to ${updatedPlayer.name}'s tab`,
-      });
-    }
+  const handleAddCharge = (tableId, playerId, amount = 1) => {
+    return mockAPI.addPlayerCharge(tableId, playerId, amount);
   };
 
   const handleCheckout = (tableId, playerId) => {
@@ -179,6 +216,8 @@ const Home = () => {
                 onCheckoutTable={handleCheckoutTable}
                 onToggleTimer={handleToggleTimer}
                 onDeleteTable={handleDeleteTable}
+                onUpdateComment={handleUpdateComment}
+                onShowConfirmAction={handleShowConfirmAction}
               />
             ))}
             <AddTableButton onAddTable={handleAddTable} />
@@ -198,6 +237,21 @@ const Home = () => {
         onClose={() => setIsCheckoutModalOpen(false)}
         onConfirm={handleCheckoutConfirmed}
         checkoutData={checkoutData}
+      />
+
+      <ConfirmActionModal
+        isOpen={isConfirmActionModalOpen}
+        onClose={() => setIsConfirmActionModalOpen(false)}
+        onConfirm={handleConfirmAction}
+        actionData={confirmActionData}
+      />
+
+      <PlayerCommentModal
+        isOpen={isPlayerCommentModalOpen}
+        onClose={() => setIsPlayerCommentModalOpen(false)}
+        onSave={handleSaveComment}
+        playerName={commentData?.playerName}
+        currentComment={commentData?.currentComment}
       />
 
       <Toaster />
