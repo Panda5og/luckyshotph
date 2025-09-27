@@ -4,7 +4,13 @@ import { Card, CardHeader, CardContent } from './ui/card';
 import { UserPlus, Clock, Plus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause, Trash2 } from 'lucide-react';
 import { formatTime, calculateElapsedTime } from '../mock';
 
-const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onToggleTimer }) => {
+import React, { useState, useEffect } from 'react';
+import { Button } from './ui/button';
+import { Card, CardHeader, CardContent } from './ui/card';
+import { UserPlus, Clock, Plus, Minus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause, Trash2, MessageSquare } from 'lucide-react';
+import { formatTime, calculateElapsedTime } from '../mock';
+
+const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onToggleTimer, onUpdateComment, onShowConfirmAction }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -18,6 +24,34 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
   }, [player]);
 
   const timeDisplay = formatTime(currentTime);
+
+  const handleTimeAction = (isAdd) => {
+    onShowConfirmAction({
+      type: 'time',
+      amount: 15,
+      playerName: player.name,
+      isSubtract: !isAdd,
+      tableId,
+      playerId: player.id,
+      callback: onAddTime
+    });
+  };
+
+  const handleChargeAction = (isAdd) => {
+    onShowConfirmAction({
+      type: 'charge',
+      amount: 1,
+      playerName: player.name,
+      isSubtract: !isAdd,
+      tableId,
+      playerId: player.id,
+      callback: onAddCharge
+    });
+  };
+
+  const handleCommentClick = () => {
+    onUpdateComment(tableId, player.id, player.comment || '', player.name);
+  };
 
   return (
     <Card 
@@ -37,6 +71,20 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
                   <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full border border-orange-200 font-medium">
                     PAUSED
                   </span>
+                )}
+                {player.comment && (
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCommentClick();
+                    }}
+                    variant="outline"
+                    size="sm"
+                    className="h-6 w-6 p-0 border-blue-300 text-blue-600 hover:bg-blue-50"
+                    title="View/Edit Comment"
+                  >
+                    <MessageSquare className="h-3 w-3" />
+                  </Button>
                 )}
               </h4>
               {isExpanded ? (
@@ -95,45 +143,78 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
               )}
             </div>
             
-            <div className="flex gap-2 flex-wrap">
-              <Button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onAddTime(tableId, player.id);
-                }}
-                variant="outline"
-                size="sm"
-                className="text-blue-700 border-blue-300 hover:bg-blue-50 bg-blue-50/50 shadow-md font-medium"
-              >
-                <Plus className="h-3 w-3 mr-1" />
-                +15 min
-              </Button>
+            <div className="space-y-3">
+              {/* Time Controls */}
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => handleTimeAction(false)}
+                  variant="outline"
+                  size="sm"
+                  className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
+                  disabled={currentTime < 15 * 60} // Disable if less than 15 minutes
+                >
+                  <Minus className="h-3 w-3 mr-1" />
+                  -15 min
+                </Button>
+                <Button
+                  onClick={() => handleTimeAction(true)}
+                  variant="outline"
+                  size="sm"
+                  className="text-blue-700 border-blue-300 hover:bg-blue-50 bg-blue-50/50 shadow-md font-medium"
+                >
+                  <Plus className="h-3 w-3 mr-1" />
+                  +15 min
+                </Button>
+              </div>
               
-              <Button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onAddCharge(tableId, player.id);
-                }}
-                variant="outline"
-                size="sm"
-                className="text-orange-700 border-orange-300 hover:bg-orange-50 bg-orange-50/50 shadow-md font-medium"
-              >
-                <Plus className="h-3 w-3 mr-1" />
-                +$1
-              </Button>
+              {/* Charge Controls */}
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => handleChargeAction(false)}
+                  variant="outline"
+                  size="sm"
+                  className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
+                  disabled={player.additionalCharges < 1} // Disable if no charges to remove
+                >
+                  <Minus className="h-3 w-3 mr-1" />
+                  -$1
+                </Button>
+                <Button
+                  onClick={() => handleChargeAction(true)}
+                  variant="outline"
+                  size="sm"
+                  className="text-orange-700 border-orange-300 hover:bg-orange-50 bg-orange-50/50 shadow-md font-medium"
+                >
+                  <Plus className="h-3 w-3 mr-1" />
+                  +$1
+                </Button>
+              </div>
               
-              <Button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onCheckout(tableId, player.id);
-                }}
-                variant="outline"
-                size="sm"
-                className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
-              >
-                <LogOut className="h-3 w-3 mr-1" />
-                Checkout
-              </Button>
+              {/* Other Actions */}
+              <div className="flex gap-2 pt-2 border-t border-amber-200">
+                <Button
+                  onClick={handleCommentClick}
+                  variant="outline"
+                  size="sm"
+                  className="text-blue-700 border-blue-300 hover:bg-blue-50 bg-blue-50/50 shadow-md font-medium"
+                >
+                  <MessageSquare className="h-3 w-3 mr-1" />
+                  {player.comment ? 'Edit Comment' : 'Add Comment'}
+                </Button>
+                
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCheckout(tableId, player.id);
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="text-red-700 border-red-300 hover:bg-red-50 bg-red-50/50 shadow-md font-medium"
+                >
+                  <LogOut className="h-3 w-3 mr-1" />
+                  Checkout
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -142,7 +223,115 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
   );
 };
 
-const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onCheckoutTable, onToggleTimer, onDeleteTable }) => {
+const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onCheckoutTable, onToggleTimer, onDeleteTable, onUpdateComment, onShowConfirmAction }) => {
+  const canDelete = table.id > 5; // Only allow deletion of added tables
+  const hasPlayers = table.players.length > 0;
+  const hasMultiplePlayers = table.players.length > 1;
+
+  return (
+    <div className="relative">
+      {/* Wooden Frame Border */}
+      <div className="bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 p-4 rounded-xl shadow-2xl border-4 border-amber-900">
+        {/* Inner wooden frame detail */}
+        <div className="bg-gradient-to-br from-amber-600 to-amber-800 p-2 rounded-lg shadow-inner">
+          {/* Pool Table Felt Surface */}
+          <Card className="bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-800 border-2 border-emerald-900 shadow-xl min-h-[400px] rounded-lg overflow-hidden">
+            {/* Felt texture overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-emerald-900/30 rounded-lg"></div>
+            
+            <CardHeader className="pb-6 relative z-10">
+              <div className="flex justify-between items-center">
+                <h3 className="text-2xl font-bold text-white flex items-center gap-3 drop-shadow-lg">
+                  {/* Pool ball decoration */}
+                  <div className="relative">
+                    <div className="w-6 h-6 bg-white rounded-full shadow-lg border-2 border-slate-300"></div>
+                    <div className="absolute top-1 left-1 w-4 h-4 bg-gradient-to-br from-red-500 to-red-600 rounded-full"></div>
+                  </div>
+                  {table.name}
+                </h3>
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    onClick={() => onAddPlayer(table.id)}
+                    className="bg-amber-100 hover:bg-amber-200 text-amber-900 font-medium shadow-lg border-2 border-amber-300"
+                    size="sm"
+                  >
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    Add Player
+                  </Button>
+                  
+                  {hasPlayers && (
+                    <Button
+                      onClick={() => onCheckoutTable(table.id)}
+                      className="bg-green-100 hover:bg-green-200 text-green-800 font-medium shadow-lg border-2 border-green-300"
+                      size="sm"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Checkout {hasMultiplePlayers ? 'All' : 'Table'}
+                    </Button>
+                  )}
+                  
+                  {canDelete && (
+                    <Button
+                      onClick={() => onDeleteTable(table.id)}
+                      variant="outline"
+                      size="sm"
+                      className={`text-red-600 border-red-300 hover:bg-red-50 bg-white/90 shadow-lg ${
+                        hasPlayers ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
+                      disabled={hasPlayers}
+                      title={hasPlayers ? 'Cannot delete table with active players' : 'Delete this table'}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </CardHeader>
+            
+            <CardContent className="space-y-4 relative z-10">
+              {table.players.length === 0 ? (
+                <div className="text-emerald-100 text-center py-16 border-2 border-dashed border-emerald-400 rounded-lg bg-emerald-800/30 backdrop-blur-sm">
+                  <User className="h-12 w-12 mx-auto mb-3 opacity-70 drop-shadow-lg" />
+                  <p className="text-base font-medium drop-shadow">No players currently seated</p>
+                  {canDelete && (
+                    <p className="text-sm text-emerald-200 mt-2 drop-shadow">
+                      This table can be deleted
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {table.players.map((player) => (
+                    <PlayerCard
+                      key={player.id}
+                      player={player}
+                      tableId={table.id}
+                      onAddTime={onAddTime}
+                      onAddCharge={onAddCharge}
+                      onCheckout={onCheckout}
+                      onToggleTimer={onToggleTimer}
+                      onUpdateComment={onUpdateComment}
+                      onShowConfirmAction={onShowConfirmAction}
+                    />
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* Wooden corner reinforcements */}
+        <div className="absolute top-2 left-2 w-3 h-3 bg-amber-900 rounded-full shadow-inner"></div>
+        <div className="absolute top-2 right-2 w-3 h-3 bg-amber-900 rounded-full shadow-inner"></div>
+        <div className="absolute bottom-2 left-2 w-3 h-3 bg-amber-900 rounded-full shadow-inner"></div>
+        <div className="absolute bottom-2 right-2 w-3 h-3 bg-amber-900 rounded-full shadow-inner"></div>
+      </div>
+      
+      {/* Table shadow/base */}
+      <div className="absolute -bottom-2 left-2 right-2 h-4 bg-slate-900/40 rounded-xl blur-sm -z-10"></div>
+    </div>
+  );
+};
   const canDelete = table.id > 5; // Only allow deletion of added tables
   const hasPlayers = table.players.length > 0;
   const hasMultiplePlayers = table.players.length > 1;
