@@ -285,6 +285,16 @@ export const mockAPI = {
     mockState.dailyAnalytics.timeValue += subtotal;
     mockState.dailyAnalytics.extraValue += extraItemsTotal;
     
+    // Add extra items to detailed tracking
+    extraItems.forEach(item => {
+      mockState.dailyAnalytics.extraItems.push({
+        description: item.description,
+        amount: item.amount,
+        type: 'checkout',
+        timestamp: new Date().toISOString()
+      });
+    });
+    
     // Add to daily total
     mockState.revenue.daily += total;
     persistData();
