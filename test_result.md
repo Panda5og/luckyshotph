@@ -265,10 +265,16 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus: []
-  stuck_tasks: []
+  current_focus:
+    - "Reset Daily Analytics Modal Fix"
+    - "Enhanced Custom Charge Modal"
+    - "Extra Items Analytics Categorization"
+  stuck_tasks:
+    - "Reset Daily Analytics Modal Fix"
+    - "Enhanced Custom Charge Modal"
+    - "Extra Items Analytics Categorization"
   test_all: false
-  test_priority: "high_first"
+  test_priority: "stuck_first"
 
 agent_communication:
     - agent: "main"
