@@ -243,16 +243,19 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
             </h3>
             {extraItems.length > 0 ? (
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {extraItems.map((item, index) => (
+                {consolidateExtraItems(extraItems).map((item, index) => (
                   <div key={index} className="flex justify-between items-center text-sm bg-slate-600/50 p-2 rounded border border-slate-500">
                     <div className="flex-1">
-                      <span className="text-slate-200">{item.description}</span>
+                      <span className="text-slate-200">
+                        {item.description}
+                        {item.count > 1 && <span className="text-purple-400"> ({item.count}x)</span>}
+                      </span>
                       <span className="text-xs text-slate-400 ml-2">
                         ({item.type === 'miscellaneous' ? 'Direct Purchase' : 
                           item.type === 'player_item' ? 'Player Charge' : 'Checkout Item'})
                       </span>
                     </div>
-                    <span className="text-white font-medium">${item.amount.toFixed(2)}</span>
+                    <span className="text-white font-medium">${item.totalAmount.toFixed(2)}</span>
                   </div>
                 ))}
               </div>
