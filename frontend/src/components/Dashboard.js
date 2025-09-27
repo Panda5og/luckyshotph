@@ -11,6 +11,17 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
             <Users className="h-6 w-6" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Lucky Shot</h1>
+          
+          {/* Tournament Button */}
+          <Button
+            onClick={() => window.open('/tournament', '_blank')}
+            variant="outline"
+            size="sm"
+            className="ml-6 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white bg-slate-800/50"
+          >
+            <img src="/bracket.png" alt="Tournament" className="h-4 w-4 mr-2" />
+            Tournament
+          </Button>
         </div>
         
         <div className="flex items-center gap-8">
