@@ -10,6 +10,7 @@ import CheckoutModal from "./components/CheckoutModal";
 import ConfirmActionModal from "./components/ConfirmActionModal";
 import PlayerCommentModal from "./components/PlayerCommentModal";
 import DailyAnalyticsModal from "./components/DailyAnalyticsModal";
+import MiscellaneousPurchaseModal from "./components/MiscellaneousPurchaseModal";
 import AddTableButton from "./components/AddTableButton";
 import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
 
