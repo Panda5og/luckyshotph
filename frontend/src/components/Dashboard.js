@@ -7,7 +7,7 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
     <div className="bg-slate-900 text-white p-6 shadow-lg">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex items-center">
-          <img src="/ls_logo.png" alt="Lucky Shot" className="h-12 w-auto" />
+          <img src="/ls_logo.png" alt="Lucky Shot" className="h-20 w-auto" />
         </div>
 
         {/* Tournament Button - positioned slightly to the left */}
