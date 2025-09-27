@@ -110,8 +110,9 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
       
       doc.setFontSize(10);
       doc.setFont(undefined, 'normal');
-      extraItems.forEach((item, index) => {
-        const itemText = `• ${item.description} - $${item.amount.toFixed(2)} (${
+      consolidateExtraItems(extraItems).forEach((item, index) => {
+        const countText = item.count > 1 ? ` (${item.count}x)` : '';
+        const itemText = `• ${item.description}${countText} - $${item.totalAmount.toFixed(2)} (${
           item.type === 'miscellaneous' ? 'Direct' : 
           item.type === 'player_item' ? 'Player' : 'Checkout'
         })`;
