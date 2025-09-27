@@ -353,6 +353,11 @@ export const mockAPI = {
   },
 
   resetDailyTotal: () => {
+    // Ensure extraItems exists before creating analytics
+    if (!mockState.dailyAnalytics.extraItems) {
+      mockState.dailyAnalytics.extraItems = [];
+    }
+    
     const analytics = { ...mockState.dailyAnalytics };
     
     // Reset everything
@@ -367,7 +372,8 @@ export const mockAPI = {
       totalRevenue: 0,
       totalDiscount: 0,
       timeValue: 0,
-      extraValue: 0
+      extraValue: 0,
+      extraItems: []
     };
     
     persistData();
