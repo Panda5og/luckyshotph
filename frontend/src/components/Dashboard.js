@@ -4,10 +4,13 @@ import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
 
 const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
-    <div className="bg-slate-900 text-white p-6 shadow-lg">
+    <div className="bg-slate-900 text-white p-6 shadow-lg relative">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
-        <div className="flex items-center">
-          <img src="/ls_logo.png" alt="Lucky Shot" className="h-20 w-auto" />
+        <div className="flex items-center relative">
+          <div className="absolute -top-4 -left-2 z-10">
+            <img src="/ls_logo.png" alt="Lucky Shot" className="h-28 w-auto" />
+          </div>
+          <div className="w-20"></div> {/* Spacer to maintain layout */}
         </div>
 
         {/* Tournament Button - positioned slightly to the left */}
