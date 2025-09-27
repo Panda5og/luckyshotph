@@ -80,7 +80,7 @@ const Tournament = () => {
   return (
     <div className="min-h-screen bg-slate-800 flex relative">
       {/* Left Dashboard */}
-      <div className={`${isDashboardHidden ? 'w-0' : 'w-80'} transition-all duration-300 ease-in-out bg-slate-900 overflow-hidden`}>
+      <div className={`${isDashboardHidden ? 'w-0' : 'w-80'} transition-all duration-300 ease-in-out bg-slate-900 overflow-hidden relative`}>
         <div className="p-4 h-full overflow-y-auto">
           <div className="space-y-4">
             {/* Header */}
@@ -223,22 +223,35 @@ const Tournament = () => {
             </Button>
           </div>
         </div>
+
+        {/* Toggle Dashboard Arrow - positioned on the right side of dashboard */}
+        <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
+          <Button
+            onClick={toggleDashboard}
+            size="sm"
+            className="bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 rounded-l-md rounded-r-none p-2"
+          >
+            {isDashboardHidden ? (
+              <ChevronRight className="h-4 w-4" />
+            ) : (
+              <ChevronLeft className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
       </div>
 
-      {/* Toggle Dashboard Arrow */}
-      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
-        <Button
-          onClick={toggleDashboard}
-          size="sm"
-          className="bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 rounded-r-md rounded-l-none p-2"
-        >
-          {isDashboardHidden ? (
+      {/* Show Dashboard Arrow when hidden - positioned at left edge */}
+      {isDashboardHidden && (
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
+          <Button
+            onClick={toggleDashboard}
+            size="sm"
+            className="bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 rounded-r-md rounded-l-none p-2"
+          >
             <ChevronRight className="h-4 w-4" />
-          ) : (
-            <ChevronLeft className="h-4 w-4" />
-          )}
-        </Button>
-      </div>
+          </Button>
+        </div>
+      )}
 
       {/* Right Side - Bracket Display */}
       <div className="flex-1 p-6 overflow-auto">
@@ -256,66 +269,268 @@ const Tournament = () => {
               </CardHeader>
             </Card>
 
-            {/* Bracket Visualization */}
-            <div className="space-y-8">
-              {bracket.rounds.map((round, roundIndex) => (
-                <div key={roundIndex} className="space-y-4">
-                  <h3 className="text-lg font-semibold text-white">
-                    Round {roundIndex + 1}
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {round.map((match) => (
-                      <Card key={match.id} className="bg-slate-700 border-slate-600">
-                        <CardContent className="p-4">
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="text-white">
-                                  {match.player1 ? match.player1.name : 'BYE'}
-                                </span>
-                                {match.player1?.isMember && (
-                                  <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" />
-                                )}
-                              </div>
-                              {match.player1 && (
-                                <Button
-                                  size="sm"
-                                  onClick={() => advanceWinner(match.id, match.player1)}
-                                  className="bg-green-600 hover:bg-green-700"
-                                >
-                                  Win
-                                </Button>
+            {/* Tournament Bracket Tree View */}
+            <div className="flex justify-center">
+              <div className="inline-block">
+                <svg width="800" height="400" className="bg-slate-900 rounded-lg border border-slate-600">
+                  {/* Round 1 Matches */}
+                  {bracket.rounds[0].map((match, index) => {
+                    const yPos = 100 + (index * 200);
+                    return (
+                      <g key={match.id}>
+                        {/* Match Box */}
+                        <rect
+                          x="50"
+                          y={yPos}
+                          width="200"
+                          height="80"
+                          fill="#374151"
+                          stroke="#6b7280"
+                          strokeWidth="1"
+                          rx="8"
+                        />
+                        
+                        {/* Player 1 */}
+                        <rect
+                          x="55"
+                          y={yPos + 5}
+                          width="190"
+                          height="35"
+                          fill="#1f2937"
+                          rx="4"
+                        />
+                        <text
+                          x="65"
+                          y={yPos + 25}
+                          fill="white"
+                          fontSize="14"
+                          fontFamily="system-ui"
+                        >
+                          {match.player1 ? (
+                            <>
+                              {match.player1.name}
+                              {match.player1.isMember && (
+                                <tspan fill="#fbbf24"> ★</tspan>
                               )}
-                            </div>
-                            
-                            <div className="border-t border-slate-600 my-2"></div>
-                            
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="text-white">
-                                  {match.player2 ? match.player2.name : 'BYE'}
-                                </span>
-                                {match.player2?.isMember && (
-                                  <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" />
-                                )}
-                              </div>
-                              {match.player2 && (
-                                <Button
-                                  size="sm"
-                                  onClick={() => advanceWinner(match.id, match.player2)}
-                                  className="bg-green-600 hover:bg-green-700"
-                                >
-                                  Win
-                                </Button>
+                            </>
+                          ) : 'BYE'}
+                        </text>
+                        
+                        {/* Player 2 */}
+                        <rect
+                          x="55"
+                          y={yPos + 40}
+                          width="190"
+                          height="35"
+                          fill="#1f2937"
+                          rx="4"
+                        />
+                        <text
+                          x="65"
+                          y={yPos + 60}
+                          fill="white"
+                          fontSize="14"
+                          fontFamily="system-ui"
+                        >
+                          {match.player2 ? (
+                            <>
+                              {match.player2.name}
+                              {match.player2.isMember && (
+                                <tspan fill="#fbbf24"> ★</tspan>
                               )}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                            </>
+                          ) : 'BYE'}
+                        </text>
+                        
+                        {/* Connection line to next round */}
+                        <line
+                          x1="250"
+                          y1={yPos + 40}
+                          x2="350"
+                          y2={yPos + 40}
+                          stroke="white"
+                          strokeWidth="2"
+                        />
+                        
+                        {/* Connecting to finals */}
+                        {index === 0 && (
+                          <line
+                            x1="350"
+                            y1={yPos + 40}
+                            x2="350"
+                            y2="200"
+                            stroke="white"
+                            strokeWidth="2"
+                          />
+                        )}
+                        {index === 1 && (
+                          <line
+                            x1="350"
+                            y1={yPos + 40}
+                            x2="350"
+                            y2="200"
+                            stroke="white"
+                            strokeWidth="2"
+                          />
+                        )}
+                      </g>
+                    );
+                  })}
+                  
+                  {/* Finals Box */}
+                  <g>
+                    {/* Horizontal connector line */}
+                    <line
+                      x1="350"
+                      y1="140"
+                      x2="400"
+                      y2="140"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <line
+                      x1="350"
+                      y1="300"
+                      x2="400"
+                      y2="300"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <line
+                      x1="400"
+                      y1="140"
+                      x2="400"
+                      y2="300"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <line
+                      x1="400"
+                      y1="220"
+                      x2="450"
+                      y2="220"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    
+                    {/* Finals Match Box */}
+                    <rect
+                      x="450"
+                      y="180"
+                      width="200"
+                      height="80"
+                      fill="#374151"
+                      stroke="#6b7280"
+                      strokeWidth="1"
+                      rx="8"
+                    />
+                    
+                    {/* Finals Players */}
+                    <rect
+                      x="455"
+                      y="185"
+                      width="190"
+                      height="35"
+                      fill="#1f2937"
+                      rx="4"
+                    />
+                    <text
+                      x="465"
+                      y="205"
+                      fill="#9ca3af"
+                      fontSize="14"
+                      fontFamily="system-ui"
+                    >
+                      Winner of Match 1
+                    </text>
+                    
+                    <rect
+                      x="455"
+                      y="220"
+                      width="190"
+                      height="35"
+                      fill="#1f2937"
+                      rx="4"
+                    />
+                    <text
+                      x="465"
+                      y="240"
+                      fill="#9ca3af"
+                      fontSize="14"
+                      fontFamily="system-ui"
+                    >
+                      Winner of Match 2
+                    </text>
+                    
+                    {/* Championship line */}
+                    <line
+                      x1="650"
+                      y1="220"
+                      x2="700"
+                      y2="220"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    
+                    {/* Champion Box */}
+                    <rect
+                      x="700"
+                      y="200"
+                      width="80"
+                      height="40"
+                      fill="#fbbf24"
+                      stroke="#f59e0b"
+                      strokeWidth="2"
+                      rx="8"
+                    />
+                    <text
+                      x="740"
+                      y="223"
+                      fill="#000"
+                      fontSize="12"
+                      fontFamily="system-ui"
+                      textAnchor="middle"
+                    >
+                      CHAMPION
+                    </text>
+                  </g>
+                  
+                  {/* Round Labels */}
+                  <text
+                    x="150"
+                    y="50"
+                    fill="white"
+                    fontSize="16"
+                    fontFamily="system-ui"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    Round 1
+                  </text>
+                  <text
+                    x="550"
+                    y="50"
+                    fill="white"
+                    fontSize="16"
+                    fontFamily="system-ui"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    Finals
+                  </text>
+                  <text
+                    x="740"
+                    y="50"
+                    fill="#fbbf24"
+                    fontSize="16"
+                    fontFamily="system-ui"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    Champion
+                  </text>
+                </svg>
+              </div>
             </div>
           </div>
         ) : (
