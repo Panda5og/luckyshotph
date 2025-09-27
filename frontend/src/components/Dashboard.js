@@ -5,7 +5,7 @@ import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
 const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
     <div className="bg-slate-900 text-white p-6 shadow-lg">
-      <div className="flex justify-between items-center max-w-7xl mx-auto gap-6">
+      <div className="flex items-center justify-evenly max-w-7xl mx-auto gap-6">
         {/* Logo */}
         <img src="/ls_logo.png" alt="Lucky Shot" className="h-20 w-auto" />
         
@@ -63,47 +63,6 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
           <RotateCcw className="h-4 w-4 mr-2" />
           Reset Daily
         </Button>
-          <Button
-            onClick={onMiscPurchase}
-            className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700"
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            Add Purchase
-          </Button>
-          
-          <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
-            <Clock className="h-5 w-5 text-emerald-400" />
-            <span className="text-sm font-medium">Active Tables:</span>
-            <span className="text-emerald-400 font-bold">
-              {stats.activeTables} / {stats.totalTables}
-            </span>
-          </div>
-          
-          <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
-            <DollarSign className="h-5 w-5 text-green-400" />
-            <span className="text-sm font-medium">Current Revenue:</span>
-            <span className="text-green-400 font-bold">
-              ${stats.currentRevenue.toFixed(2)}
-            </span>
-          </div>
-          
-          <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
-            <DollarSign className="h-5 w-5 text-blue-400" />
-            <span className="text-sm font-medium">Daily Total:</span>
-            <span className="text-blue-400 font-bold">
-              ${stats.dailyTotal.toFixed(2)}
-            </span>
-          </div>
-          
-          <Button 
-            onClick={onReset}
-            variant="outline" 
-            className="bg-red-600 hover:bg-red-700 text-white border-red-600 hover:border-red-700"
-          >
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Reset Daily
-          </Button>
-        </div>
       </div>
     </div>
   );
