@@ -334,6 +334,13 @@ const Home = () => {
         onConfirm={handleMiscPurchaseConfirm}
       />
 
+      <CustomChargeModal
+        isOpen={isCustomChargeModalOpen}
+        onClose={() => setIsCustomChargeModalOpen(false)}
+        onConfirm={handleCustomChargeConfirm}
+        playerName={customChargeData?.playerName}
+      />
+
       <Toaster />
     </div>
   );
