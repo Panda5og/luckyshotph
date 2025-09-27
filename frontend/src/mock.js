@@ -292,12 +292,28 @@ export const mockAPI = {
     const tax = includeTax ? afterDiscount * taxRate : 0;
     const total = afterDiscount + tax;
     
-    // Now actually remove the players from the table
+    // Now actually remove the players from the table and collect their extra items
     const table = mockState.tables.find(t => t.id === checkoutData.tableId);
+    const allPlayerExtraItems = [];
+    
     if (table) {
       checkoutData.playerIds.forEach(playerId => {
         const playerIndex = table.players.findIndex(p => p.id === playerId);
         if (playerIndex !== -1) {
+          const player = table.players[playerIndex];
+          
+          // Collect player extra items before removing the player
+          if (player.extraItems && player.extraItems.length > 0) {
+            player.extraItems.forEach(item => {
+              allPlayerExtraItems.push({
+                description: `${item.description} (${player.name})`,
+                amount: item.amount,
+                type: 'player_item',
+                timestamp: item.timestamp
+              });
+            });
+          }
+          
           table.players.splice(playerIndex, 1);
         }
       });
@@ -310,14 +326,30 @@ export const mockAPI = {
     mockState.dailyAnalytics.timeValue += subtotal;
     mockState.dailyAnalytics.extraValue += extraItemsTotal;
     
-    // Add extra items to detailed tracking
+    // Initialize extraItems array if it doesn't exist (for backward compatibility)
+    if (!mockState.dailyAnalytics.extraItems) {
+      mockState.dailyAnalytics.extraItems = [];
+    }
+    
+    // Add checkout extra items to detailed tracking
     if (extraItems && extraItems.length > 0) {
-      // Initialize extraItems array if it doesn't exist (for backward compatibility)
-      if (!mockState.dailyAnalytics.extraItems) {
-        mockState.dailyAnalytics.extraItems = [];
-      }
-      
       extraItems.forEach(item => {
+        mockState.dailyAnalytics.extraItems.push({
+          description: item.description,
+          amount: item.amount,
+          type: 'checkout',
+          timestamp: new Date().toISOString()
+        });
+      });
+    }
+    
+    // Add player extra items to detailed tracking
+    allPlayerExtraItems.forEach(item => {
+      mockState.dailyAnalytics.extraItems.push(item);
+      // Also add to extraValue since these are extra charges
+      mockState.dailyAnalytics.extraValue += item.amount;
+      mockState.dailyAnalytics.totalRevenue += item.amount;
+    });
         mockState.dailyAnalytics.extraItems.push({
           description: item.description,
           amount: item.amount,
