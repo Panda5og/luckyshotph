@@ -217,10 +217,15 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCheckout, onTog
   );
 };
 
-const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onCheckoutTable, onToggleTimer, onDeleteTable, onUpdateComment, onShowConfirmAction }) => {
+const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onCheckoutTable, onToggleTimer, onDeleteTable, onUpdateComment, onShowConfirmAction, onSetTableTimer }) => {
   const canDelete = table.id > 5; // Only allow deletion of added tables
   const hasPlayers = table.players.length > 0;
   const hasMultiplePlayers = table.players.length > 1;
+
+  const handleTableTimerChange = (e) => {
+    const hours = Math.max(0, parseInt(e.target.value) || 0);
+    onSetTableTimer(table.id, hours);
+  };
 
   return (
     <div className="relative">
@@ -233,16 +238,33 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onC
             {/* Felt texture overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-emerald-900/30 rounded-lg"></div>
             
-            <CardHeader className="pb-6 relative z-10">
-              <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-bold text-white flex items-center gap-3 drop-shadow-lg">
-                  {/* Pool ball decoration */}
-                  <div className="relative">
-                    <div className="w-6 h-6 bg-white rounded-full shadow-lg border-2 border-slate-300"></div>
-                    <div className="absolute top-1 left-1 w-4 h-4 bg-gradient-to-br from-red-500 to-red-600 rounded-full"></div>
+            <CardHeader className="pb-4 relative z-10">
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-3 drop-shadow-lg mb-2">
+                    {/* Pool ball decoration */}
+                    <div className="relative">
+                      <div className="w-6 h-6 bg-white rounded-full shadow-lg border-2 border-slate-300"></div>
+                      <div className="absolute top-1 left-1 w-4 h-4 bg-gradient-to-br from-red-500 to-red-600 rounded-full"></div>
+                    </div>
+                    {table.name}
+                  </h3>
+                  
+                  {/* Table Timer */}
+                  <div className="flex items-center gap-2 text-emerald-100">
+                    <Clock className="h-4 w-4" />
+                    <span className="text-sm">Table Timer:</span>
+                    <input
+                      type="number"
+                      min="0"
+                      value={table.tableTimerHours || 0}
+                      onChange={handleTableTimerChange}
+                      className="w-16 px-2 py-1 text-xs bg-emerald-800 border border-emerald-600 rounded text-white"
+                    />
+                    <span className="text-xs">hours</span>
                   </div>
-                  {table.name}
-                </h3>
+                </div>
+                
                 <div className="flex gap-2 flex-wrap">
                   <Button
                     onClick={() => onAddPlayer(table.id)}
@@ -252,17 +274,6 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onC
                     <UserPlus className="h-4 w-4 mr-2" />
                     Add Player
                   </Button>
-                  
-                  {hasPlayers && (
-                    <Button
-                      onClick={() => onCheckoutTable(table.id)}
-                      className="bg-green-100 hover:bg-green-200 text-green-800 font-medium shadow-lg border-2 border-green-300"
-                      size="sm"
-                    >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Checkout {hasMultiplePlayers ? 'All' : 'Table'}
-                    </Button>
-                  )}
                   
                   {canDelete && (
                     <Button
@@ -282,7 +293,7 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onC
               </div>
             </CardHeader>
             
-            <CardContent className="space-y-4 relative z-10">
+            <CardContent className="space-y-4 relative z-10 pb-20">
               {table.players.length === 0 ? (
                 <div className="text-emerald-100 text-center py-16 border-2 border-dashed border-emerald-400 rounded-lg bg-emerald-800/30 backdrop-blur-sm">
                   <User className="h-12 w-12 mx-auto mb-3 opacity-70 drop-shadow-lg" />
@@ -308,6 +319,20 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCheckout, onC
                       onShowConfirmAction={onShowConfirmAction}
                     />
                   ))}
+                </div>
+              )}
+              
+              {/* Checkout Table Button at Bottom */}
+              {hasPlayers && (
+                <div className="absolute bottom-4 left-4 right-4 z-20">
+                  <Button
+                    onClick={() => onCheckoutTable(table.id)}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 shadow-xl border-2 border-green-500"
+                    size="lg"
+                  >
+                    <LogOut className="h-5 w-5 mr-2" />
+                    Checkout {hasMultiplePlayers ? 'All Players' : 'Table'}
+                  </Button>
                 </div>
               )}
             </CardContent>
