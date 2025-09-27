@@ -19,6 +19,86 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
     extraValue
   } = analytics;
 
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    const currentDate = new Date();
+    const dateStr = currentDate.toLocaleDateString();
+    const timeStr = currentDate.toLocaleTimeString();
+    
+    // Set font styles
+    doc.setFontSize(20);
+    doc.setFont(undefined, 'bold');
+    
+    // Title
+    doc.text('Lucky Shot Pool Hall', 105, 20, { align: 'center' });
+    doc.setFontSize(16);
+    doc.text('Daily Analytics Report', 105, 30, { align: 'center' });
+    
+    // Date and time
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Generated: ${dateStr} at ${timeStr}`, 105, 40, { align: 'center' });
+    
+    // Draw a line separator
+    doc.line(20, 45, 190, 45);
+    
+    let yPosition = 55;
+    
+    // Player Statistics Section
+    doc.setFontSize(14);
+    doc.setFont(undefined, 'bold');
+    doc.text('Player Statistics', 20, yPosition);
+    yPosition += 10;
+    
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Total Players: ${totalPlayers}`, 25, yPosition);
+    yPosition += 8;
+    doc.text(`Adults ($5/hr): ${adults}`, 25, yPosition);
+    yPosition += 8;
+    doc.text(`Children ($2/hr): ${children}`, 25, yPosition);
+    yPosition += 8;
+    doc.text(`Members (FREE): ${members}`, 25, yPosition);
+    yPosition += 15;
+    
+    // Revenue Breakdown Section
+    doc.setFontSize(14);
+    doc.setFont(undefined, 'bold');
+    doc.text('Revenue Breakdown', 20, yPosition);
+    yPosition += 10;
+    
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Time Value: $${timeValue.toFixed(2)}`, 25, yPosition);
+    yPosition += 8;
+    doc.text(`Extra Items: $${extraValue.toFixed(2)}`, 25, yPosition);
+    yPosition += 8;
+    doc.text(`Subtotal: $${(timeValue + extraValue).toFixed(2)}`, 25, yPosition);
+    yPosition += 8;
+    
+    if (totalDiscount > 0) {
+      doc.text(`Total Discounts: -$${totalDiscount.toFixed(2)}`, 25, yPosition);
+      yPosition += 8;
+    }
+    
+    doc.text(`Sales Tax (5.75%): $${totalTax.toFixed(2)}`, 25, yPosition);
+    yPosition += 8;
+    
+    // Draw line before total
+    doc.line(25, yPosition, 100, yPosition);
+    yPosition += 8;
+    
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'bold');
+    doc.text(`Total Revenue: $${totalRevenue.toFixed(2)}`, 25, yPosition);
+    
+    // Generate filename with current date
+    const filename = `daily-analytics-${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}.pdf`;
+    
+    // Save the PDF
+    doc.save(filename);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg bg-slate-800 border-slate-700 text-white">
