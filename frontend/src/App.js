@@ -277,6 +277,7 @@ const Home = () => {
                 onAddPlayer={handleAddPlayer}
                 onAddTime={handleAddTime}
                 onAddCharge={handleAddCharge}
+                onCustomCharge={handleCustomCharge}
                 onCheckout={handleCheckout}
                 onCheckoutTable={handleCheckoutTable}
                 onToggleTimer={handleToggleTimer}
