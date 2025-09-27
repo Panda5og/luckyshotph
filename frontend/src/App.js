@@ -242,6 +242,7 @@ const Home = () => {
       <Dashboard 
         stats={stats} 
         onReset={handleResetDaily}
+        onMiscPurchase={handleMiscPurchase}
       />
       
       <div className="p-8">
