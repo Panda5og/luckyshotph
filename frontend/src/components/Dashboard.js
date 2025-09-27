@@ -6,15 +6,12 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
   return (
     <div className="bg-slate-900 text-white p-6 shadow-lg">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
-        <div className="flex items-center gap-4">
-          <div className="bg-emerald-600 p-3 rounded-full">
-            <Users className="h-6 w-6" />
-          </div>
-          <h1 className="text-3xl font-bold tracking-tight">Lucky Shot</h1>
+        <div className="flex items-center">
+          <img src="/ls_logo.png" alt="Lucky Shot" className="h-12 w-auto" />
         </div>
 
-        {/* Center Tournament Button */}
-        <div className="flex-1 flex justify-center">
+        {/* Tournament Button - positioned slightly to the left */}
+        <div className="flex-1 flex justify-center pr-16">
           <Button
             onClick={() => window.open('/tournament', '_blank')}
             className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
