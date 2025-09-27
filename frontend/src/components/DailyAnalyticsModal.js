@@ -74,6 +74,27 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
     yPosition += 8;
     doc.text(`Extra Items: $${extraValue.toFixed(2)}`, 25, yPosition);
     yPosition += 8;
+    
+    // Add detailed extra items if any
+    if (extraItems && extraItems.length > 0) {
+      yPosition += 5;
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
+      doc.text('Extra Items Detail:', 30, yPosition);
+      yPosition += 8;
+      
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'normal');
+      extraItems.forEach((item, index) => {
+        const itemText = `• ${item.description} - $${item.amount.toFixed(2)} (${item.type === 'miscellaneous' ? 'Direct' : 'Checkout'})`;
+        doc.text(itemText, 35, yPosition);
+        yPosition += 6;
+      });
+      yPosition += 5;
+      
+      doc.setFontSize(11);
+    }
+    
     doc.text(`Subtotal: $${(timeValue + extraValue).toFixed(2)}`, 25, yPosition);
     yPosition += 8;
     
