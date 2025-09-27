@@ -14,6 +14,17 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData }) => {
   const [newItemDescription, setNewItemDescription] = useState('');
   const [newItemAmount, setNewItemAmount] = useState('');
   
+  // Reset form state whenever modal opens or checkoutData changes
+  useEffect(() => {
+    if (isOpen) {
+      setIncludeTax(false);
+      setDiscount(0);
+      setExtraItems([]);
+      setNewItemDescription('');
+      setNewItemAmount('');
+    }
+  }, [isOpen, checkoutData]);
+  
   if (!checkoutData) return null;
 
   const { players, subtotal, isTableCheckout, tableName } = checkoutData;
