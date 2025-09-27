@@ -211,12 +211,12 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
           </div>
 
           {/* Detailed Extra Items */}
-          {extraItems.length > 0 && (
-            <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
-              <h3 className="flex items-center gap-2 font-semibold text-white mb-3">
-                <ShoppingBag className="h-4 w-4 text-purple-400" />
-                Extra Items Details ({extraItems.length} items)
-              </h3>
+          <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+            <h3 className="flex items-center gap-2 font-semibold text-white mb-3">
+              <ShoppingBag className="h-4 w-4 text-purple-400" />
+              Extra Items Details ({extraItems.length} items)
+            </h3>
+            {extraItems.length > 0 ? (
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {extraItems.map((item, index) => (
                   <div key={index} className="flex justify-between items-center text-sm bg-slate-600/50 p-2 rounded border border-slate-500">
@@ -231,8 +231,10 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <p className="text-slate-400 text-sm text-center py-2">No extra items recorded for today.</p>
+            )}
+          </div>
 
           {/* Warning Message */}
           <div className="bg-red-900/20 border border-red-600/50 p-4 rounded-lg">
