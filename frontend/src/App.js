@@ -247,7 +247,7 @@ const Home = () => {
 
   const handleCustomChargeConfirm = (amount) => {
     const { tableId, playerId, playerName } = customChargeData;
-    const updatedPlayer = mockAPI.addCharges(tableId, playerId, amount);
+    const updatedPlayer = mockAPI.addPlayerCharge(tableId, playerId, amount);
     if (updatedPlayer) {
       setTables([...mockState.tables]);
       toast({
