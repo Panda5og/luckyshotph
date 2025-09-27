@@ -186,6 +186,29 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
             </div>
           </div>
 
+          {/* Detailed Extra Items */}
+          {extraItems.length > 0 && (
+            <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+              <h3 className="flex items-center gap-2 font-semibold text-white mb-3">
+                <ShoppingBag className="h-4 w-4 text-purple-400" />
+                Extra Items Details ({extraItems.length} items)
+              </h3>
+              <div className="space-y-2 max-h-32 overflow-y-auto">
+                {extraItems.map((item, index) => (
+                  <div key={index} className="flex justify-between items-center text-sm bg-slate-600/50 p-2 rounded border border-slate-500">
+                    <div className="flex-1">
+                      <span className="text-slate-200">{item.description}</span>
+                      <span className="text-xs text-slate-400 ml-2">
+                        ({item.type === 'miscellaneous' ? 'Direct Purchase' : 'Checkout Item'})
+                      </span>
+                    </div>
+                    <span className="text-white font-medium">${item.amount.toFixed(2)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Warning Message */}
           <div className="bg-red-900/20 border border-red-600/50 p-4 rounded-lg">
             <p className="text-red-300 text-sm text-center">
