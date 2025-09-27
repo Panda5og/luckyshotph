@@ -21,7 +21,7 @@ const Home = () => {
   const [selectedTable, setSelectedTable] = useState(null);
   const [isAddPlayerModalOpen, setIsAddPlayerModalOpen] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [checkoutData, setCheckoutData] = useState(null);
   const { toast } = useToast();
 
   // Update stats every second to reflect timer changes
@@ -87,28 +87,38 @@ const Home = () => {
   };
 
   const handleCheckout = (tableId, playerId) => {
-    const table = tables.find(t => t.id === tableId);
-    const player = table.players.find(p => p.id === playerId);
-    setSelectedPlayer(player);
-    setIsCheckoutModalOpen(true);
+    const result = mockAPI.checkoutPlayer(tableId, playerId);
+    if (result) {
+      setCheckoutData(result);
+      setIsCheckoutModalOpen(true);
+    }
   };
 
-  const handleCheckoutConfirmed = () => {
-    const result = mockAPI.checkoutPlayer(
-      selectedPlayer.tableId || tables.find(t => t.players.some(p => p.id === selectedPlayer.id)).id,
-      selectedPlayer.id
-    );
-    
+  const handleCheckoutTable = (tableId) => {
+    const result = mockAPI.checkoutTable(tableId);
     if (result) {
+      setCheckoutData(result);
+      setIsCheckoutModalOpen(true);
+    }
+  };
+
+  const handleCheckoutConfirmed = (includeTax = false) => {
+    if (checkoutData) {
+      const finalResult = mockAPI.completeCheckout(checkoutData, includeTax);
       setTables([...mockState.tables]);
-      const timeDisplay = formatTime(result.totalSeconds);
+      
+      const taxText = includeTax ? ` (includes $${finalResult.tax.toFixed(2)} tax)` : '';
+      const playersText = finalResult.isTableCheckout 
+        ? `${finalResult.players.length} players from ${finalResult.tableName}`
+        : finalResult.players[0].name;
+      
       toast({
-        title: "Player Checked Out",
-        description: `${result.player.name} checked out. Time: ${timeDisplay}, Total: $${result.totalCharge.toFixed(2)}`,
+        title: "Checkout Complete",
+        description: `${playersText} checked out. Total: $${finalResult.total.toFixed(2)}${taxText}`,
       });
     }
     setIsCheckoutModalOpen(false);
-    setSelectedPlayer(null);
+    setCheckoutData(null);
   };
 
   const handleAddTable = () => {
@@ -166,6 +176,7 @@ const Home = () => {
                 onAddTime={handleAddTime}
                 onAddCharge={handleAddCharge}
                 onCheckout={handleCheckout}
+                onCheckoutTable={handleCheckoutTable}
                 onToggleTimer={handleToggleTimer}
                 onDeleteTable={handleDeleteTable}
               />
@@ -186,7 +197,7 @@ const Home = () => {
         isOpen={isCheckoutModalOpen}
         onClose={() => setIsCheckoutModalOpen(false)}
         onConfirm={handleCheckoutConfirmed}
-        player={selectedPlayer}
+        checkoutData={checkoutData}
       />
 
       <Toaster />
