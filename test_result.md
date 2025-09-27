@@ -272,13 +272,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Reset Daily Analytics Modal Fix"
     - "Enhanced Custom Charge Modal"
-    - "Extra Items Analytics Categorization"
   stuck_tasks:
     - "Reset Daily Analytics Modal Fix"
     - "Enhanced Custom Charge Modal"
-    - "Extra Items Analytics Categorization"
   test_all: false
   test_priority: "stuck_first"
 
