@@ -197,6 +197,31 @@ export const mockAPI = {
     return null;
   },
 
+  addPlayerExtraItem: (tableId, playerId, itemData) => {
+    const table = mockState.tables.find(t => t.id === tableId);
+    if (table) {
+      const player = table.players.find(p => p.id === playerId);
+      if (player) {
+        // Initialize extraItems array if it doesn't exist
+        if (!player.extraItems) {
+          player.extraItems = [];
+        }
+        
+        // Add the extra item to the player
+        player.extraItems.push({
+          id: Date.now(),
+          description: itemData.description,
+          amount: itemData.amount,
+          timestamp: new Date().toISOString()
+        });
+        
+        persistData();
+        return player;
+      }
+    }
+    return null;
+  },
+
   checkoutPlayer: (tableId, playerId) => {
     const table = mockState.tables.find(t => t.id === tableId);
     if (table) {
