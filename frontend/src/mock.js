@@ -116,7 +116,7 @@ export const mockAPI = {
       else if (playerData.rateType === 'Member') mockState.dailyAnalytics.members++;
       
       persistData();
-      return newPlayer;
+      return newPlayer; // Return the new player
     }
     return null;
   },
