@@ -375,6 +375,11 @@ export const mockAPI = {
     mockState.dailyAnalytics.totalRevenue += purchaseData.amount;
     mockState.dailyAnalytics.extraValue += purchaseData.amount;
     
+    // Initialize extraItems array if it doesn't exist (for backward compatibility)
+    if (!mockState.dailyAnalytics.extraItems) {
+      mockState.dailyAnalytics.extraItems = [];
+    }
+    
     // Add to detailed extra items tracking
     mockState.dailyAnalytics.extraItems.push({
       description: purchaseData.description,
