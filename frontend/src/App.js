@@ -9,6 +9,7 @@ import AddPlayerModal from "./components/AddPlayerModal";
 import CheckoutModal from "./components/CheckoutModal";
 import ConfirmActionModal from "./components/ConfirmActionModal";
 import PlayerCommentModal from "./components/PlayerCommentModal";
+import DailyAnalyticsModal from "./components/DailyAnalyticsModal";
 import AddTableButton from "./components/AddTableButton";
 import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
 
@@ -25,9 +26,11 @@ const Home = () => {
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isConfirmActionModalOpen, setIsConfirmActionModalOpen] = useState(false);
   const [isPlayerCommentModalOpen, setIsPlayerCommentModalOpen] = useState(false);
+  const [isDailyAnalyticsModalOpen, setIsDailyAnalyticsModalOpen] = useState(false);
   const [checkoutData, setCheckoutData] = useState(null);
   const [confirmActionData, setConfirmActionData] = useState(null);
   const [commentData, setCommentData] = useState(null);
+  const [analyticsData, setAnalyticsData] = useState(null);
   const { toast } = useToast();
 
   // Update stats every second to reflect timer changes
@@ -54,7 +57,18 @@ const Home = () => {
       setTables([...mockState.tables]);
       toast({
         title: "Player Added",
-        description: `${playerData.name} has been added to ${selectedTable.name}`,
+        description: `${playerData.name} (${playerData.rateType}) has been added to ${selectedTable.name}`,
+      });
+    }
+  };
+
+  const handleSetTableTimer = (tableId, hours) => {
+    const updatedTable = mockAPI.setTableTimer(tableId, hours);
+    if (updatedTable) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Table Timer Set",
+        description: `${updatedTable.name} timer set to ${hours} hours`,
       });
     }
   };
@@ -139,19 +153,22 @@ const Home = () => {
     }
   };
 
-  const handleCheckoutConfirmed = (includeTax = false) => {
+  const handleCheckoutConfirmed = (checkoutOptions) => {
     if (checkoutData) {
-      const finalResult = mockAPI.completeCheckout(checkoutData, includeTax);
+      const finalResult = mockAPI.completeCheckout(checkoutData, checkoutOptions);
       setTables([...mockState.tables]);
       
+      const { includeTax, discount, extraItems, total } = checkoutOptions;
       const taxText = includeTax ? ` (includes $${finalResult.tax.toFixed(2)} tax)` : '';
+      const discountText = discount > 0 ? ` (discount: $${discount.toFixed(2)})` : '';
+      const extraText = extraItems.length > 0 ? ` + ${extraItems.length} extra items` : '';
       const playersText = finalResult.isTableCheckout 
         ? `${finalResult.players.length} players from ${finalResult.tableName}`
         : finalResult.players[0].name;
       
       toast({
         title: "Checkout Complete",
-        description: `${playersText} checked out. Total: $${finalResult.total.toFixed(2)}${taxText}`,
+        description: `${playersText} checked out${extraText}. Total: $${total.toFixed(2)}${taxText}${discountText}`,
       });
     }
     setIsCheckoutModalOpen(false);
@@ -187,12 +204,20 @@ const Home = () => {
   };
 
   const handleResetDaily = () => {
-    mockAPI.resetDailyTotal();
+    const analytics = mockAPI.resetDailyTotal();
+    setAnalyticsData(analytics);
+    setIsDailyAnalyticsModalOpen(true);
+  };
+
+  const handleConfirmReset = () => {
     updateStats();
+    setTables([...mockState.tables]);
     toast({
-      title: "Daily Total Reset",
-      description: "Daily totals have been reset to $0.00",
+      title: "Daily Analytics Reset",
+      description: "All daily totals and analytics have been reset to zero",
     });
+    setIsDailyAnalyticsModalOpen(false);
+    setAnalyticsData(null);
   };
 
   return (
@@ -218,6 +243,7 @@ const Home = () => {
                 onDeleteTable={handleDeleteTable}
                 onUpdateComment={handleUpdateComment}
                 onShowConfirmAction={handleShowConfirmAction}
+                onSetTableTimer={handleSetTableTimer}
               />
             ))}
             <AddTableButton onAddTable={handleAddTable} />
@@ -252,6 +278,13 @@ const Home = () => {
         onSave={handleSaveComment}
         playerName={commentData?.playerName}
         currentComment={commentData?.currentComment}
+      />
+
+      <DailyAnalyticsModal
+        isOpen={isDailyAnalyticsModalOpen}
+        onClose={() => setIsDailyAnalyticsModalOpen(false)}
+        onConfirm={handleConfirmReset}
+        analytics={analyticsData}
       />
 
       <Toaster />
