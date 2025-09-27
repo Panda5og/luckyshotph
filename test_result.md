@@ -213,6 +213,51 @@ frontend:
           agent: "testing"
           comment: "BUG FIX APPLIED: ✅ Corrected function name from mockAPI.addCharges to mockAPI.addPlayerCharge in App.js line 250 ✅ Custom charge functionality now working correctly ✅ No more JavaScript runtime errors ✅ All custom charge operations functioning as expected ✅ Fix verified through comprehensive testing"
 
+  - task: "Reset Daily Analytics Modal Fix"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/App.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented fix for reset modal behavior - modal should only reset data when 'Reset Daily Analytics' button is clicked, not when canceled or clicked outside. Updated handleResetDaily and handleConfirmReset functions to preserve data until actual reset confirmation."
+        - working: false
+          agent: "testing"
+          comment: "CRITICAL REGRESSION IDENTIFIED: Reset modal fix is BROKEN. Data is being reset immediately when modal opens, not preserving data for Cancel/outside click scenarios. Test results: ❌ Added $25.00 test purchase ❌ Opened reset modal - data immediately shows $0.00 ❌ Cancel button test failed - data already reset ❌ Outside click test failed - data already reset ❌ Actual reset functionality cannot be properly tested due to premature reset. The fix has introduced a regression where data resets prematurely instead of being preserved until confirmation."
+
+  - task: "Enhanced Custom Charge Modal"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/CustomChargeModal.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Enhanced CustomChargeModal with description field, 'Drink' and 'Scratch' preset buttons ($1 each), custom amount field. Updated analytics tracking to categorize these charges as extra items, not time value. Added proper form validation and styling."
+        - working: false
+          agent: "testing"
+          comment: "CANNOT TEST PROPERLY: Player persistence issue prevents testing of custom charge modal. Test results: ✅ Player addition modal works ✅ Player appears to be added successfully ❌ Player disappears immediately after addition ❌ Cannot access $ button to test custom charge modal ❌ Cannot test Drink/Scratch preset buttons ❌ Cannot test custom charge functionality ❌ Cannot verify extra items display. Root cause appears to be related to data persistence/reset issues affecting player state management."
+
+  - task: "Extra Items Analytics Categorization"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/DailyAnalyticsModal.js"
+    stuck_count: 1
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Enhanced analytics categorization to properly track player charges as extra items with type indicators (Direct Purchase, Player Charge, Checkout Item). Updated DailyAnalyticsModal to show detailed Extra Items Details section with proper categorization."
+        - working: false
+          agent: "testing"
+          comment: "FEATURE NOT WORKING AS EXPECTED: Extra Items Details section not found in analytics modal. Test results: ✅ Analytics modal opens correctly ✅ Basic revenue breakdown displays ❌ 'Extra Items Details' section not visible ❌ Cannot verify proper categorization (Direct Purchase, Player Charge, Checkout Item) ❌ Detailed extra items breakdown missing ✅ PDF download button functional. The categorization feature appears to not be implemented correctly or is not displaying when expected."
+
 metadata:
   created_by: "main_agent"
   version: "1.3"
