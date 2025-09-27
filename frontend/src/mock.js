@@ -1,17 +1,43 @@
-// Mock data and state management for Lucky Shot Pool Hall
+// Mock data and state management for Lucky Shot Pool Hall with offline persistence
+const STORAGE_KEYS = {
+  TABLES: 'poolhall_tables',
+  REVENUE: 'poolhall_revenue',
+  NEXT_TABLE_ID: 'poolhall_next_table_id'
+};
+
+// Load data from localStorage or use defaults
+const loadFromStorage = (key, defaultValue) => {
+  try {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : defaultValue;
+  } catch (error) {
+    console.error('Error loading from storage:', error);
+    return defaultValue;
+  }
+};
+
+// Save data to localStorage
+const saveToStorage = (key, data) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (error) {
+    console.error('Error saving to storage:', error);
+  }
+};
+
 export const mockState = {
-  tables: [
+  tables: loadFromStorage(STORAGE_KEYS.TABLES, [
     { id: 1, name: 'Table 1', players: [] },
     { id: 2, name: 'Table 2', players: [] },
     { id: 3, name: 'Table 3', players: [] },
     { id: 4, name: 'Table 4', players: [] },
     { id: 5, name: 'Table 5', players: [] }
-  ],
-  revenue: {
+  ]),
+  revenue: loadFromStorage(STORAGE_KEYS.REVENUE, {
     current: 0,
     daily: 0
-  },
-  nextTableId: 6
+  }),
+  nextTableId: loadFromStorage(STORAGE_KEYS.NEXT_TABLE_ID, 6)
 };
 
 // Helper function to format time in hh:mm:ss
@@ -35,7 +61,7 @@ export const calculateElapsedTime = (player) => {
   } else {
     // If running, add previous elapsed time plus current session
     const previousElapsed = player.totalElapsedSeconds || 0;
-    const currentSessionStart = player.lastResumeTime || player.startTime;
+    const currentSessionStart = new Date(player.lastResumeTime || player.startTime);
     const currentSessionElapsed = Math.floor((now - currentSessionStart) / 1000);
     totalElapsed = previousElapsed + currentSessionElapsed;
   }
@@ -43,7 +69,14 @@ export const calculateElapsedTime = (player) => {
   return Math.max(0, totalElapsed);
 };
 
-// Mock functions to simulate backend operations
+// Helper function to save all data to localStorage
+const persistData = () => {
+  saveToStorage(STORAGE_KEYS.TABLES, mockState.tables);
+  saveToStorage(STORAGE_KEYS.REVENUE, mockState.revenue);
+  saveToStorage(STORAGE_KEYS.NEXT_TABLE_ID, mockState.nextTableId);
+};
+
+// Mock functions to simulate backend operations with offline persistence
 export const mockAPI = {
   addPlayer: (tableId, playerData) => {
     const table = mockState.tables.find(t => t.id === tableId);
@@ -53,13 +86,14 @@ export const mockAPI = {
         name: playerData.name,
         rate: playerData.rate,
         rateType: playerData.rateType, // 'Adult' or 'Child'
-        startTime: new Date(),
-        lastResumeTime: new Date(),
+        startTime: new Date().toISOString(),
+        lastResumeTime: new Date().toISOString(),
         totalElapsedSeconds: 0,
         isPaused: false,
         additionalCharges: 0
       };
       table.players.push(newPlayer);
+      persistData();
       return newPlayer;
     }
     return null;
@@ -70,7 +104,7 @@ export const mockAPI = {
     if (table) {
       const player = table.players.find(p => p.id === playerId);
       if (player) {
-        const now = new Date();
+        const now = new Date().toISOString();
         
         if (player.isPaused) {
           // Resume: set new resume time
@@ -82,6 +116,7 @@ export const mockAPI = {
           player.totalElapsedSeconds = currentElapsed;
           player.isPaused = true;
         }
+        persistData();
         return player;
       }
     }
@@ -95,6 +130,7 @@ export const mockAPI = {
       if (player) {
         // Add time as additional seconds to total elapsed
         player.totalElapsedSeconds = (player.totalElapsedSeconds || 0) + (additionalMinutes * 60);
+        persistData();
         return player;
       }
     }
@@ -107,6 +143,7 @@ export const mockAPI = {
       const player = table.players.find(p => p.id === playerId);
       if (player) {
         player.additionalCharges += amount;
+        persistData();
         return player;
       }
     }
@@ -121,18 +158,68 @@ export const mockAPI = {
         const player = table.players[playerIndex];
         const totalSeconds = calculateElapsedTime(player);
         const timeCharge = (totalSeconds / 3600) * player.rate;
-        const totalCharge = timeCharge + player.additionalCharges;
+        const subtotal = timeCharge + player.additionalCharges;
         
-        // Add to daily total only (not current revenue)
-        mockState.revenue.daily += totalCharge;
-        
-        // Remove player (this will automatically reduce current revenue since it's calculated from active players only)
+        // Remove player
         table.players.splice(playerIndex, 1);
+        persistData();
         
-        return { player, totalCharge, totalSeconds };
+        return { 
+          players: [player], 
+          subtotal, 
+          totalSeconds: [totalSeconds],
+          isTableCheckout: false 
+        };
       }
     }
     return null;
+  },
+
+  checkoutTable: (tableId) => {
+    const table = mockState.tables.find(t => t.id === tableId);
+    if (table && table.players.length > 0) {
+      const players = [...table.players];
+      let subtotal = 0;
+      const totalSeconds = [];
+      
+      // Calculate total for all players
+      players.forEach(player => {
+        const seconds = calculateElapsedTime(player);
+        const timeCharge = (seconds / 3600) * player.rate;
+        subtotal += timeCharge + player.additionalCharges;
+        totalSeconds.push(seconds);
+      });
+      
+      // Clear all players from table
+      table.players = [];
+      persistData();
+      
+      return { 
+        players, 
+        subtotal, 
+        totalSeconds,
+        isTableCheckout: true,
+        tableName: table.name
+      };
+    }
+    return null;
+  },
+
+  completeCheckout: (checkoutData, includeTax = false) => {
+    const taxRate = 0.0575; // 5.75%
+    const tax = includeTax ? checkoutData.subtotal * taxRate : 0;
+    const total = checkoutData.subtotal + tax;
+    
+    // Add to daily total
+    mockState.revenue.daily += total;
+    persistData();
+    
+    return { 
+      ...checkoutData, 
+      tax, 
+      total, 
+      taxRate: includeTax ? taxRate : 0 
+    };
   },
 
   addTable: () => {
@@ -143,6 +230,7 @@ export const mockAPI = {
     };
     mockState.tables.push(newTable);
     mockState.nextTableId++;
+    persistData();
     return newTable;
   },
 
@@ -162,6 +250,7 @@ export const mockAPI = {
       }
       
       mockState.tables.splice(tableIndex, 1);
+      persistData();
       return { success: true, deletedTable: table };
     }
     return { error: "Table not found" };
@@ -169,7 +258,8 @@ export const mockAPI = {
 
   resetDailyTotal: () => {
     mockState.revenue.daily = 0;
-    mockState.revenue.current = 0; // Reset this too for consistency
+    mockState.revenue.current = 0;
+    persistData();
   },
 
   getStats: () => {
