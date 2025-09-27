@@ -229,7 +229,9 @@ export const mockAPI = {
       if (player) {
         const totalSeconds = calculateElapsedTime(player);
         const timeCharge = (totalSeconds / 3600) * player.rate;
-        const subtotal = timeCharge + player.additionalCharges;
+        const extraItemsTotal = player.extraItems ? 
+          player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
+        const subtotal = timeCharge + player.additionalCharges + extraItemsTotal;
         
         // Don't remove player yet - only prepare checkout data
         return { 
