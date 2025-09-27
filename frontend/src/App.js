@@ -34,6 +34,7 @@ const Home = () => {
   const [checkoutData, setCheckoutData] = useState(null);
   const [confirmActionData, setConfirmActionData] = useState(null);
   const [commentData, setCommentData] = useState(null);
+  const [customChargeData, setCustomChargeData] = useState(null);
   const [analyticsData, setAnalyticsData] = useState(null);
   const { toast } = useToast();
 
