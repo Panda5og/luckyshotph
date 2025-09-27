@@ -153,6 +153,19 @@ export const mockAPI = {
     return null;
   },
 
+  updatePlayerComment: (tableId, playerId, comment) => {
+    const table = mockState.tables.find(t => t.id === tableId);
+    if (table) {
+      const player = table.players.find(p => p.id === playerId);
+      if (player) {
+        player.comment = comment;
+        persistData();
+        return player;
+      }
+    }
+    return null;
+  },
+
   checkoutPlayer: (tableId, playerId) => {
     const table = mockState.tables.find(t => t.id === tableId);
     if (table) {
