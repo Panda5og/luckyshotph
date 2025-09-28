@@ -903,22 +903,277 @@ const Tournament = () => {
               </CardHeader>
             </Card>
 
-            {/* Enhanced Large Bracket Visualization */}
+            {/* Clean Simple Bracket Layout */}
             <div 
-              className="w-full h-full min-h-screen relative"
+              className="w-full h-full overflow-auto p-4"
               style={{
-                transform: `scale(${zoomLevel}) translate(${panOffset.x}px, ${panOffset.y}px)`,
-                transformOrigin: 'center center',
-                transition: isDragging ? 'none' : 'transform 0.2s ease-out'
+                transform: `scale(${zoomLevel})`,
+                transformOrigin: 'top left',
+                transition: 'transform 0.2s ease-out'
               }}
             >
-              <svg 
-                width="1400" 
-                height="800" 
-                className="bg-slate-900 rounded-lg border border-slate-600"
-                viewBox="0 0 1400 800"
-                style={{ minWidth: '1400px', minHeight: '800px' }}
-              >
+              <div className="grid grid-cols-4 gap-8 min-w-max">
+                
+                {/* Column 1: Round 1 Winners */}
+                {bracket && bracket.winnersRounds[0] && (
+                  <div className="space-y-4">
+                    <h3 className="text-center text-green-400 font-bold text-sm mb-4">Round 1</h3>
+                    {bracket.winnersRounds[0].map((match, index) => (
+                      <div key={match.id} className="bg-slate-700 border-2 border-green-500 rounded-lg p-3 w-48">
+                        <div className="text-center text-white text-xs mb-2">
+                          {match.status === 'waiting' ? 'WAITING FOR TABLE' : match.status === 'inProgress' ? 'IN PROGRESS' : 'COMPLETED'}
+                        </div>
+                        
+                        {/* Player 1 */}
+                        <div 
+                          className={`p-2 mb-1 rounded cursor-pointer ${
+                            match.winner === match.player1 ? 'bg-green-600' : 'bg-slate-600'
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePlayerClick(match, match.player1, true);
+                          }}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className={`text-sm ${match.player1?.isBye ? 'italic text-slate-400' : 'text-white'}`}>
+                              {match.player1 ? (
+                                match.player1.name + (match.player1.isMember && !match.player1.isBye ? ' ★' : '')
+                              ) : 'TBD'}
+                            </span>
+                            {match.completed && (
+                              <span className="text-white font-bold">{match.player1Score}</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Player 2 */}
+                        <div 
+                          className={`p-2 rounded cursor-pointer ${
+                            match.winner === match.player2 ? 'bg-green-600' : 'bg-slate-600'
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePlayerClick(match, match.player2, false);
+                          }}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className={`text-sm ${match.player2?.isBye ? 'italic text-slate-400' : 'text-white'}`}>
+                              {match.player2 ? (
+                                match.player2.name + (match.player2.isMember && !match.player2.isBye ? ' ★' : '')
+                              ) : 'TBD'}
+                            </span>
+                            {match.completed && (
+                              <span className="text-white font-bold">{match.player2Score}</span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="text-center text-green-400 text-xs mt-2">
+                          {tournamentState === 'inProgress' && match.player1 && match.player2 && !match.completed && 'Click to score'}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Column 2: Round 2 Winners */}
+                {bracket && bracket.winnersRounds[1] && (
+                  <div className="space-y-8">
+                    <h3 className="text-center text-green-400 font-bold text-sm mb-4">Round 2</h3>
+                    {bracket.winnersRounds[1].map((match, index) => (
+                      <div key={match.id} className="bg-slate-700 border-2 border-green-500 rounded-lg p-3 w-48 mt-8">
+                        <div className="text-center text-white text-xs mb-2">
+                          {match.status === 'waiting' ? 'WAITING FOR TABLE' : match.status === 'inProgress' ? 'IN PROGRESS' : 'COMPLETED'}
+                        </div>
+                        
+                        {/* Player 1 */}
+                        <div 
+                          className={`p-2 mb-1 rounded cursor-pointer ${
+                            match.winner === match.player1 ? 'bg-green-600' : 'bg-slate-600'
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePlayerClick(match, match.player1, true);
+                          }}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className="text-white text-sm">
+                              {match.player1?.name || 'TBD'}
+                              {match.player1?.isMember && ' ★'}
+                            </span>
+                            {match.completed && (
+                              <span className="text-white font-bold">{match.player1Score}</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Player 2 */}
+                        <div 
+                          className={`p-2 rounded cursor-pointer ${
+                            match.winner === match.player2 ? 'bg-green-600' : 'bg-slate-600'
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePlayerClick(match, match.player2, false);
+                          }}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className="text-white text-sm">
+                              {match.player2?.name || 'TBD'}
+                              {match.player2?.isMember && ' ★'}
+                            </span>
+                            {match.completed && (
+                              <span className="text-white font-bold">{match.player2Score}</span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="text-center text-green-400 text-xs mt-2">
+                          {tournamentState === 'inProgress' && match.player1 && match.player2 && !match.completed && 'Click to score'}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Column 3: Losers Bracket */}
+                {bracket && bracket.type === 'double' && bracket.losersRounds.length > 0 && (
+                  <div className="space-y-4">
+                    <h3 className="text-center text-red-400 font-bold text-sm mb-4">Losers Bracket</h3>
+                    {bracket.losersRounds.map((round, roundIndex) => (
+                      <div key={roundIndex} className="space-y-4">
+                        <div className="text-center text-red-400 text-xs">LR{roundIndex + 1}</div>
+                        {round.map((match, index) => (
+                          <div key={match.id} className="bg-slate-700 border-2 border-red-500 rounded-lg p-3 w-48">
+                            <div className="text-center text-white text-xs mb-2">
+                              {match.status === 'waiting' ? 'WAITING FOR TABLE' : match.status === 'inProgress' ? 'IN PROGRESS' : 'COMPLETED'}
+                            </div>
+                            
+                            {/* Player 1 */}
+                            <div 
+                              className={`p-2 mb-1 rounded cursor-pointer ${
+                                match.winner === match.player1 ? 'bg-red-600' : 'bg-slate-600'
+                              }`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePlayerClick(match, match.player1, true);
+                              }}
+                            >
+                              <div className="flex justify-between items-center">
+                                <span className="text-white text-sm">
+                                  {match.player1?.name || 'TBD'}
+                                  {match.player1?.isMember && ' ★'}
+                                </span>
+                                {match.completed && (
+                                  <span className="text-white font-bold">{match.player1Score}</span>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Player 2 */}
+                            <div 
+                              className={`p-2 rounded cursor-pointer ${
+                                match.winner === match.player2 ? 'bg-red-600' : 'bg-slate-600'
+                              }`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePlayerClick(match, match.player2, false);
+                              }}
+                            >
+                              <div className="flex justify-between items-center">
+                                <span className="text-white text-sm">
+                                  {match.player2?.name || 'TBD'}
+                                  {match.player2?.isMember && ' ★'}
+                                </span>
+                                {match.completed && (
+                                  <span className="text-white font-bold">{match.player2Score}</span>
+                                )}
+                              </div>
+                            </div>
+                            
+                            <div className="text-center text-red-400 text-xs mt-2">
+                              {tournamentState === 'inProgress' && match.player1 && match.player2 && !match.completed && 'Click to score'}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Column 4: Grand Finals */}
+                {bracket && bracket.grandFinals && (
+                  <div className="space-y-4">
+                    <h3 className="text-center text-yellow-400 font-bold text-sm mb-4">Grand Finals</h3>
+                    <div className="bg-slate-700 border-2 border-yellow-500 rounded-lg p-3 w-48">
+                      <div className="text-center text-white text-xs mb-2">
+                        {bracket.grandFinals.status === 'waiting' ? 'WAITING FOR TABLE' : 
+                         bracket.grandFinals.status === 'inProgress' ? 'IN PROGRESS' : 'COMPLETED'}
+                      </div>
+                      
+                      {/* Winner from Winners Bracket */}
+                      <div 
+                        className={`p-2 mb-1 rounded cursor-pointer ${
+                          bracket.grandFinals.winner === bracket.grandFinals.player1 ? 'bg-yellow-600' : 'bg-slate-600'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePlayerClick(bracket.grandFinals, bracket.grandFinals.player1, true);
+                        }}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="text-white text-sm">
+                            {bracket.grandFinals.player1?.name || 'Winners Champion'}
+                            {bracket.grandFinals.player1?.isMember && ' ★'}
+                          </span>
+                          {bracket.grandFinals.completed && (
+                            <span className="text-white font-bold">{bracket.grandFinals.player1Score}</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Winner from Losers Bracket */}
+                      <div 
+                        className={`p-2 rounded cursor-pointer ${
+                          bracket.grandFinals.winner === bracket.grandFinals.player2 ? 'bg-yellow-600' : 'bg-slate-600'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePlayerClick(bracket.grandFinals, bracket.grandFinals.player2, false);
+                        }}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="text-white text-sm">
+                            {bracket.grandFinals.player2?.name || 'Losers Champion'}
+                            {bracket.grandFinals.player2?.isMember && ' ★'}
+                          </span>
+                          {bracket.grandFinals.completed && (
+                            <span className="text-white font-bold">{bracket.grandFinals.player2Score}</span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="text-center text-yellow-400 text-xs mt-2">
+                        {tournamentState === 'inProgress' && bracket.grandFinals.player1 && bracket.grandFinals.player2 && !bracket.grandFinals.completed && 'Click to score'}
+                      </div>
+                    </div>
+
+                    {/* Tournament Champion */}
+                    {bracket.grandFinals.completed && (
+                      <div className="bg-yellow-600 border-2 border-yellow-400 rounded-lg p-3 w-48 mt-4">
+                        <div className="text-center text-yellow-900 font-bold text-sm mb-2">TOURNAMENT CHAMPION</div>
+                        <div className="text-center text-yellow-900 font-bold">
+                          {bracket.grandFinals.winner?.name}
+                          {bracket.grandFinals.winner?.isMember && ' ★'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+              </div>
+            </div>
+          ) : (
                   {/* Winners Bracket */}
                   <text
                     x="200"
