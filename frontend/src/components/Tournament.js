@@ -51,16 +51,18 @@ const Tournament = () => {
     setPlayers(updatedPlayers);
   };
 
-  // Auto-generate FULL bracket when players are added (not just 2+ players)
+  // Auto-generate FULL bracket when players are added
   useEffect(() => {
-    if (players.length > 0 && tournamentName.trim() && tournamentState === 'setup') {
+    if (players.length >= 2 && tournamentName.trim()) {
       generateBracketForPlayers(players, false);
       setTournamentState('ready');
-    } else if (players.length === 0 && tournamentState !== 'setup') {
+    } else if (players.length < 2) {
       setBracket(null);
-      setTournamentState('setup');
+      if (tournamentState !== 'setup') {
+        setTournamentState('setup');
+      }
     }
-  }, [players, tournamentName, tournamentDate, bracketType, tournamentState]);
+  }, [players, tournamentName, tournamentDate, bracketType]);
 
   const generateBracketForPlayers = (playerList, shouldShuffle = false) => {
     if (playerList.length < 2) {
