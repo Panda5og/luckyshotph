@@ -908,10 +908,10 @@ const Tournament = () => {
               }}
             >
               <svg 
-                width="2400" 
-                height="1600" 
+                width="1800" 
+                height="1400" 
                 className="bg-slate-900 rounded-lg border border-slate-600"
-                viewBox="0 0 2400 1600"
+                viewBox="0 0 1800 1400"
               >
                   {/* Winners Bracket */}
                   <text
