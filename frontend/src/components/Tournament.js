@@ -904,14 +904,15 @@ const Tournament = () => {
             </Card>
 
             {/* Clean Simple Bracket Layout */}
-            <div 
-              className="w-full h-full overflow-auto p-4"
-              style={{
-                transform: `scale(${zoomLevel})`,
-                transformOrigin: 'top left',
-                transition: 'transform 0.2s ease-out'
-              }}
-            >
+            {bracket ? (
+              <div 
+                className="w-full h-full overflow-auto p-4"
+                style={{
+                  transform: `scale(${zoomLevel})`,
+                  transformOrigin: 'top left',
+                  transition: 'transform 0.2s ease-out'
+                }}
+              >
               <div className="grid grid-cols-4 gap-8 min-w-max">
                 
                 {/* Column 1: Round 1 Winners */}
