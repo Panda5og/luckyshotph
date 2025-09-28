@@ -334,7 +334,7 @@ export const mockAPI = {
     mockState.dailyAnalytics.totalRevenue += total;
     mockState.dailyAnalytics.totalTax += tax;
     mockState.dailyAnalytics.totalDiscount += discountAmount;
-    mockState.dailyAnalytics.timeValue += subtotal;
+    mockState.dailyAnalytics.timeValue += timeChargeOnly; // Only actual time-based charges
     mockState.dailyAnalytics.extraValue += extraItemsTotal;
     
     // Initialize extraItems array if it doesn't exist (for backward compatibility)
