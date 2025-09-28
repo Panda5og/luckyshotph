@@ -192,11 +192,62 @@ const Tournament = () => {
     setTournamentState('inProgress');
   };
 
-  const handleMatchClick = (match) => {
+  const handleMatchClick = (match, action = 'score') => {
+    if (tournamentState === 'inProgress' && match.player1 && match.player2) {
+      if (action === 'start' && match.status === 'waiting') {
+        // Set match to in progress
+        updateMatchStatus(match.id, 'inProgress');
+      } else if (action === 'score' && !match.completed) {
+        setSelectedMatch(match);
+        setScoreData({ player1Score: '', player2Score: '' });
+        setShowScoreModal(true);
+      }
+    }
+  };
+
+  const handlePlayerClick = (match, player, isPlayer1) => {
     if (tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2) {
       setSelectedMatch(match);
+      setSelectedPlayer(isPlayer1 ? 'player1' : 'player2');
       setScoreData({ player1Score: '', player2Score: '' });
       setShowScoreModal(true);
+    }
+  };
+
+  const updateMatchStatus = (matchId, newStatus) => {
+    if (!bracket) return;
+
+    const updatedBracket = { ...bracket };
+    let matchFound = false;
+
+    // Update in winners rounds
+    updatedBracket.winnersRounds.forEach(round => {
+      round.forEach(match => {
+        if (match.id === matchId) {
+          match.status = newStatus;
+          matchFound = true;
+        }
+      });
+    });
+
+    // Update in losers rounds
+    updatedBracket.losersRounds.forEach(round => {
+      round.forEach(match => {
+        if (match.id === matchId) {
+          match.status = newStatus;
+          matchFound = true;
+        }
+      });
+    });
+
+    // Update grand finals
+    if (updatedBracket.grandFinals.id === matchId) {
+      updatedBracket.grandFinals.status = newStatus;
+      matchFound = true;
+    }
+
+    if (matchFound) {
+      setBracket(updatedBracket);
     }
   };
 
