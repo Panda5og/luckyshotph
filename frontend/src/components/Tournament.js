@@ -666,21 +666,45 @@ const Tournament = () => {
         </div>
       )}
 
-      {/* Shuffle Confirmation Dialog */}
+      {/* Enhanced Shuffle Confirmation Dialog */}
       {showShuffleDialog && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center">
-          <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 max-w-lg w-full mx-4">
             <h3 className="text-lg font-semibold text-white mb-4">Start Tournament</h3>
-            <p className="text-slate-300 mb-6">
+            <p className="text-slate-300 mb-4">
               Would you like to shuffle the players to randomize the bracket seeding?
             </p>
+            
+            {/* Shuffle Options */}
+            <div className="bg-slate-700 rounded-lg p-4 mb-6">
+              <Label className="text-slate-200 text-sm font-medium mb-3 block">
+                Shuffle Options
+              </Label>
+              <div className="flex items-center gap-3 mb-3">
+                <Label className="text-slate-300 text-sm">
+                  Number of shuffles:
+                </Label>
+                <Input
+                  type="number"
+                  min="1"
+                  max="10"
+                  value={shuffleCount}
+                  onChange={(e) => setShuffleCount(Math.max(1, Math.min(10, parseInt(e.target.value) || 1)))}
+                  className="w-20 bg-slate-600 border-slate-500 text-white text-center"
+                />
+              </div>
+              <div className="text-slate-400 text-xs">
+                Higher numbers = more randomization (1-10 shuffles)
+              </div>
+            </div>
+            
             <div className="flex gap-3">
               <Button
                 onClick={() => confirmStartTournament(true)}
                 className="flex-1 bg-blue-600 hover:bg-blue-700"
               >
                 <Shuffle className="h-4 w-4 mr-2" />
-                Shuffle & Start
+                Shuffle {shuffleCount}x & Start
               </Button>
               <Button
                 onClick={() => confirmStartTournament(false)}
@@ -690,9 +714,12 @@ const Tournament = () => {
                 Start as Is
               </Button>
               <Button
-                onClick={() => setShowShuffleDialog(false)}
+                onClick={() => {
+                  setShowShuffleDialog(false);
+                  setShuffleCount(1);
+                }}
                 variant="outline"
-                className="border-slate-600 text-slate-300"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
               >
                 Cancel
               </Button>
