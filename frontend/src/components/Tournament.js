@@ -80,6 +80,9 @@ const Tournament = () => {
         player1,
         player2,
         winner: null,
+        player1Score: null,
+        player2Score: null,
+        completed: false,
         round: 1,
         bracket: 'winners'
       });
