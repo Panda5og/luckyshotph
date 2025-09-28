@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Users, Trophy, Target, Calendar, Plus, Trash2, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Users, Trophy, Target, Calendar, Plus, Trash2, Star, ChevronLeft, ChevronRight, Play, Shuffle, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardContent } from './ui/card';
 import { Input } from './ui/input';
@@ -14,6 +14,13 @@ const Tournament = () => {
   const [isNewPlayerMember, setIsNewPlayerMember] = useState(false);
   const [bracket, setBracket] = useState(null);
   const [isDashboardHidden, setIsDashboardHidden] = useState(false);
+  
+  // New tournament state management
+  const [tournamentState, setTournamentState] = useState('setup'); // setup, ready, inProgress, completed
+  const [showShuffleDialog, setShowShuffleDialog] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState(null);
+  const [showScoreModal, setShowScoreModal] = useState(false);
+  const [scoreData, setScoreData] = useState({ player1Score: '', player2Score: '' });
 
   const addPlayer = () => {
     if (newPlayerName.trim()) {
