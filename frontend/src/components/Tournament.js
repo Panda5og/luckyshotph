@@ -29,14 +29,31 @@ const Tournament = () => {
         name: newPlayerName.trim(),
         isMember: isNewPlayerMember
       };
-      setPlayers([...players, newPlayer]);
+      const updatedPlayers = [...players, newPlayer];
+      setPlayers(updatedPlayers);
       setNewPlayerName('');
       setIsNewPlayerMember(false);
+      
+      // Auto-generate bracket when players are added
+      if (updatedPlayers.length >= 2) {
+        generateBracketForPlayers(updatedPlayers, false); // false = don't shuffle
+        setTournamentState('ready');
+      }
     }
   };
 
   const removePlayer = (playerId) => {
-    setPlayers(players.filter(player => player.id !== playerId));
+    const updatedPlayers = players.filter(player => player.id !== playerId);
+    setPlayers(updatedPlayers);
+    
+    // Update bracket or reset state
+    if (updatedPlayers.length >= 2) {
+      generateBracketForPlayers(updatedPlayers, false);
+      setTournamentState('ready');
+    } else {
+      setBracket(null);
+      setTournamentState('setup');
+    }
   };
 
   const generateBracket = () => {
