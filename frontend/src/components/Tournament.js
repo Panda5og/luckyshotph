@@ -167,6 +167,7 @@ const Tournament = () => {
         player1Score: null,
         player2Score: null,
         completed: false,
+        status: 'waiting',
         bracket: 'finals'
       },
       totalPlayers: shuffledPlayers.length,
