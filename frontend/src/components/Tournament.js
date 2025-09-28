@@ -772,56 +772,69 @@ const Tournament = () => {
 
       {/* Right Side - Bracket Display */}
       <div className={`flex-1 relative ${isFullScreen ? 'fixed inset-0 z-50 bg-slate-800' : 'p-6'} overflow-hidden`}>
-        {/* Bracket Controls */}
+        {/* Enhanced Bracket Controls - Lower Right */}
         {bracket && (
-          <div className="absolute top-4 right-4 z-10 flex gap-2">
-            <div className="bg-slate-700 rounded-lg p-2 flex gap-2">
-              <button
-                onClick={handleZoomOut}
-                className="p-1 text-slate-300 hover:text-white transition-colors"
-                title="Zoom Out"
-              >
-                <ZoomOut className="h-4 w-4" />
-              </button>
-              
-              <span className="text-slate-300 text-sm px-2 flex items-center">
-                {Math.round(zoomLevel * 100)}%
-              </span>
-              
-              <button
-                onClick={handleZoomIn}
-                className="p-1 text-slate-300 hover:text-white transition-colors"
-                title="Zoom In"
-              >
-                <ZoomIn className="h-4 w-4" />
-              </button>
-              
-              <div className="border-l border-slate-600 mx-1"></div>
-              
-              <button
-                onClick={resetView}
-                className="p-1 text-slate-300 hover:text-white transition-colors text-xs"
-                title="Reset View"
-              >
-                Reset
-              </button>
-              
-              <button
-                onClick={handleFullScreen}
-                className="p-1 text-slate-300 hover:text-white transition-colors"
-                title="Toggle Fullscreen"
-              >
-                <Maximize className="h-4 w-4" />
-              </button>
+          <div className="absolute bottom-6 right-6 z-10 flex flex-col gap-3">
+            {/* Main Controls */}
+            <div className="bg-slate-800 border border-slate-600 rounded-lg shadow-lg p-3">
+              <div className="flex items-center gap-3">
+                {/* Zoom Controls */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleZoomOut}
+                    className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-md transition-colors"
+                    title="Zoom Out"
+                  >
+                    <ZoomOut className="h-4 w-4" />
+                  </button>
+                  
+                  <div className="bg-slate-700 px-3 py-1 rounded-md min-w-[50px] text-center">
+                    <span className="text-slate-200 text-sm font-medium">
+                      {Math.round(zoomLevel * 100)}%
+                    </span>
+                  </div>
+                  
+                  <button
+                    onClick={handleZoomIn}
+                    className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-md transition-colors"
+                    title="Zoom In"
+                  >
+                    <ZoomIn className="h-4 w-4" />
+                  </button>
+                </div>
+                
+                <div className="border-l border-slate-600 h-8"></div>
+                
+                {/* Utility Controls */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={resetView}
+                    className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-md transition-colors text-xs font-medium"
+                    title="Reset View"
+                  >
+                    Reset
+                  </button>
+                  
+                  <button
+                    onClick={handleFullScreen}
+                    className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-md transition-colors"
+                    title="Toggle Fullscreen"
+                  >
+                    <Maximize className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
 
-        {/* Pan/Drag Instruction */}
-        {bracket && !isFullScreen && (
-          <div className="absolute bottom-4 right-4 z-10 bg-slate-700 rounded-lg p-2 text-slate-300 text-xs flex items-center gap-1">
-            <Move className="h-3 w-3" />
-            Click and drag to pan
+            {/* Pan Instruction */}
+            {!isFullScreen && (
+              <div className="bg-slate-800 border border-slate-600 rounded-lg shadow-lg px-3 py-2">
+                <div className="flex items-center gap-2 text-slate-400 text-xs">
+                  <Move className="h-3 w-3" />
+                  <span>Click and drag to pan</span>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
