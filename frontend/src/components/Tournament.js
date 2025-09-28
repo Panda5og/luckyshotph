@@ -484,6 +484,110 @@ const Tournament = () => {
         </div>
       )}
 
+      {/* Shuffle Confirmation Dialog */}
+      {showShuffleDialog && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center">
+          <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold text-white mb-4">Start Tournament</h3>
+            <p className="text-slate-300 mb-6">
+              Would you like to shuffle the players to randomize the bracket seeding?
+            </p>
+            <div className="flex gap-3">
+              <Button
+                onClick={() => confirmStartTournament(true)}
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
+              >
+                <Shuffle className="h-4 w-4 mr-2" />
+                Shuffle & Start
+              </Button>
+              <Button
+                onClick={() => confirmStartTournament(false)}
+                className="flex-1 bg-green-600 hover:bg-green-700"
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Start as Is
+              </Button>
+              <Button
+                onClick={() => setShowShuffleDialog(false)}
+                variant="outline"
+                className="border-slate-600 text-slate-300"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Score Input Modal */}
+      {showScoreModal && selectedMatch && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center">
+          <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 max-w-md w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-white">Enter Match Score</h3>
+              <Button
+                onClick={() => setShowScoreModal(false)}
+                variant="ghost"
+                size="sm"
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-slate-200 text-sm">
+                    {selectedMatch.player1?.name}
+                    {selectedMatch.player1?.isMember && <span className="text-yellow-400 ml-1">★</span>}
+                  </Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={scoreData.player1Score}
+                    onChange={(e) => setScoreData({...scoreData, player1Score: e.target.value})}
+                    className="bg-slate-700 border-slate-600 text-white mt-1"
+                    placeholder="Games won"
+                  />
+                </div>
+                <div>
+                  <Label className="text-slate-200 text-sm">
+                    {selectedMatch.player2?.name}
+                    {selectedMatch.player2?.isMember && <span className="text-yellow-400 ml-1">★</span>}
+                  </Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={scoreData.player2Score}
+                    onChange={(e) => setScoreData({...scoreData, player2Score: e.target.value})}
+                    className="bg-slate-700 border-slate-600 text-white mt-1"
+                    placeholder="Games won"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex gap-3 pt-4">
+                <Button
+                  onClick={submitMatchScore}
+                  disabled={!scoreData.player1Score || !scoreData.player2Score}
+                  className="flex-1 bg-green-600 hover:bg-green-700"
+                >
+                  Submit Score
+                </Button>
+                <Button
+                  onClick={() => setShowScoreModal(false)}
+                  variant="outline"
+                  className="border-slate-600 text-slate-300"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Right Side - Bracket Display */}
       <div className="flex-1 p-6 overflow-auto">
         {bracket ? (
