@@ -1175,10 +1175,6 @@ const Tournament = () => {
             </div>
           ) : (
             {/* Tournament bracket now uses clean grid layout above - no SVG needed */}
-            {/* SVG content removed */}
-            {/* More SVG content removed */}
-
-            {/* All SVG content removed - using clean grid layout above */}
             </div>
           </div>
         ) : (
