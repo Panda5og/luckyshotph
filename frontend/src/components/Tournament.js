@@ -913,11 +913,11 @@ const Tournament = () => {
               }}
             >
               <svg 
-                width="2000" 
-                height="1600" 
+                width="1400" 
+                height="800" 
                 className="bg-slate-900 rounded-lg border border-slate-600"
-                viewBox="0 0 2000 1600"
-                style={{ minWidth: '2000px', minHeight: '1600px' }}
+                viewBox="0 0 1400 800"
+                style={{ minWidth: '1400px', minHeight: '800px' }}
               >
                   {/* Winners Bracket */}
                   <text
