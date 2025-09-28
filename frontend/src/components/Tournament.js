@@ -1205,7 +1205,7 @@ const Tournament = () => {
                         if (roundIndex < bracket.losersRounds.length - 1) {
                           return round.map((match, matchIndex) => {
                             const currentXPos = 100 + (roundIndex * 300);
-                            const currentYPos = 800 + (matchIndex * 180) * Math.pow(2, roundIndex);
+                            const currentYPos = 900 + (matchIndex * 180) * Math.pow(2, roundIndex);
                             const nextXPos = 100 + ((roundIndex + 1) * 300);
                             const nextYPos = 800 + (Math.floor(matchIndex / 2) * 180) * Math.pow(2, roundIndex + 1);
                             
