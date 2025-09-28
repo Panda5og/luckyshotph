@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the latest updates to the Lucky Shot Pool Hall Management Website: 1) CHECKOUT MODAL STATE RESET FIX - Additional items and tax checkbox should not persist across different checkout sessions, 2) MISCELLANEOUS PURCHASE FEATURE - Purple 'Add Purchase' button for direct revenue additions, 3) PDF DOWNLOAD VERIFICATION - Ensure PDF download still works with miscellaneous purchases included."
+user_problem_statement: "Complete the implementation of the tournament bracket generator in Tournament.js to fully support a double-elimination format, accommodating all registered players, as per the user's latest reference image and clarification. Ensure all custom charge items, when added to a player, are accurately reflected in the current revenue and, upon checkout, correctly consolidated and added to the daily revenue."
 
 frontend:
   - task: "PDF Download for Daily Analytics"
