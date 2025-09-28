@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Users, Trophy, Target, Calendar, Plus, Trash2, Star, ChevronLeft, ChevronRight, Play, Shuffle, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Users, Trophy, Target, Calendar, Plus, Trash2, Star, ChevronLeft, ChevronRight, Play, Shuffle, X, ZoomIn, ZoomOut, Maximize, Move } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardContent } from './ui/card';
 import { Input } from './ui/input';
