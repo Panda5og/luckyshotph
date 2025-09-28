@@ -1559,8 +1559,8 @@ const Tournament = () => {
                     {bracket.grandFinals.completed && (
                       <>
                         <rect
-                          x="1260"
-                          y="545"
+                          x="1060"
+                          y="475"
                           width="35"
                           height="36"
                           fill="#0f172a"
