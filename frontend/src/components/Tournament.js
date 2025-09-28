@@ -1461,8 +1461,8 @@ const Tournament = () => {
 
                     {/* Grand Finals Status */}
                     <text
-                      x="1200"
-                      y="495"
+                      x="1000"
+                      y="425"
                       fill="white"
                       fontSize="10"
                       fontFamily="system-ui"
