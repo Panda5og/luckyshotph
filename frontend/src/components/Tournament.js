@@ -630,61 +630,109 @@ const Tournament = () => {
                       
                       return (
                         <g key={match.id}>
-                          {/* Match Box */}
+                          {/* Match Box - Clickable */}
                           <rect
                             x={xPos}
                             y={yPos}
                             width="180"
                             height={matchHeight}
-                            fill="#374151"
-                            stroke="#10b981"
+                            fill={match.completed ? "#22c55e" : "#374151"}
+                            stroke={match.completed ? "#16a34a" : "#10b981"}
                             strokeWidth="2"
                             rx="8"
+                            style={{ 
+                              cursor: (tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2) ? 'pointer' : 'default'
+                            }}
+                            onClick={() => handleMatchClick(match)}
                           />
                           
                           {/* Player 1 */}
                           <rect
                             x={xPos + 5}
                             y={yPos + 5}
-                            width="170"
+                            width={match.completed ? "130" : "170"}
                             height="32"
-                            fill="#1f2937"
+                            fill={match.winner === match.player1 ? "#16a34a" : "#1f2937"}
                             rx="4"
                           />
                           <text
                             x={xPos + 15}
                             y={yPos + 24}
                             fill="white"
-                            fontSize="12"
+                            fontSize="11"
                             fontFamily="system-ui"
                           >
                             {match.player1 ? (
-                              match.player1.name.substring(0, 15) + 
+                              match.player1.name.substring(0, 12) + 
                               (match.player1.isMember ? ' ★' : '')
                             ) : 'TBD'}
                           </text>
+                          
+                          {/* Player 1 Score */}
+                          {match.completed && (
+                            <text
+                              x={xPos + 145}
+                              y={yPos + 24}
+                              fill="white"
+                              fontSize="14"
+                              fontFamily="system-ui"
+                              fontWeight="bold"
+                              textAnchor="middle"
+                            >
+                              {match.player1Score}
+                            </text>
+                          )}
                           
                           {/* Player 2 */}
                           <rect
                             x={xPos + 5}
                             y={yPos + 42}
-                            width="170"
+                            width={match.completed ? "130" : "170"}
                             height="32"
-                            fill="#1f2937"
+                            fill={match.winner === match.player2 ? "#16a34a" : "#1f2937"}
                             rx="4"
                           />
                           <text
                             x={xPos + 15}
                             y={yPos + 61}
                             fill="white"
-                            fontSize="12"
+                            fontSize="11"
                             fontFamily="system-ui"
                           >
                             {match.player2 ? (
-                              match.player2.name.substring(0, 15) + 
+                              match.player2.name.substring(0, 12) + 
                               (match.player2.isMember ? ' ★' : '')
                             ) : 'TBD'}
                           </text>
+                          
+                          {/* Player 2 Score */}
+                          {match.completed && (
+                            <text
+                              x={xPos + 145}
+                              y={yPos + 61}
+                              fill="white"
+                              fontSize="14"
+                              fontFamily="system-ui"
+                              fontWeight="bold"
+                              textAnchor="middle"
+                            >
+                              {match.player2Score}
+                            </text>
+                          )}
+                          
+                          {/* Click to Score Indicator */}
+                          {tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2 && (
+                            <text
+                              x={xPos + 90}
+                              y={yPos + 95}
+                              fill="#10b981"
+                              fontSize="10"
+                              fontFamily="system-ui"
+                              textAnchor="middle"
+                            >
+                              Click to Score
+                            </text>
+                          )}
                           
                           {/* Connecting lines to next round */}
                           {roundIndex < bracket.winnersRounds.length - 1 && (
