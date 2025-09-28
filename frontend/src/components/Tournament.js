@@ -1174,9 +1174,7 @@ const Tournament = () => {
               </div>
             </div>
           ) : (
-                  {/* SVG content removed - replaced with clean grid layout */}
-
-                  {/* Clean Winners Bracket Tree Lines */}
+            {/* Tournament bracket now uses clean grid layout above - no SVG needed */}
                   {bracket.winnersRounds.map((round, roundIndex) => {
                     if (roundIndex < bracket.winnersRounds.length - 1) {
                       return round.map((match, matchIndex) => {
