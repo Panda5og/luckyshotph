@@ -1174,18 +1174,7 @@ const Tournament = () => {
               </div>
             </div>
           ) : (
-                  {/* Winners Bracket */}
-                  <text
-                    x="200"
-                    y="30"
-                    fill="#10b981"
-                    fontSize="18"
-                    fontFamily="system-ui"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    Winners Bracket
-                  </text>
+                  {/* SVG content removed - replaced with clean grid layout */}
 
                   {/* Clean Winners Bracket Tree Lines */}
                   {bracket.winnersRounds.map((round, roundIndex) => {
