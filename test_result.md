@@ -272,12 +272,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Enhanced Custom Charge Modal"
-  stuck_tasks:
-    - "Reset Daily Analytics Modal Fix"
-    - "Enhanced Custom Charge Modal"
+    - "Double Elimination Tournament Bracket Generator"
+    - "Revenue Calculation Verification"
+  stuck_tasks: []
   test_all: false
-  test_priority: "stuck_first"
+  test_priority: "high_first"
 
 agent_communication:
     - agent: "main"
