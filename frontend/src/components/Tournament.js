@@ -1195,8 +1195,8 @@ const Tournament = () => {
                       
                       {bracket.losersRounds.map((round, roundIndex) => {
                         return round.map((match, matchIndex) => {
-                          const xPos = 100 + (roundIndex * 300); // Same spacing as winners
-                          const yPos = 900 + (matchIndex * 180) * Math.pow(2, roundIndex); // More separation to prevent overlap
+                          const xPos = 50 + (roundIndex * 280); // Same spacing as winners
+                          const yPos = 600 + (matchIndex * 140) * Math.pow(2, roundIndex); // Clean separation
                           const matchHeight = 100;
                           
                           return (
