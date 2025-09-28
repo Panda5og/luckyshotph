@@ -1380,50 +1380,92 @@ const Tournament = () => {
                     </>
                   )}
                   
-                  {/* Grand Finals */}
-                  <g>
-                    <text
-                      x="1000"
-                      y="30"
-                      fill="#fbbf24"
-                      fontSize="18"
-                      fontFamily="system-ui"
-                      fontWeight="bold"
-                      textAnchor="middle"
-                    >
-                      Grand Finals
-                    </text>
-                    
-                    {/* Grand Finals Box - Clickable */}
+                  {/* Grand Finals - Positioned between Winners and Losers */}
+                  <text
+                    x="1400"
+                    y="450"
+                    fill="#fbbf24"
+                    fontSize="18"
+                    fontFamily="system-ui"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    Grand Finals
+                  </text>
+                  
+                  {/* Tournament Champion Title */}
+                  <text
+                    x="1400"
+                    y="620"
+                    fill="#fbbf24"
+                    fontSize="16"
+                    fontFamily="system-ui"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    Tournament Champion
+                  </text>
+                  
+                  {bracket.grandFinals && (
+                    <>
+                    {/* Grand Finals Box - Enhanced Interactive */}
                     <rect
-                      x="920"
-                      y="200"
+                      x="1300"
+                      y="480"
                       width="200"
-                      height="100"
-                      fill={bracket.grandFinals.completed ? "#eab308" : "#374151"}
-                      stroke={bracket.grandFinals.completed ? "#ca8a04" : "#fbbf24"}
+                      height="120"
+                      fill={
+                        bracket.grandFinals.completed ? "#eab308" : 
+                        bracket.grandFinals.status === 'inProgress' ? "#f59e0b" : 
+                        "#374151"
+                      }
+                      stroke={
+                        bracket.grandFinals.completed ? "#ca8a04" : 
+                        bracket.grandFinals.status === 'inProgress' ? "#d97706" : 
+                        "#fbbf24"
+                      }
                       strokeWidth="3"
                       rx="10"
-                      style={{ 
-                        cursor: (tournamentState === 'inProgress' && !bracket.grandFinals.completed && bracket.grandFinals.player1 && bracket.grandFinals.player2) ? 'pointer' : 'default'
-                      }}
+                      style={{ cursor: 'pointer' }}
                       onClick={() => handleMatchClick(bracket.grandFinals)}
                     />
+
+                    {/* Grand Finals Status */}
+                    <text
+                      x="1400"
+                      y="495"
+                      fill="white"
+                      fontSize="10"
+                      fontFamily="system-ui"
+                      textAnchor="middle"
+                      fontWeight="bold"
+                    >
+                      {bracket.grandFinals.status === 'waiting' ? 'WAITING FOR TABLE' :
+                       bracket.grandFinals.status === 'inProgress' ? 'IN PROGRESS' :
+                       bracket.grandFinals.completed ? 'COMPLETED' : ''}
+                    </text>
                     
-                    {/* Winners Bracket Champion */}
+                    {/* Winners Champion */}
                     <rect
-                      x="925"
-                      y="210"
+                      x="1305"
+                      y="505"
                       width={bracket.grandFinals.completed ? "150" : "190"}
-                      height="40"
+                      height="36"
                       fill={bracket.grandFinals.winner === bracket.grandFinals.player1 ? "#eab308" : "#10b981"}
+                      stroke={bracket.grandFinals.winner === bracket.grandFinals.player1 ? "#fbbf24" : "#22c55e"}
+                      strokeWidth="1"
                       rx="6"
+                      style={{ cursor: 'pointer' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePlayerClick(bracket.grandFinals, bracket.grandFinals.player1, true);
+                      }}
                     />
                     <text
-                      x="935"
-                      y="225"
+                      x="1315"
+                      y="527"
                       fill="white"
-                      fontSize="11"
+                      fontSize="12"
                       fontFamily="system-ui"
                       fontWeight="bold"
                     >
@@ -1433,33 +1475,50 @@ const Tournament = () => {
                     
                     {/* Winners Champion Score */}
                     {bracket.grandFinals.completed && (
-                      <text
-                        x="1090"
-                        y="232"
-                        fill="white"
-                        fontSize="16"
-                        fontFamily="system-ui"
-                        fontWeight="bold"
-                        textAnchor="middle"
-                      >
-                        {bracket.grandFinals.player1Score}
-                      </text>
+                      <>
+                        <rect
+                          x="1460"
+                          y="505"
+                          width="35"
+                          height="36"
+                          fill="#0f172a"
+                          rx="4"
+                        />
+                        <text
+                          x="1477"
+                          y="527"
+                          fill="white"
+                          fontSize="16"
+                          fontFamily="system-ui"
+                          fontWeight="bold"
+                          textAnchor="middle"
+                        >
+                          {bracket.grandFinals.player1Score}
+                        </text>
+                      </>
                     )}
                     
-                    {/* Losers Bracket Champion */}
+                    {/* Losers Champion */}
                     <rect
-                      x="925"
-                      y="255"
+                      x="1305"
+                      y="545"
                       width={bracket.grandFinals.completed ? "150" : "190"}
-                      height="40"
+                      height="36"
                       fill={bracket.grandFinals.winner === bracket.grandFinals.player2 ? "#eab308" : "#ef4444"}
+                      stroke={bracket.grandFinals.winner === bracket.grandFinals.player2 ? "#fbbf24" : "#dc2626"}
+                      strokeWidth="1"
                       rx="6"
+                      style={{ cursor: 'pointer' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePlayerClick(bracket.grandFinals, bracket.grandFinals.player2, false);
+                      }}
                     />
                     <text
-                      x="935"
-                      y="270"
+                      x="1315"
+                      y="567"
                       fill="white"
-                      fontSize="11"
+                      fontSize="12"
                       fontFamily="system-ui"
                       fontWeight="bold"
                     >
@@ -1469,77 +1528,60 @@ const Tournament = () => {
                     
                     {/* Losers Champion Score */}
                     {bracket.grandFinals.completed && (
-                      <text
-                        x="1090"
-                        y="277"
-                        fill="white"
-                        fontSize="16"
-                        fontFamily="system-ui"
-                        fontWeight="bold"
-                        textAnchor="middle"
-                      >
-                        {bracket.grandFinals.player2Score}
-                      </text>
+                      <>
+                        <rect
+                          x="1460"
+                          y="545"
+                          width="35"
+                          height="36"
+                          fill="#0f172a"
+                          rx="4"
+                        />
+                        <text
+                          x="1477"
+                          y="567"
+                          fill="white"
+                          fontSize="16"
+                          fontFamily="system-ui"
+                          fontWeight="bold"
+                          textAnchor="middle"
+                        >
+                          {bracket.grandFinals.player2Score}
+                        </text>
+                      </>
                     )}
                     
-                    {/* Click to Score Indicator for Grand Finals */}
-                    {tournamentState === 'inProgress' && !bracket.grandFinals.completed && bracket.grandFinals.player1 && bracket.grandFinals.player2 && (
-                      <text
-                        x="1020"
-                        y="320"
-                        fill="#fbbf24"
-                        fontSize="12"
-                        fontFamily="system-ui"
-                        textAnchor="middle"
-                      >
-                        Click to Score Grand Finals
-                      </text>
+                    {/* Interactive Indicators for Grand Finals */}
+                    {tournamentState === 'inProgress' && bracket.grandFinals.player1 && bracket.grandFinals.player2 && (
+                      <>
+                        {!bracket.grandFinals.completed && bracket.grandFinals.status === 'waiting' && (
+                          <text
+                            x="1400"
+                            y="595"
+                            fill="#fbbf24"
+                            fontSize="9"
+                            fontFamily="system-ui"
+                            textAnchor="middle"
+                          >
+                            Click match to start • Click player to score
+                          </text>
+                        )}
+                        {bracket.grandFinals.status === 'inProgress' && !bracket.grandFinals.completed && (
+                          <text
+                            x="1400"
+                            y="595"
+                            fill="#f59e0b"
+                            fontSize="9"
+                            fontFamily="system-ui"
+                            textAnchor="middle"
+                          >
+                            Click player to add score
+                          </text>
+                        )}
+                      </>
                     )}
-                    
-                    {/* Champion Box */}
-                    <rect
-                      x="950"
-                      y="350"
-                      width="140"
-                      height="60"
-                      fill="#fbbf24"
-                      stroke="#f59e0b"
-                      strokeWidth="3"
-                      rx="10"
-                    />
-                    <text
-                      x="1020"
-                      y="375"
-                      fill="#000"
-                      fontSize="16"
-                      fontFamily="system-ui"
-                      fontWeight="bold"
-                      textAnchor="middle"
-                    >
-                      TOURNAMENT
-                    </text>
-                    <text
-                      x="1020"
-                      y="395"
-                      fill="#000"
-                      fontSize="16"
-                      fontFamily="system-ui"
-                      fontWeight="bold"
-                      textAnchor="middle"
-                    >
-                      CHAMPION
-                    </text>
-                    
-                    {/* Connection from Grand Finals to Champion */}
-                    <line
-                      x1="1020"
-                      y1="300"
-                      x2="1020"
-                      y2="350"
-                      stroke="#fbbf24"
-                      strokeWidth="3"
-                    />
-                  </g>
+                    </>
+                  )}
                   
                   {/* Connection lines from brackets to grand finals */}
                   <line
