@@ -1442,7 +1442,7 @@ const Tournament = () => {
                     
                     {/* Losers Champion */}
                     <rect
-                      x="1305"
+                      x="1105"
                       y="545"
                       width={bracket.grandFinals.completed ? "150" : "190"}
                       height="36"
@@ -1457,7 +1457,7 @@ const Tournament = () => {
                       }}
                     />
                     <text
-                      x="1315"
+                      x="1115"
                       y="567"
                       fill="white"
                       fontSize="12"
@@ -1472,7 +1472,7 @@ const Tournament = () => {
                     {bracket.grandFinals.completed && (
                       <>
                         <rect
-                          x="1460"
+                          x="1260"
                           y="545"
                           width="35"
                           height="36"
@@ -1480,7 +1480,7 @@ const Tournament = () => {
                           rx="4"
                         />
                         <text
-                          x="1477"
+                          x="1277"
                           y="567"
                           fill="white"
                           fontSize="16"
