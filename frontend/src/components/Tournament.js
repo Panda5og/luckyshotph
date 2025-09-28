@@ -1597,8 +1597,8 @@ const Tournament = () => {
                         )}
                         {bracket.grandFinals.status === 'inProgress' && !bracket.grandFinals.completed && (
                           <text
-                            x="1200"
-                            y="595"
+                            x="1000"
+                            y="545"
                             fill="#f59e0b"
                             fontSize="9"
                             fontFamily="system-ui"
