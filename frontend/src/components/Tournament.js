@@ -1637,11 +1637,12 @@ const Tournament = () => {
                   {bracket.winnersRounds.map((_, roundIndex) => (
                     <text
                       key={`wr-${roundIndex}`}
-                      x={200 + (roundIndex * 300)}
-                      y="100"
+                      x={140 + (roundIndex * 280)}
+                      y="130"
                       fill="#10b981"
-                      fontSize="12"
+                      fontSize="14"
                       fontFamily="system-ui"
+                      fontWeight="bold"
                       textAnchor="middle"
                     >
                       WR{roundIndex + 1}
