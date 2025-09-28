@@ -1450,7 +1450,6 @@ const Tournament = () => {
                     </text>
                   ))}
                 </svg>
-              </div>
             </div>
           </div>
         ) : (
