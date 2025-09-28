@@ -1463,6 +1463,7 @@ const Tournament = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
