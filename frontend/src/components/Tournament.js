@@ -267,34 +267,53 @@ const Tournament = () => {
     const winner = player1Score > player2Score ? selectedMatch.player1 : selectedMatch.player2;
     const loser = player1Score > player2Score ? selectedMatch.player2 : selectedMatch.player1;
 
-    // Update bracket with match result
+    // Update bracket with match result and advance winner
     const updatedBracket = { ...bracket };
     
     // Find and update the match
     let matchFound = false;
+    let currentRound = 0;
+    let currentBracket = '';
     
     // Check winners rounds
-    updatedBracket.winnersRounds.forEach(round => {
+    updatedBracket.winnersRounds.forEach((round, roundIndex) => {
       round.forEach(match => {
         if (match.id === selectedMatch.id) {
           match.winner = winner;
           match.player1Score = player1Score;
           match.player2Score = player2Score;
           match.completed = true;
+          match.status = 'completed';
+          currentRound = roundIndex;
+          currentBracket = 'winners';
           matchFound = true;
+
+          // Advance winner to next round
+          advanceWinnerToNextRound(updatedBracket, winner, roundIndex, 'winners');
+          
+          // Send loser to losers bracket (double elimination)
+          if (bracketType === 'double' && roundIndex === 0) {
+            // First round losers go directly to losers bracket
+            advanceLoserToLosersBracket(updatedBracket, loser, roundIndex);
+          }
         }
       });
     });
     
     // Check losers rounds
-    updatedBracket.losersRounds.forEach(round => {
+    updatedBracket.losersRounds.forEach((round, roundIndex) => {
       round.forEach(match => {
         if (match.id === selectedMatch.id) {
           match.winner = winner;
           match.player1Score = player1Score;
           match.player2Score = player2Score;
           match.completed = true;
+          match.status = 'completed';
           matchFound = true;
+
+          // Advance winner in losers bracket
+          advanceWinnerToNextRound(updatedBracket, winner, roundIndex, 'losers');
+          // Loser is eliminated (no further advancement)
         }
       });
     });
@@ -305,6 +324,7 @@ const Tournament = () => {
       updatedBracket.grandFinals.player1Score = player1Score;
       updatedBracket.grandFinals.player2Score = player2Score;
       updatedBracket.grandFinals.completed = true;
+      updatedBracket.grandFinals.status = 'completed';
       matchFound = true;
     }
 
@@ -322,6 +342,65 @@ const Tournament = () => {
 
     setShowScoreModal(false);
     setSelectedMatch(null);
+    setSelectedPlayer(null);
+  };
+
+  const advanceWinnerToNextRound = (bracket, winner, currentRoundIndex, bracketType) => {
+    if (bracketType === 'winners') {
+      const nextRoundIndex = currentRoundIndex + 1;
+      if (nextRoundIndex < bracket.winnersRounds.length) {
+        const nextRound = bracket.winnersRounds[nextRoundIndex];
+        const matchIndex = Math.floor(currentRoundIndex / 2);
+        
+        if (nextRound[matchIndex]) {
+          if (!nextRound[matchIndex].player1) {
+            nextRound[matchIndex].player1 = winner;
+          } else if (!nextRound[matchIndex].player2) {
+            nextRound[matchIndex].player2 = winner;
+          }
+        }
+      } else if (bracket.type === 'double') {
+        // Winner goes to grand finals
+        if (!bracket.grandFinals.player1) {
+          bracket.grandFinals.player1 = winner;
+        }
+      }
+    } else if (bracketType === 'losers') {
+      const nextRoundIndex = currentRoundIndex + 1;
+      if (nextRoundIndex < bracket.losersRounds.length) {
+        const nextRound = bracket.losersRounds[nextRoundIndex];
+        const matchIndex = Math.floor(currentRoundIndex / 2);
+        
+        if (nextRound[matchIndex]) {
+          if (!nextRound[matchIndex].player1) {
+            nextRound[matchIndex].player1 = winner;
+          } else if (!nextRound[matchIndex].player2) {
+            nextRound[matchIndex].player2 = winner;
+          }
+        }
+      } else {
+        // Losers bracket champion goes to grand finals
+        if (!bracket.grandFinals.player2) {
+          bracket.grandFinals.player2 = winner;
+        }
+      }
+    }
+  };
+
+  const advanceLoserToLosersBracket = (bracket, loser, roundIndex) => {
+    if (bracket.losersRounds.length > 0) {
+      const losersFirstRound = bracket.losersRounds[0];
+      // Find available spot in losers bracket first round
+      for (let match of losersFirstRound) {
+        if (!match.player1) {
+          match.player1 = loser;
+          break;
+        } else if (!match.player2) {
+          match.player2 = loser;
+          break;
+        }
+      }
+    }
   };
 
   const calculateProgress = () => {
