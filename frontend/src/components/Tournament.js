@@ -100,6 +100,9 @@ const Tournament = () => {
           player1: null,
           player2: null,
           winner: null,
+          player1Score: null,
+          player2Score: null,
+          completed: false,
           round: round,
           bracket: 'winners'
         });
