@@ -21,6 +21,15 @@ const Tournament = () => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [showScoreModal, setShowScoreModal] = useState(false);
   const [scoreData, setScoreData] = useState({ player1Score: '', player2Score: '' });
+  
+  // Bracket display controls
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const bracketContainerRef = useRef(null);
 
   const addPlayer = () => {
     if (newPlayerName.trim()) {
