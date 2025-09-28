@@ -238,6 +238,7 @@ export const mockAPI = {
           players: [player], 
           subtotal, 
           totalSeconds: [totalSeconds],
+          timeChargeOnly: timeCharge + player.additionalCharges, // Time-based charges only
           isTableCheckout: false,
           tableId,
           playerIds: [playerId]
