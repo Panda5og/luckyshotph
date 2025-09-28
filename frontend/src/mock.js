@@ -293,6 +293,9 @@ export const mockAPI = {
       extraItemsTotal = 0 
     } = checkoutOptions;
     
+    // Get time-based charges only (excluding extra items)
+    const timeChargeOnly = checkoutData.timeChargeOnly || subtotal;
+    
     const taxRate = 0.0575; // 5.75%
     const subtotalWithExtras = subtotal + extraItemsTotal;
     const discountAmount = Math.min(discount, subtotalWithExtras);
