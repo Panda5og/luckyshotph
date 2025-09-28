@@ -171,9 +171,108 @@ const Tournament = () => {
     });
   };
 
-  const advanceWinner = (matchId, winner) => {
-    // Implementation for advancing winners to next round
-    console.log(`Winner ${winner.name} advances from match ${matchId}`);
+  const startTournament = () => {
+    setShowShuffleDialog(true);
+  };
+
+  const confirmStartTournament = (shouldShuffle) => {
+    setShowShuffleDialog(false);
+    if (shouldShuffle) {
+      generateBracketForPlayers(players, true); // Shuffle players
+    }
+    setTournamentState('inProgress');
+  };
+
+  const handleMatchClick = (match) => {
+    if (tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2) {
+      setSelectedMatch(match);
+      setScoreData({ player1Score: '', player2Score: '' });
+      setShowScoreModal(true);
+    }
+  };
+
+  const submitMatchScore = () => {
+    if (!selectedMatch || !scoreData.player1Score || !scoreData.player2Score) {
+      return;
+    }
+
+    const player1Score = parseInt(scoreData.player1Score);
+    const player2Score = parseInt(scoreData.player2Score);
+    
+    if (player1Score === player2Score) {
+      alert('Scores cannot be tied. Please enter different scores.');
+      return;
+    }
+
+    const winner = player1Score > player2Score ? selectedMatch.player1 : selectedMatch.player2;
+    const loser = player1Score > player2Score ? selectedMatch.player2 : selectedMatch.player1;
+
+    // Update bracket with match result
+    const updatedBracket = { ...bracket };
+    
+    // Find and update the match
+    let matchFound = false;
+    
+    // Check winners rounds
+    updatedBracket.winnersRounds.forEach(round => {
+      round.forEach(match => {
+        if (match.id === selectedMatch.id) {
+          match.winner = winner;
+          match.player1Score = player1Score;
+          match.player2Score = player2Score;
+          match.completed = true;
+          matchFound = true;
+        }
+      });
+    });
+    
+    // Check losers rounds
+    updatedBracket.losersRounds.forEach(round => {
+      round.forEach(match => {
+        if (match.id === selectedMatch.id) {
+          match.winner = winner;
+          match.player1Score = player1Score;
+          match.player2Score = player2Score;
+          match.completed = true;
+          matchFound = true;
+        }
+      });
+    });
+    
+    // Check grand finals
+    if (updatedBracket.grandFinals.id === selectedMatch.id) {
+      updatedBracket.grandFinals.winner = winner;
+      updatedBracket.grandFinals.player1Score = player1Score;
+      updatedBracket.grandFinals.player2Score = player2Score;
+      updatedBracket.grandFinals.completed = true;
+      matchFound = true;
+    }
+
+    if (matchFound) {
+      // Update match completion count
+      updatedBracket.matchesCompleted += 1;
+      
+      // Check if tournament is complete
+      if (updatedBracket.matchesCompleted === updatedBracket.totalMatches) {
+        setTournamentState('completed');
+      }
+      
+      setBracket(updatedBracket);
+    }
+
+    setShowScoreModal(false);
+    setSelectedMatch(null);
+  };
+
+  const calculateProgress = () => {
+    if (!bracket || tournamentState !== 'inProgress') return 0;
+    return Math.round((bracket.matchesCompleted / bracket.totalMatches) * 100);
+  };
+
+  const getCurrentRoundText = () => {
+    if (!bracket) return '';
+    if (tournamentState === 'completed') return 'Tournament Complete';
+    return `Round ${bracket.currentRound} of ${bracket.totalRounds}`;
   };
 
   const toggleDashboard = () => {
