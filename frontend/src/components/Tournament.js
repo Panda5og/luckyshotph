@@ -875,14 +875,19 @@ const Tournament = () => {
           </div>
         )}
 
-        {/* Bracket Container */}
+        {/* Bracket Container with Scroll Support */}
         <div 
           ref={bracketContainerRef}
-          className="w-full h-full overflow-hidden cursor-move"
+          className="w-full h-full overflow-auto cursor-move"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          style={{
+            maxHeight: isFullScreen ? '100vh' : '80vh',
+            overflowX: 'auto',
+            overflowY: 'auto'
+          }}
         >
         {bracket ? (
           <div className="space-y-6">
