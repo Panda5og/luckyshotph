@@ -156,10 +156,18 @@ const Tournament = () => {
         player1: null,
         player2: null,
         winner: null,
+        player1Score: null,
+        player2Score: null,
+        completed: false,
         bracket: 'finals'
       },
       totalPlayers: shuffledPlayers.length,
-      bracketSize
+      bracketSize,
+      totalRounds: winnersRounds.length,
+      currentRound: 1,
+      matchesCompleted: 0,
+      totalMatches: winnersRounds.reduce((sum, round) => sum + round.length, 0) + 
+                   losersRounds.reduce((sum, round) => sum + round.length, 0) + 1
     });
   };
 
