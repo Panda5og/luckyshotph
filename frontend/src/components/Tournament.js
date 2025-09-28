@@ -22,17 +22,6 @@ const Tournament = () => {
   const [showScoreModal, setShowScoreModal] = useState(false);
   const [scoreData, setScoreData] = useState({ player1Score: '', player2Score: '' });
 
-  // Auto-generate bracket when players change
-  useEffect(() => {
-    if (players.length >= 2 && tournamentState === 'setup') {
-      generateBracketForPlayers(players, false);
-      setTournamentState('ready');
-    } else if (players.length < 2) {
-      setBracket(null);
-      setTournamentState('setup');
-    }
-  }, [players, tournamentName, tournamentDate, bracketType]);
-
   const addPlayer = () => {
     if (newPlayerName.trim()) {
       const newPlayer = {
@@ -44,28 +33,24 @@ const Tournament = () => {
       setPlayers(updatedPlayers);
       setNewPlayerName('');
       setIsNewPlayerMember(false);
-      
-      // Auto-generate bracket when players are added
-      if (updatedPlayers.length >= 2) {
-        generateBracketForPlayers(updatedPlayers, false); // false = don't shuffle
-        setTournamentState('ready');
-      }
     }
   };
 
   const removePlayer = (playerId) => {
     const updatedPlayers = players.filter(player => player.id !== playerId);
     setPlayers(updatedPlayers);
-    
-    // Update bracket or reset state
-    if (updatedPlayers.length >= 2) {
-      generateBracketForPlayers(updatedPlayers, false);
+  };
+
+  // Auto-generate bracket when players, tournament details, or state changes
+  useEffect(() => {
+    if (players.length >= 2 && tournamentName.trim() && tournamentState === 'setup') {
+      generateBracketForPlayers(players, false);
       setTournamentState('ready');
-    } else {
+    } else if (players.length < 2 && tournamentState !== 'setup') {
       setBracket(null);
       setTournamentState('setup');
     }
-  };
+  }, [players, tournamentName, tournamentDate, bracketType, tournamentState]);
 
   const generateBracketForPlayers = (playerList, shouldShuffle = false) => {
     if (playerList.length < 2) {
