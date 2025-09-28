@@ -253,6 +253,7 @@ export const mockAPI = {
     if (table && table.players.length > 0) {
       const players = [...table.players];
       let subtotal = 0;
+      let timeChargeOnly = 0;
       const totalSeconds = [];
       const playerIds = [];
       
@@ -263,6 +264,7 @@ export const mockAPI = {
         const extraItemsTotal = player.extraItems ? 
           player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
         subtotal += timeCharge + player.additionalCharges + extraItemsTotal;
+        timeChargeOnly += timeCharge + player.additionalCharges; // Time-based charges only
         totalSeconds.push(seconds);
         playerIds.push(player.id);
       });
@@ -272,6 +274,7 @@ export const mockAPI = {
         players, 
         subtotal, 
         totalSeconds,
+        timeChargeOnly, // Time-based charges only
         isTableCheckout: true,
         tableName: table.name,
         tableId,
