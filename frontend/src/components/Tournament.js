@@ -1175,31 +1175,7 @@ const Tournament = () => {
             </div>
           ) : (
             {/* Tournament bracket now uses clean grid layout above - no SVG needed */}
-                  {bracket.winnersRounds.map((round, roundIndex) => {
-                    if (roundIndex < bracket.winnersRounds.length - 1) {
-                      return round.map((match, matchIndex) => {
-                        const currentXPos = 50 + (roundIndex * 280);
-                        const currentYPos = 150 + (matchIndex * 140) * Math.pow(2, roundIndex);
-                        const nextXPos = 50 + ((roundIndex + 1) * 280);
-                        const nextYPos = 150 + (Math.floor(matchIndex / 2) * 140) * Math.pow(2, roundIndex + 1);
-                        
-                        return (
-                          <g key={`wr-line-${roundIndex}-${matchIndex}`}>
-                            {/* Simple horizontal line to next round */}
-                            <line
-                              x1={currentXPos + 180}
-                              y1={currentYPos + 50}
-                              x2={nextXPos - 20}
-                              y2={nextYPos + 50}
-                              stroke="#10b981"
-                              strokeWidth="2"
-                            />
-                          </g>
-                        );
-                      });
-                    }
-                    return null;
-                  })}
+            {/* SVG content removed */}
                   
                   {/* Winners Bracket Rounds */}
                   {bracket.winnersRounds.map((round, roundIndex) => {
