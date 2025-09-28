@@ -1564,8 +1564,8 @@ const Tournament = () => {
                   {bracket.type === 'double' && bracket.losersRounds.map((_, roundIndex) => (
                     <text
                       key={`lr-${roundIndex}`}
-                      x={190 + (roundIndex * 350)}
-                      y="730"
+                      x={200 + (roundIndex * 300)}
+                      y="780"
                       fill="#ef4444"
                       fontSize="12"
                       fontFamily="system-ui"
