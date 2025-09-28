@@ -230,9 +230,13 @@ const Tournament = () => {
                       onKeyPress={(e) => e.key === 'Enter' && addPlayer()}
                     />
                   </div>
-                  <Button onClick={addPlayer} size="sm" className="bg-blue-600 hover:bg-blue-700">
+                  <button 
+                    onClick={addPlayer} 
+                    type="button"
+                    className="inline-flex items-center justify-center h-8 px-3 text-xs rounded-md bg-blue-600 hover:bg-blue-700 text-white"
+                  >
                     <Plus className="h-4 w-4" />
-                  </Button>
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-2">
