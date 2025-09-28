@@ -873,9 +873,9 @@ const Tournament = () => {
                   {/* Winners Bracket Rounds */}
                   {bracket.winnersRounds.map((round, roundIndex) => {
                     return round.map((match, matchIndex) => {
-                      const xPos = 50 + (roundIndex * 200);
-                      const yPos = 60 + (matchIndex * 120) * Math.pow(2, roundIndex);
-                      const matchHeight = 80;
+                      const xPos = 100 + (roundIndex * 350);
+                      const yPos = 120 + (matchIndex * 160) * Math.pow(2, roundIndex);
+                      const matchHeight = 100;
                       
                       return (
                         <g key={match.id}>
