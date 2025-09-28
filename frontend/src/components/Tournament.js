@@ -1495,7 +1495,7 @@ const Tournament = () => {
                   {bracket.type === 'double' && bracket.losersRounds.length > 0 && (
                     <line
                       x1={100 + ((bracket.losersRounds.length - 1) * 300) + 200}
-                      y1={800 + 60}
+                      y1={900 + 60}
                       x2={1100}
                       y2={565}
                       stroke="#ef4444"
