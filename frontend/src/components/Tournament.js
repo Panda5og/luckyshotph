@@ -1163,120 +1163,215 @@ const Tournament = () => {
                           
                           return (
                             <g key={match.id}>
-                              {/* Match Box - Clickable */}
+                              {/* Match Box - Enhanced Interactive (Same as Winners) */}
                               <rect
                                 x={xPos}
                                 y={yPos}
-                                width="120"
-                                height={matchHeight}
-                                fill={match.completed ? "#dc2626" : "#374151"}
-                                stroke={match.completed ? "#b91c1c" : "#ef4444"}
+                                width="200"
+                                height={matchHeight + 20}
+                                fill={
+                                  match.completed ? "#dc2626" : 
+                                  match.status === 'inProgress' ? "#f59e0b" : 
+                                  "#374151"
+                                }
+                                stroke={
+                                  match.completed ? "#b91c1c" : 
+                                  match.status === 'inProgress' ? "#d97706" : 
+                                  "#ef4444"
+                                }
                                 strokeWidth="2"
-                                rx="6"
-                                style={{ 
-                                  cursor: (tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2) ? 'pointer' : 'default'
-                                }}
+                                rx="8"
+                                style={{ cursor: 'pointer' }}
                                 onClick={() => handleMatchClick(match)}
                               />
-                              
-                              {/* Player 1 */}
+
+                              {/* Match Status Indicator */}
+                              <text
+                                x={xPos + 100}
+                                y={yPos + 15}
+                                fill="white"
+                                fontSize="10"
+                                fontFamily="system-ui"
+                                textAnchor="middle"
+                                fontWeight="bold"
+                              >
+                                {match.status === 'waiting' ? 'WAITING FOR TABLE' :
+                                 match.status === 'inProgress' ? 'IN PROGRESS' :
+                                 match.completed ? 'COMPLETED' : ''}
+                              </text>
+
+                              {/* Player 1 - Clickable */}
                               <rect
-                                x={xPos + 3}
-                                y={yPos + 5}
-                                width={match.completed ? "85" : "114"}
-                                height="32"
+                                x={xPos + 5}
+                                y={yPos + 20}
+                                width={match.completed ? "150" : "190"}
+                                height="36"
                                 fill={match.winner === match.player1 ? "#dc2626" : "#1f2937"}
-                                rx="3"
+                                stroke={match.winner === match.player1 ? "#ef4444" : "#475569"}
+                                strokeWidth="1"
+                                rx="4"
+                                style={{ cursor: 'pointer' }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handlePlayerClick(match, match.player1, true);
+                                }}
                               />
                               <text
-                                x={xPos + 8}
-                                y={yPos + 22}
+                                x={xPos + 12}
+                                y={yPos + 42}
                                 fill="white"
-                                fontSize="9"
+                                fontSize="12"
                                 fontFamily="system-ui"
                               >
-                                {match.player1 ? 
-                                  match.player1.name.substring(0, 7) + 
+                                {match.player1 ? (
+                                  match.player1.name.substring(0, 14) + 
                                   (match.player1.isMember ? ' ★' : '')
-                                  : 'TBD'}
+                                ) : 'TBD'}
                               </text>
                               
                               {/* Player 1 Score */}
                               {match.completed && (
-                                <text
-                                  x={xPos + 100}
-                                  y={yPos + 22}
-                                  fill="white"
-                                  fontSize="12"
-                                  fontFamily="system-ui"
-                                  fontWeight="bold"
-                                  textAnchor="middle"
-                                >
-                                  {match.player1Score}
-                                </text>
+                                <>
+                                  <rect
+                                    x={xPos + 160}
+                                    y={yPos + 20}
+                                    width="35"
+                                    height="36"
+                                    fill="#0f172a"
+                                    rx="4"
+                                  />
+                                  <text
+                                    x={xPos + 177}
+                                    y={yPos + 42}
+                                    fill="white"
+                                    fontSize="16"
+                                    fontFamily="system-ui"
+                                    fontWeight="bold"
+                                    textAnchor="middle"
+                                  >
+                                    {match.player1Score}
+                                  </text>
+                                </>
                               )}
-                              
-                              {/* Player 2 */}
+
+                              {/* Player 2 - Clickable */}
                               <rect
-                                x={xPos + 3}
-                                y={yPos + 42}
-                                width={match.completed ? "85" : "114"}
-                                height="32"
+                                x={xPos + 5}
+                                y={yPos + 60}
+                                width={match.completed ? "150" : "190"}
+                                height="36"
                                 fill={match.winner === match.player2 ? "#dc2626" : "#1f2937"}
-                                rx="3"
+                                stroke={match.winner === match.player2 ? "#ef4444" : "#475569"}
+                                strokeWidth="1"
+                                rx="4"
+                                style={{ cursor: 'pointer' }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handlePlayerClick(match, match.player2, false);
+                                }}
                               />
                               <text
-                                x={xPos + 8}
-                                y={yPos + 59}
+                                x={xPos + 12}
+                                y={yPos + 82}
                                 fill="white"
-                                fontSize="9"
+                                fontSize="12"
                                 fontFamily="system-ui"
                               >
-                                {match.player2 ? 
-                                  match.player2.name.substring(0, 7) + 
+                                {match.player2 ? (
+                                  match.player2.name.substring(0, 14) + 
                                   (match.player2.isMember ? ' ★' : '')
-                                  : 'TBD'}
+                                ) : 'TBD'}
                               </text>
                               
                               {/* Player 2 Score */}
                               {match.completed && (
-                                <text
-                                  x={xPos + 100}
-                                  y={yPos + 59}
-                                  fill="white"
-                                  fontSize="12"
-                                  fontFamily="system-ui"
-                                  fontWeight="bold"
-                                  textAnchor="middle"
-                                >
-                                  {match.player2Score}
-                                </text>
+                                <>
+                                  <rect
+                                    x={xPos + 160}
+                                    y={yPos + 60}
+                                    width="35"
+                                    height="36"
+                                    fill="#0f172a"
+                                    rx="4"
+                                  />
+                                  <text
+                                    x={xPos + 177}
+                                    y={yPos + 82}
+                                    fill="white"
+                                    fontSize="16"
+                                    fontFamily="system-ui"
+                                    fontWeight="bold"
+                                    textAnchor="middle"
+                                  >
+                                    {match.player2Score}
+                                  </text>
+                                </>
                               )}
                               
-                              {/* Click to Score Indicator */}
-                              {tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2 && (
-                                <text
-                                  x={xPos + 60}
-                                  y={yPos + 90}
-                                  fill="#ef4444"
-                                  fontSize="8"
-                                  fontFamily="system-ui"
-                                  textAnchor="middle"
-                                >
-                                  Click to Score
-                                </text>
+                              {/* Interactive Indicators */}
+                              {tournamentState === 'inProgress' && match.player1 && match.player2 && (
+                                <>
+                                  {!match.completed && match.status === 'waiting' && (
+                                    <text
+                                      x={xPos + 100}
+                                      y={yPos + 110}
+                                      fill="#ef4444"
+                                      fontSize="9"
+                                      fontFamily="system-ui"
+                                      textAnchor="middle"
+                                    >
+                                      Click match to start • Click player to score
+                                    </text>
+                                  )}
+                                  {match.status === 'inProgress' && !match.completed && (
+                                    <text
+                                      x={xPos + 100}
+                                      y={yPos + 110}
+                                      fill="#f59e0b"
+                                      fontSize="9"
+                                      fontFamily="system-ui"
+                                      textAnchor="middle"
+                                    >
+                                      Click player to add score
+                                    </text>
+                                  )}
+                                </>
                               )}
                               
-                              {/* Connecting lines */}
+                              {/* Connecting lines to next round */}
                               {roundIndex < bracket.losersRounds.length - 1 && (
-                                <line
-                                  x1={xPos + 100}
-                                  y1={yPos + 40}
-                                  x2={xPos + 120}
-                                  y2={yPos + 40}
-                                  stroke="white"
-                                  strokeWidth="1"
-                                />
+                                <>
+                                  <line
+                                    x1={xPos + 205}
+                                    y1={yPos + 50}
+                                    x2={xPos + 250}
+                                    y2={yPos + 50}
+                                    stroke="#ef4444"
+                                    strokeWidth="3"
+                                  />
+                                  
+                                  {/* Vertical connector for pairing matches */}
+                                  {matchIndex % 2 === 0 && matchIndex + 1 < round.length && (
+                                    <>
+                                      <line
+                                        x1={xPos + 250}
+                                        y1={yPos + 50}
+                                        x2={xPos + 250}
+                                        y2={yPos + 200}
+                                        stroke="#ef4444"
+                                        strokeWidth="3"
+                                      />
+                                      <line
+                                        x1={xPos + 250}
+                                        y1={yPos + 125}
+                                        x2={xPos + 300}
+                                        y2={yPos + 125}
+                                        stroke="#ef4444"
+                                        strokeWidth="3"
+                                      />
+                                    </>
+                                  )}
+                                </>
                               )}
                             </g>
                           );
