@@ -765,7 +765,69 @@ const Tournament = () => {
       )}
 
       {/* Right Side - Bracket Display */}
-      <div className="flex-1 p-6 overflow-auto">
+      <div className={`flex-1 relative ${isFullScreen ? 'fixed inset-0 z-50 bg-slate-800' : 'p-6'} overflow-hidden`}>
+        {/* Bracket Controls */}
+        {bracket && (
+          <div className="absolute top-4 right-4 z-10 flex gap-2">
+            <div className="bg-slate-700 rounded-lg p-2 flex gap-2">
+              <button
+                onClick={handleZoomOut}
+                className="p-1 text-slate-300 hover:text-white transition-colors"
+                title="Zoom Out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </button>
+              
+              <span className="text-slate-300 text-sm px-2 flex items-center">
+                {Math.round(zoomLevel * 100)}%
+              </span>
+              
+              <button
+                onClick={handleZoomIn}
+                className="p-1 text-slate-300 hover:text-white transition-colors"
+                title="Zoom In"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </button>
+              
+              <div className="border-l border-slate-600 mx-1"></div>
+              
+              <button
+                onClick={resetView}
+                className="p-1 text-slate-300 hover:text-white transition-colors text-xs"
+                title="Reset View"
+              >
+                Reset
+              </button>
+              
+              <button
+                onClick={handleFullScreen}
+                className="p-1 text-slate-300 hover:text-white transition-colors"
+                title="Toggle Fullscreen"
+              >
+                <Maximize className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Pan/Drag Instruction */}
+        {bracket && !isFullScreen && (
+          <div className="absolute bottom-4 right-4 z-10 bg-slate-700 rounded-lg p-2 text-slate-300 text-xs flex items-center gap-1">
+            <Move className="h-3 w-3" />
+            Click and drag to pan
+          </div>
+        )}
+
+        {/* Bracket Container */}
+        <div 
+          ref={bracketContainerRef}
+          className="w-full h-full overflow-hidden cursor-move"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
         {bracket ? (
           <div className="space-y-6">
             {/* Tournament Info */}
