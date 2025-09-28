@@ -1352,7 +1352,7 @@ const Tournament = () => {
                     <>
                     {/* Grand Finals Box - Enhanced Interactive */}
                     <rect
-                      x="1300"
+                      x="1100"
                       y="480"
                       width="200"
                       height="120"
