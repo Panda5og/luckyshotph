@@ -1437,10 +1437,10 @@ const Tournament = () => {
 
                   {bracket.grandFinals && (
                     <>
-                    {/* Grand Finals Box - Enhanced Interactive */}
+                    {/* Grand Finals Box - Clean Layout */}
                     <rect
-                      x="1100"
-                      y="480"
+                      x="900"
+                      y="410"
                       width="200"
                       height="120"
                       fill={
