@@ -970,55 +970,88 @@ const Tournament = () => {
                             </>
                           )}
                           
-                          {/* Player 2 */}
+                          {/* Player 2 - Clickable */}
                           <rect
                             x={xPos + 5}
-                            y={yPos + 42}
-                            width={match.completed ? "130" : "170"}
-                            height="32"
+                            y={yPos + 60}
+                            width={match.completed ? "150" : "190"}
+                            height="36"
                             fill={match.winner === match.player2 ? "#16a34a" : "#1f2937"}
+                            stroke={match.winner === match.player2 ? "#22c55e" : "#475569"}
+                            strokeWidth="1"
                             rx="4"
+                            style={{ cursor: 'pointer' }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handlePlayerClick(match, match.player2, false);
+                            }}
                           />
                           <text
-                            x={xPos + 15}
-                            y={yPos + 61}
+                            x={xPos + 12}
+                            y={yPos + 82}
                             fill="white"
-                            fontSize="11"
+                            fontSize="12"
                             fontFamily="system-ui"
                           >
                             {match.player2 ? (
-                              match.player2.name.substring(0, 12) + 
+                              match.player2.name.substring(0, 14) + 
                               (match.player2.isMember ? ' ★' : '')
                             ) : 'TBD'}
                           </text>
                           
                           {/* Player 2 Score */}
                           {match.completed && (
-                            <text
-                              x={xPos + 145}
-                              y={yPos + 61}
-                              fill="white"
-                              fontSize="14"
-                              fontFamily="system-ui"
-                              fontWeight="bold"
-                              textAnchor="middle"
-                            >
-                              {match.player2Score}
-                            </text>
+                            <>
+                              <rect
+                                x={xPos + 160}
+                                y={yPos + 60}
+                                width="35"
+                                height="36"
+                                fill="#0f172a"
+                                rx="4"
+                              />
+                              <text
+                                x={xPos + 177}
+                                y={yPos + 82}
+                                fill="white"
+                                fontSize="16"
+                                fontFamily="system-ui"
+                                fontWeight="bold"
+                                textAnchor="middle"
+                              >
+                                {match.player2Score}
+                              </text>
+                            </>
                           )}
                           
-                          {/* Click to Score Indicator */}
-                          {tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2 && (
-                            <text
-                              x={xPos + 90}
-                              y={yPos + 95}
-                              fill="#10b981"
-                              fontSize="10"
-                              fontFamily="system-ui"
-                              textAnchor="middle"
-                            >
-                              Click to Score
-                            </text>
+                          {/* Interactive Indicators */}
+                          {tournamentState === 'inProgress' && match.player1 && match.player2 && (
+                            <>
+                              {!match.completed && match.status === 'waiting' && (
+                                <text
+                                  x={xPos + 100}
+                                  y={yPos + 110}
+                                  fill="#10b981"
+                                  fontSize="9"
+                                  fontFamily="system-ui"
+                                  textAnchor="middle"
+                                >
+                                  Click match to start • Click player to score
+                                </text>
+                              )}
+                              {match.status === 'inProgress' && !match.completed && (
+                                <text
+                                  x={xPos + 100}
+                                  y={yPos + 110}
+                                  fill="#f59e0b"
+                                  fontSize="9"
+                                  fontFamily="system-ui"
+                                  textAnchor="middle"
+                                >
+                                  Click player to add score
+                                </text>
+                              )}
+                            </>
                           )}
                           
                           {/* Connecting lines to next round */}
