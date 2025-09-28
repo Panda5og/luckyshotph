@@ -1207,7 +1207,7 @@ const Tournament = () => {
                             const currentXPos = 100 + (roundIndex * 300);
                             const currentYPos = 900 + (matchIndex * 180) * Math.pow(2, roundIndex);
                             const nextXPos = 100 + ((roundIndex + 1) * 300);
-                            const nextYPos = 800 + (Math.floor(matchIndex / 2) * 180) * Math.pow(2, roundIndex + 1);
+                            const nextYPos = 900 + (Math.floor(matchIndex / 2) * 180) * Math.pow(2, roundIndex + 1);
                             
                             return (
                               <g key={`connection-lr-${roundIndex}-${matchIndex}`}>
