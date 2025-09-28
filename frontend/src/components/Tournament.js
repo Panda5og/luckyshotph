@@ -69,9 +69,17 @@ const Tournament = () => {
       return;
     }
 
-    const shuffledPlayers = shouldShuffle 
+    let shuffledPlayers = shouldShuffle 
       ? [...playerList].sort(() => Math.random() - 0.5)
       : [...playerList];
+
+    // Handle odd number of players by adding byes
+    const powerOfTwo = Math.pow(2, Math.ceil(Math.log2(shuffledPlayers.length)));
+    const byesNeeded = powerOfTwo - shuffledPlayers.length;
+    
+    for (let i = 0; i < byesNeeded; i++) {
+      shuffledPlayers.push({ id: `bye-${i}`, name: 'BYE', isBye: true });
+    }
     
     // Calculate bracket size (next power of 2)
     const bracketSize = Math.pow(2, Math.ceil(Math.log2(shuffledPlayers.length)));
