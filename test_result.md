@@ -285,7 +285,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Enhanced Tournament Bracket Generator with Interactive Features"
+    - "Analytics TimeValue Calculation Fix"
   stuck_tasks:
     - "Enhanced Tournament Bracket Generator with Interactive Features"
   test_all: false
