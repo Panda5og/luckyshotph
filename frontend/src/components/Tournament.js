@@ -879,21 +879,42 @@ const Tournament = () => {
                       
                       return (
                         <g key={match.id}>
-                          {/* Match Box - Clickable */}
+                          {/* Match Box - Enhanced Interactive */}
                           <rect
                             x={xPos}
                             y={yPos}
-                            width="180"
-                            height={matchHeight}
-                            fill={match.completed ? "#22c55e" : "#374151"}
-                            stroke={match.completed ? "#16a34a" : "#10b981"}
+                            width="200"
+                            height={matchHeight + 20}
+                            fill={
+                              match.completed ? "#22c55e" : 
+                              match.status === 'inProgress' ? "#f59e0b" : 
+                              "#374151"
+                            }
+                            stroke={
+                              match.completed ? "#16a34a" : 
+                              match.status === 'inProgress' ? "#d97706" : 
+                              "#10b981"
+                            }
                             strokeWidth="2"
                             rx="8"
-                            style={{ 
-                              cursor: (tournamentState === 'inProgress' && !match.completed && match.player1 && match.player2) ? 'pointer' : 'default'
-                            }}
+                            style={{ cursor: 'pointer' }}
                             onClick={() => handleMatchClick(match)}
                           />
+
+                          {/* Match Status Indicator */}
+                          <text
+                            x={xPos + 100}
+                            y={yPos + 15}
+                            fill="white"
+                            fontSize="10"
+                            fontFamily="system-ui"
+                            textAnchor="middle"
+                            fontWeight="bold"
+                          >
+                            {match.status === 'waiting' ? 'WAITING FOR TABLE' :
+                             match.status === 'inProgress' ? 'IN PROGRESS' :
+                             match.completed ? 'COMPLETED' : ''}
+                          </text>
                           
                           {/* Player 1 */}
                           <rect
