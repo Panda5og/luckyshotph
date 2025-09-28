@@ -1474,6 +1474,29 @@ const Tournament = () => {
                     Tournament Champion
                   </text>
                   
+                  {/* Connecting Lines to Grand Finals */}
+                  {bracket.winnersRounds.length > 0 && (
+                    <line
+                      x1={100 + ((bracket.winnersRounds.length - 1) * 300) + 200}
+                      y1={120 + 60}
+                      x2={1100}
+                      y2={525}
+                      stroke="#10b981"
+                      strokeWidth="2"
+                    />
+                  )}
+                  
+                  {bracket.type === 'double' && bracket.losersRounds.length > 0 && (
+                    <line
+                      x1={100 + ((bracket.losersRounds.length - 1) * 300) + 200}
+                      y1={800 + 60}
+                      x2={1100}
+                      y2={565}
+                      stroke="#ef4444"
+                      strokeWidth="2"
+                    />
+                  )}
+
                   {bracket.grandFinals && (
                     <>
                     {/* Grand Finals Box - Enhanced Interactive */}
