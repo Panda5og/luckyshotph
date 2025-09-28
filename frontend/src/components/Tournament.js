@@ -16,21 +16,15 @@ const Tournament = () => {
   const [isDashboardHidden, setIsDashboardHidden] = useState(false);
 
   const addPlayer = () => {
-    console.log('addPlayer called with:', newPlayerName);
     if (newPlayerName.trim()) {
       const newPlayer = {
         id: Date.now(),
         name: newPlayerName.trim(),
         isMember: isNewPlayerMember
       };
-      console.log('Adding new player:', newPlayer);
-      console.log('Current players before:', players);
       setPlayers([...players, newPlayer]);
       setNewPlayerName('');
       setIsNewPlayerMember(false);
-      console.log('Player should be added now');
-    } else {
-      console.log('Player name is empty or whitespace');
     }
   };
 
