@@ -842,10 +842,21 @@ const Tournament = () => {
               </CardHeader>
             </Card>
 
-            {/* Double Elimination Bracket Visualization */}
-            <div className="flex justify-center">
-              <div className="inline-block">
-                <svg width="1200" height="800" className="bg-slate-900 rounded-lg border border-slate-600">
+            {/* Enhanced Large Bracket Visualization */}
+            <div 
+              className="w-full h-full min-h-screen relative"
+              style={{
+                transform: `scale(${zoomLevel}) translate(${panOffset.x}px, ${panOffset.y}px)`,
+                transformOrigin: 'center center',
+                transition: isDragging ? 'none' : 'transform 0.2s ease-out'
+              }}
+            >
+              <svg 
+                width="2400" 
+                height="1600" 
+                className="bg-slate-900 rounded-lg border border-slate-600"
+                viewBox="0 0 2400 1600"
+              >
                   {/* Winners Bracket */}
                   <text
                     x="200"
