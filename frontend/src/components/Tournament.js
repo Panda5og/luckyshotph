@@ -1386,10 +1386,10 @@ const Tournament = () => {
                     </>
                   )}
                   
-                  {/* Grand Finals - Right side positioning */}
+                  {/* Grand Finals - Clean Positioning */}
                   <text
-                    x="1200"
-                    y="450"
+                    x="1000"
+                    y="380"
                     fill="#fbbf24"
                     fontSize="18"
                     fontFamily="system-ui"
@@ -1401,8 +1401,8 @@ const Tournament = () => {
                   
                   {/* Tournament Champion Title */}
                   <text
-                    x="1200"
-                    y="620"
+                    x="1000"
+                    y="560"
                     fill="#fbbf24"
                     fontSize="16"
                     fontFamily="system-ui"
