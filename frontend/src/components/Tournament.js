@@ -1140,12 +1140,12 @@ const Tournament = () => {
                     });
                   })}
                   
-                  {/* Losers Bracket (if double elimination) */}
+                  {/* Losers Bracket (if double elimination) - Same format as Winners */}
                   {bracket.type === 'double' && bracket.losersRounds.length > 0 && (
                     <>
                       <text
                         x="200"
-                        y="450"
+                        y="700"
                         fill="#ef4444"
                         fontSize="18"
                         fontFamily="system-ui"
@@ -1157,9 +1157,9 @@ const Tournament = () => {
                       
                       {bracket.losersRounds.map((round, roundIndex) => {
                         return round.map((match, matchIndex) => {
-                          const xPos = 50 + (roundIndex * 120);
-                          const yPos = 480 + (matchIndex * 100);
-                          const matchHeight = 80;
+                          const xPos = 100 + (roundIndex * 350); // Same spacing as winners
+                          const yPos = 750 + (matchIndex * 160) * Math.pow(2, roundIndex); // Below winners
+                          const matchHeight = 100;
                           
                           return (
                             <g key={match.id}>
