@@ -925,6 +925,67 @@ const Tournament = () => {
                   >
                     Winners Bracket
                   </text>
+
+                  {/* Winners Bracket Tree Connecting Lines */}
+                  {bracket.winnersRounds.map((round, roundIndex) => {
+                    if (roundIndex < bracket.winnersRounds.length - 1) {
+                      return round.map((match, matchIndex) => {
+                        const currentXPos = 100 + (roundIndex * 300);
+                        const currentYPos = 120 + (matchIndex * 180) * Math.pow(2, roundIndex);
+                        const nextXPos = 100 + ((roundIndex + 1) * 300);
+                        const nextYPos = 120 + (Math.floor(matchIndex / 2) * 180) * Math.pow(2, roundIndex + 1);
+                        
+                        return (
+                          <g key={`connection-wr-${roundIndex}-${matchIndex}`}>
+                            {/* Horizontal line from match to next round */}
+                            <line
+                              x1={currentXPos + 200}
+                              y1={currentYPos + 60}
+                              x2={currentXPos + 240}
+                              y2={currentYPos + 60}
+                              stroke="#10b981"
+                              strokeWidth="2"
+                            />
+                            
+                            {/* Vertical connector line for paired matches */}
+                            {matchIndex % 2 === 0 && matchIndex + 1 < round.length && (
+                              <>
+                                <line
+                                  x1={currentXPos + 240}
+                                  y1={currentYPos + 60}
+                                  x2={currentXPos + 240}
+                                  y2={currentYPos + 240}
+                                  stroke="#10b981"
+                                  strokeWidth="2"
+                                />
+                                <line
+                                  x1={currentXPos + 240}
+                                  y1={currentYPos + 150}
+                                  x2={nextXPos}
+                                  y2={nextYPos + 60}
+                                  stroke="#10b981"
+                                  strokeWidth="2"
+                                />
+                              </>
+                            )}
+                            
+                            {/* Single match advancement */}
+                            {matchIndex % 2 === 1 && (
+                              <line
+                                x1={currentXPos + 240}
+                                y1={currentYPos + 60}
+                                x2={nextXPos}
+                                y2={nextYPos + 60}
+                                stroke="#10b981"
+                                strokeWidth="2"
+                              />
+                            )}
+                          </g>
+                        );
+                      });
+                    }
+                    return null;
+                  })}
                   
                   {/* Winners Bracket Rounds */}
                   {bracket.winnersRounds.map((round, roundIndex) => {
