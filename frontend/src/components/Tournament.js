@@ -1166,60 +1166,26 @@ const Tournament = () => {
                         Losers Bracket
                       </text>
 
-                      {/* Losers Bracket Tree Connecting Lines */}
+                      {/* Clean Losers Bracket Tree Lines */}
                       {bracket.losersRounds.map((round, roundIndex) => {
                         if (roundIndex < bracket.losersRounds.length - 1) {
                           return round.map((match, matchIndex) => {
-                            const currentXPos = 100 + (roundIndex * 300);
-                            const currentYPos = 900 + (matchIndex * 180) * Math.pow(2, roundIndex);
-                            const nextXPos = 100 + ((roundIndex + 1) * 300);
-                            const nextYPos = 900 + (Math.floor(matchIndex / 2) * 180) * Math.pow(2, roundIndex + 1);
+                            const currentXPos = 50 + (roundIndex * 280);
+                            const currentYPos = 600 + (matchIndex * 140) * Math.pow(2, roundIndex);
+                            const nextXPos = 50 + ((roundIndex + 1) * 280);
+                            const nextYPos = 600 + (Math.floor(matchIndex / 2) * 140) * Math.pow(2, roundIndex + 1);
                             
                             return (
-                              <g key={`connection-lr-${roundIndex}-${matchIndex}`}>
-                                {/* Horizontal line from match to next round */}
+                              <g key={`lr-line-${roundIndex}-${matchIndex}`}>
+                                {/* Simple horizontal line to next round */}
                                 <line
-                                  x1={currentXPos + 200}
-                                  y1={currentYPos + 60}
-                                  x2={currentXPos + 240}
-                                  y2={currentYPos + 60}
+                                  x1={currentXPos + 180}
+                                  y1={currentYPos + 50}
+                                  x2={nextXPos - 20}
+                                  y2={nextYPos + 50}
                                   stroke="#ef4444"
                                   strokeWidth="2"
                                 />
-                                
-                                {/* Vertical connector line for paired matches */}
-                                {matchIndex % 2 === 0 && matchIndex + 1 < round.length && (
-                                  <>
-                                    <line
-                                      x1={currentXPos + 240}
-                                      y1={currentYPos + 60}
-                                      x2={currentXPos + 240}
-                                      y2={currentYPos + 240}
-                                      stroke="#ef4444"
-                                      strokeWidth="2"
-                                    />
-                                    <line
-                                      x1={currentXPos + 240}
-                                      y1={currentYPos + 150}
-                                      x2={nextXPos}
-                                      y2={nextYPos + 60}
-                                      stroke="#ef4444"
-                                      strokeWidth="2"
-                                    />
-                                  </>
-                                )}
-                                
-                                {/* Single match advancement */}
-                                {matchIndex % 2 === 1 && (
-                                  <line
-                                    x1={currentXPos + 240}
-                                    y1={currentYPos + 60}
-                                    x2={nextXPos}
-                                    y2={nextYPos + 60}
-                                    stroke="#ef4444"
-                                    strokeWidth="2"
-                                  />
-                                )}
                               </g>
                             );
                           });
