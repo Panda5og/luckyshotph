@@ -414,15 +414,44 @@ const Tournament = () => {
               </CardContent>
             </Card>
 
-            {/* Generate Bracket */}
-            <Button
-              onClick={generateBracket}
-              disabled={players.length < 2}
-              className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-semibold"
-            >
-              <Trophy className="h-4 w-4 mr-2" />
-              Generate Bracket
-            </Button>
+            {/* Tournament Actions */}
+            {tournamentState === 'ready' && (
+              <Button
+                onClick={startTournament}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold"
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Start Tournament
+              </Button>
+            )}
+
+            {tournamentState === 'inProgress' && (
+              <div className="space-y-3">
+                <div className="bg-slate-700 p-3 rounded border border-slate-600">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-white text-sm font-medium">Tournament Progress</span>
+                    <span className="text-slate-300 text-xs">{calculateProgress()}%</span>
+                  </div>
+                  <div className="w-full bg-slate-600 rounded-full h-2">
+                    <div 
+                      className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${calculateProgress()}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-slate-400 text-xs mt-1">{getCurrentRoundText()}</div>
+                </div>
+              </div>
+            )}
+
+            {tournamentState === 'completed' && (
+              <div className="bg-yellow-600 p-3 rounded border border-yellow-500">
+                <div className="text-center">
+                  <Trophy className="h-6 w-6 mx-auto mb-2 text-yellow-900" />
+                  <div className="text-yellow-900 font-semibold text-sm">Tournament Complete!</div>
+                  <div className="text-yellow-800 text-xs">Champion: {bracket?.grandFinals?.winner?.name || 'TBD'}</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
