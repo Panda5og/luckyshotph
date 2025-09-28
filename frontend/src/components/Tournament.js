@@ -56,13 +56,14 @@ const Tournament = () => {
     }
   };
 
-  const generateBracket = () => {
-    if (players.length < 2) {
-      alert('Need at least 2 players to generate a bracket');
+  const generateBracketForPlayers = (playerList, shouldShuffle = false) => {
+    if (playerList.length < 2) {
       return;
     }
 
-    const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
+    const shuffledPlayers = shouldShuffle 
+      ? [...playerList].sort(() => Math.random() - 0.5)
+      : [...playerList];
     
     // Calculate bracket size (next power of 2)
     const bracketSize = Math.pow(2, Math.ceil(Math.log2(shuffledPlayers.length)));
