@@ -22,6 +22,17 @@ const Tournament = () => {
   const [showScoreModal, setShowScoreModal] = useState(false);
   const [scoreData, setScoreData] = useState({ player1Score: '', player2Score: '' });
 
+  // Auto-generate bracket when players change
+  useEffect(() => {
+    if (players.length >= 2 && tournamentState === 'setup') {
+      generateBracketForPlayers(players, false);
+      setTournamentState('ready');
+    } else if (players.length < 2) {
+      setBracket(null);
+      setTournamentState('setup');
+    }
+  }, [players, tournamentName, tournamentDate, bracketType]);
+
   const addPlayer = () => {
     if (newPlayerName.trim()) {
       const newPlayer = {
