@@ -144,6 +144,7 @@ const Tournament = () => {
             player1Score: null,
             player2Score: null,
             completed: false,
+            status: 'waiting',
             round: round,
             bracket: 'losers'
           });
