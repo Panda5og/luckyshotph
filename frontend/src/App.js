@@ -359,7 +359,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/tournament" element={<Tournament />} />
         </Routes>
       </BrowserRouter>
     </div>
