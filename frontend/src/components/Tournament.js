@@ -933,57 +933,107 @@ const Tournament = () => {
                       Grand Finals
                     </text>
                     
-                    {/* Grand Finals Box */}
+                    {/* Grand Finals Box - Clickable */}
                     <rect
                       x="920"
                       y="200"
                       width="200"
                       height="100"
-                      fill="#374151"
-                      stroke="#fbbf24"
+                      fill={bracket.grandFinals.completed ? "#eab308" : "#374151"}
+                      stroke={bracket.grandFinals.completed ? "#ca8a04" : "#fbbf24"}
                       strokeWidth="3"
                       rx="10"
+                      style={{ 
+                        cursor: (tournamentState === 'inProgress' && !bracket.grandFinals.completed && bracket.grandFinals.player1 && bracket.grandFinals.player2) ? 'pointer' : 'default'
+                      }}
+                      onClick={() => handleMatchClick(bracket.grandFinals)}
                     />
                     
                     {/* Winners Bracket Champion */}
                     <rect
                       x="925"
                       y="210"
-                      width="190"
+                      width={bracket.grandFinals.completed ? "150" : "190"}
                       height="40"
-                      fill="#10b981"
+                      fill={bracket.grandFinals.winner === bracket.grandFinals.player1 ? "#eab308" : "#10b981"}
                       rx="6"
                     />
                     <text
                       x="935"
-                      y="232"
+                      y="225"
                       fill="white"
-                      fontSize="14"
+                      fontSize="11"
                       fontFamily="system-ui"
                       fontWeight="bold"
                     >
-                      Winners Champion
+                      {bracket.grandFinals.player1?.name || 'Winners Champion'}
+                      {bracket.grandFinals.player1?.isMember && ' ★'}
                     </text>
+                    
+                    {/* Winners Champion Score */}
+                    {bracket.grandFinals.completed && (
+                      <text
+                        x="1090"
+                        y="232"
+                        fill="white"
+                        fontSize="16"
+                        fontFamily="system-ui"
+                        fontWeight="bold"
+                        textAnchor="middle"
+                      >
+                        {bracket.grandFinals.player1Score}
+                      </text>
+                    )}
                     
                     {/* Losers Bracket Champion */}
                     <rect
                       x="925"
                       y="255"
-                      width="190"
+                      width={bracket.grandFinals.completed ? "150" : "190"}
                       height="40"
-                      fill="#ef4444"
+                      fill={bracket.grandFinals.winner === bracket.grandFinals.player2 ? "#eab308" : "#ef4444"}
                       rx="6"
                     />
                     <text
                       x="935"
-                      y="277"
+                      y="270"
                       fill="white"
-                      fontSize="14"
+                      fontSize="11"
                       fontFamily="system-ui"
                       fontWeight="bold"
                     >
-                      Losers Champion
+                      {bracket.grandFinals.player2?.name || 'Losers Champion'}
+                      {bracket.grandFinals.player2?.isMember && ' ★'}
                     </text>
+                    
+                    {/* Losers Champion Score */}
+                    {bracket.grandFinals.completed && (
+                      <text
+                        x="1090"
+                        y="277"
+                        fill="white"
+                        fontSize="16"
+                        fontFamily="system-ui"
+                        fontWeight="bold"
+                        textAnchor="middle"
+                      >
+                        {bracket.grandFinals.player2Score}
+                      </text>
+                    )}
+                    
+                    {/* Click to Score Indicator for Grand Finals */}
+                    {tournamentState === 'inProgress' && !bracket.grandFinals.completed && bracket.grandFinals.player1 && bracket.grandFinals.player2 && (
+                      <text
+                        x="1020"
+                        y="320"
+                        fill="#fbbf24"
+                        fontSize="12"
+                        fontFamily="system-ui"
+                        textAnchor="middle"
+                      >
+                        Click to Score Grand Finals
+                      </text>
+                    )}
                     
                     {/* Champion Box */}
                     <rect
