@@ -1172,6 +1172,7 @@ const Tournament = () => {
                 )}
 
               </div>
+              </div>
             </>
           ) : (
             <div className="flex items-center justify-center h-full">
