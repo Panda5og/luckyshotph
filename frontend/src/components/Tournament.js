@@ -889,22 +889,21 @@ const Tournament = () => {
             overflowY: 'auto'
           }}
         >
-        {bracket ? (
-          <div className="space-y-6">
-            {/* Tournament Info */}
-            <Card className="bg-slate-700 border-slate-600">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white">{bracket.name}</h2>
-                  <div className="text-slate-300">
-                    {bracket.date} • {bracket.type === 'single' ? 'Single' : 'Double'} Elimination
+          {bracket ? (
+            <>
+              {/* Tournament Info */}
+              <Card className="bg-slate-700 border-slate-600 mb-4">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-white">{bracket.name}</h2>
+                    <div className="text-slate-300">
+                      {bracket.date} • {bracket.type === 'single' ? 'Single' : 'Double'} Elimination
+                    </div>
                   </div>
-                </div>
-              </CardHeader>
-            </Card>
+                </CardHeader>
+              </Card>
 
-            {/* Clean Simple Bracket Layout */}
-            {bracket ? (
+              {/* Clean Simple Bracket Layout */}
               <div 
                 className="w-full h-full overflow-auto p-4"
                 style={{
