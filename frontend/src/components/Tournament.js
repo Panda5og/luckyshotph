@@ -1058,32 +1058,32 @@ const Tournament = () => {
                           {roundIndex < bracket.winnersRounds.length - 1 && (
                             <>
                               <line
-                                x1={xPos + 180}
-                                y1={yPos + 40}
-                                x2={xPos + 220}
-                                y2={yPos + 40}
-                                stroke="white"
-                                strokeWidth="2"
+                                x1={xPos + 205}
+                                y1={yPos + 50}
+                                x2={xPos + 250}
+                                y2={yPos + 50}
+                                stroke="#10b981"
+                                strokeWidth="3"
                               />
                               
                               {/* Vertical connector for pairing matches */}
                               {matchIndex % 2 === 0 && matchIndex + 1 < round.length && (
                                 <>
                                   <line
-                                    x1={xPos + 220}
-                                    y1={yPos + 40}
-                                    x2={xPos + 220}
-                                    y2={yPos + 160}
-                                    stroke="white"
-                                    strokeWidth="2"
+                                    x1={xPos + 250}
+                                    y1={yPos + 50}
+                                    x2={xPos + 250}
+                                    y2={yPos + 200}
+                                    stroke="#10b981"
+                                    strokeWidth="3"
                                   />
                                   <line
-                                    x1={xPos + 220}
-                                    y1={yPos + 100}
-                                    x2={xPos + 250}
-                                    y2={yPos + 100}
-                                    stroke="white"
-                                    strokeWidth="2"
+                                    x1={xPos + 250}
+                                    y1={yPos + 125}
+                                    x2={xPos + 300}
+                                    y2={yPos + 125}
+                                    stroke="#10b981"
+                                    strokeWidth="3"
                                   />
                                 </>
                               )}
