@@ -1184,17 +1184,7 @@ const Tournament = () => {
               </div>
             </div>
           )}
-        ) : (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <Target className="h-16 w-16 text-slate-500 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-slate-300 mb-2">No Tournament Generated</h3>
-              <p className="text-slate-400">
-                Set up your tournament details and add players, then click "Generate Bracket" to create your tournament bracket.
-              </p>
-            </div>
-          </div>
-        )}
+        
         </div>
       </div>
     </div>
