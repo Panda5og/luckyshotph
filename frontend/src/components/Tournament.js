@@ -1720,7 +1720,7 @@ const Tournament = () => {
                     <text
                       key={`lr-${roundIndex}`}
                       x={200 + (roundIndex * 300)}
-                      y="780"
+                      y="880"
                       fill="#ef4444"
                       fontSize="12"
                       fontFamily="system-ui"
