@@ -11,7 +11,7 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
         
         {/* Tournament Button */}
         <Button
-          onClick={() => window.open('/tournament', '_blank')}
+          onClick={() => window.open('https://brackethq.com/', '_blank')}
           className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
         >
           <img src="/bracket.png" alt="Tournament" className="h-5 w-5 mr-3" />
