@@ -1585,8 +1585,8 @@ const Tournament = () => {
                       <>
                         {!bracket.grandFinals.completed && bracket.grandFinals.status === 'waiting' && (
                           <text
-                            x="1200"
-                            y="595"
+                            x="1000"
+                            y="545"
                             fill="#fbbf24"
                             fontSize="9"
                             fontFamily="system-ui"
