@@ -1529,8 +1529,8 @@ const Tournament = () => {
                     
                     {/* Losers Champion */}
                     <rect
-                      x="1105"
-                      y="545"
+                      x="905"
+                      y="475"
                       width={bracket.grandFinals.completed ? "150" : "190"}
                       height="36"
                       fill={bracket.grandFinals.winner === bracket.grandFinals.player2 ? "#eab308" : "#ef4444"}
