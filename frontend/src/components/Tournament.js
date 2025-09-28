@@ -335,6 +335,43 @@ const Tournament = () => {
     return `Round ${bracket.currentRound} of ${bracket.totalRounds}`;
   };
 
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.2, 3));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 0.2, 0.5));
+  };
+
+  const handleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
+  };
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - panOffset.x,
+      y: e.clientY - panOffset.y
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    setPanOffset({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const resetView = () => {
+    setZoomLevel(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
+
   const toggleDashboard = () => {
     setIsDashboardHidden(!isDashboardHidden);
   };
