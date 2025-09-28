@@ -1412,13 +1412,13 @@ const Tournament = () => {
                     Tournament Champion
                   </text>
                   
-                  {/* Connecting Lines to Grand Finals */}
+                  {/* Clean Lines to Grand Finals */}
                   {bracket.winnersRounds.length > 0 && (
                     <line
-                      x1={100 + ((bracket.winnersRounds.length - 1) * 300) + 200}
-                      y1={120 + 60}
-                      x2={1100}
-                      y2={525}
+                      x1={50 + ((bracket.winnersRounds.length - 1) * 280) + 180}
+                      y1={200}
+                      x2={900}
+                      y2={430}
                       stroke="#10b981"
                       strokeWidth="2"
                     />
@@ -1426,10 +1426,10 @@ const Tournament = () => {
                   
                   {bracket.type === 'double' && bracket.losersRounds.length > 0 && (
                     <line
-                      x1={100 + ((bracket.losersRounds.length - 1) * 300) + 200}
-                      y1={900 + 60}
-                      x2={1100}
-                      y2={565}
+                      x1={50 + ((bracket.losersRounds.length - 1) * 280) + 180}
+                      y1={650}
+                      x2={900}
+                      y2={470}
                       stroke="#ef4444"
                       strokeWidth="2"
                     />
