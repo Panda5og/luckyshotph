@@ -188,7 +188,12 @@ const Tournament = () => {
   const confirmStartTournament = (shouldShuffle) => {
     setShowShuffleDialog(false);
     if (shouldShuffle) {
-      generateBracketForPlayers(players, true); // Shuffle players
+      // Shuffle multiple times based on shuffleCount
+      let shuffledPlayers = [...players];
+      for (let i = 0; i < shuffleCount; i++) {
+        shuffledPlayers = shuffledPlayers.sort(() => Math.random() - 0.5);
+      }
+      generateBracketForPlayers(shuffledPlayers, false);
     }
     setTournamentState('inProgress');
   };
