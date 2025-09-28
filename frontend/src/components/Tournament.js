@@ -1176,37 +1176,7 @@ const Tournament = () => {
           ) : (
             {/* Tournament bracket now uses clean grid layout above - no SVG needed */}
             {/* SVG content removed */}
-                  
-                  {/* Winners Bracket Rounds */}
-                  {bracket.winnersRounds.map((round, roundIndex) => {
-                    return round.map((match, matchIndex) => {
-                      const xPos = 50 + (roundIndex * 280);
-                      const yPos = 150 + (matchIndex * 140) * Math.pow(2, roundIndex);
-                      const matchHeight = 100;
-                      
-                      return (
-                        <g key={match.id}>
-                          {/* Match Box - Enhanced Interactive */}
-                          <rect
-                            x={xPos}
-                            y={yPos}
-                            width="200"
-                            height={matchHeight + 20}
-                            fill={
-                              match.completed ? "#22c55e" : 
-                              match.status === 'inProgress' ? "#f59e0b" : 
-                              "#374151"
-                            }
-                            stroke={
-                              match.completed ? "#16a34a" : 
-                              match.status === 'inProgress' ? "#d97706" : 
-                              "#10b981"
-                            }
-                            strokeWidth="2"
-                            rx="8"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => handleMatchClick(match)}
-                          />
+            {/* More SVG content removed */}
 
                           {/* Match Status Indicator */}
                           <text
