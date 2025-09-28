@@ -1514,8 +1514,8 @@ const Tournament = () => {
                           rx="4"
                         />
                         <text
-                          x="1277"
-                          y="527"
+                          x="1077"
+                          y="457"
                           fill="white"
                           fontSize="16"
                           fontFamily="system-ui"
