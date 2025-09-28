@@ -1498,7 +1498,7 @@ const Tournament = () => {
                       <>
                         {!bracket.grandFinals.completed && bracket.grandFinals.status === 'waiting' && (
                           <text
-                            x="1400"
+                            x="1200"
                             y="595"
                             fill="#fbbf24"
                             fontSize="9"
@@ -1510,7 +1510,7 @@ const Tournament = () => {
                         )}
                         {bracket.grandFinals.status === 'inProgress' && !bracket.grandFinals.completed && (
                           <text
-                            x="1400"
+                            x="1200"
                             y="595"
                             fill="#f59e0b"
                             fontSize="9"
