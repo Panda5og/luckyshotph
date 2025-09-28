@@ -18,6 +18,7 @@ const Tournament = () => {
   // New tournament state management
   const [tournamentState, setTournamentState] = useState('setup'); // setup, ready, inProgress, completed
   const [showShuffleDialog, setShowShuffleDialog] = useState(false);
+  const [shuffleCount, setShuffleCount] = useState(1);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [showScoreModal, setShowScoreModal] = useState(false);
   const [scoreData, setScoreData] = useState({ player1Score: '', player2Score: '' });
