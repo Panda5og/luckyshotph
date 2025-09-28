@@ -1491,8 +1491,8 @@ const Tournament = () => {
                       }}
                     />
                     <text
-                      x="1115"
-                      y="527"
+                      x="915"
+                      y="457"
                       fill="white"
                       fontSize="12"
                       fontFamily="system-ui"
