@@ -1195,13 +1195,14 @@ const Tournament = () => {
                               <text
                                 x={xPos + 12}
                                 y={yPos + 42}
-                                fill="white"
+                                fill={match.player1?.isBye ? "#94a3b8" : "white"}
                                 fontSize="12"
                                 fontFamily="system-ui"
+                                fontStyle={match.player1?.isBye ? "italic" : "normal"}
                               >
                                 {match.player1 ? (
                                   match.player1.name.substring(0, 14) + 
-                                  (match.player1.isMember ? ' ★' : '')
+                                  (match.player1.isMember && !match.player1.isBye ? ' ★' : '')
                                 ) : 'TBD'}
                               </text>
                               
