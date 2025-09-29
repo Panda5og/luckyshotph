@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from './ui/button';
-import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
+import { RotateCcw, DollarSign, Clock, ShoppingCart, LogOut } from 'lucide-react';
 
-const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
+const Dashboard = ({ stats, onReset, onMiscPurchase, onLogout }) => {
   return (
     <div className="bg-slate-900 text-white p-6 shadow-lg">
       <div className="flex items-center justify-evenly max-w-7xl mx-auto gap-6">
