@@ -13,6 +13,7 @@ import DailyAnalyticsModal from "./components/DailyAnalyticsModal";
 import MiscellaneousPurchaseModal from "./components/MiscellaneousPurchaseModal";
 import CustomChargeModal from "./components/CustomChargeModal";
 import AddTableButton from "./components/AddTableButton";
+import LoginPage from "./components/LoginPage";
 import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
 
 const Home = () => {
