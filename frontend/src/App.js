@@ -355,11 +355,55 @@ const Home = () => {
 };
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  // Check authentication status on app load
+  useEffect(() => {
+    const checkAuth = () => {
+      const authStatus = localStorage.getItem('poolhall_authenticated');
+      setIsAuthenticated(authStatus === 'true');
+      setIsCheckingAuth(false);
+    };
+    
+    checkAuth();
+  }, []);
+
+  const handleLogin = (success) => {
+    if (success) {
+      setIsAuthenticated(true);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('poolhall_authenticated');
+    localStorage.removeItem('poolhall_user');
+    setIsAuthenticated(false);
+  };
+
+  // Show loading while checking authentication
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen bg-slate-800 flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login page if not authenticated
+  if (!isAuthenticated) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
+
+  // Show main app if authenticated
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home onLogout={handleLogout} />} />
         </Routes>
       </BrowserRouter>
     </div>
