@@ -16,7 +16,7 @@ import AddTableButton from "./components/AddTableButton";
 import LoginPage from "./components/LoginPage";
 import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
 
-const Home = () => {
+const Home = ({ onLogout }) => {
   const [tables, setTables] = useState(mockState.tables);
   const [stats, setStats] = useState({
     activeTables: 0,
