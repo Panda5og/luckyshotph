@@ -84,3 +84,35 @@ code {
     @apply bg-background text-foreground;
     }
 }
+
+/* Global watermark removal - higher priority */
+@layer utilities {
+  /* Hide any Emergent branding elements */
+  [data-emergent-watermark],
+  [class*="emergent"]:not([class*="pool"]):not([class*="table"]):not([class*="player"]):not([class*="revenue"]):not([class*="daily"]),
+  [id*="emergent"]:not([id*="pool"]):not([id*="table"]):not([id*="player"]):not([id*="revenue"]):not([id*="daily"]),
+  *[title*="Made with Emergent"],
+  *[alt*="Made with Emergent"],
+  button:contains("Made with Emergent"),
+  a:contains("Made with Emergent") {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  
+  /* Hide floating elements that could be watermarks */
+  body > div:last-child:not(#root):not([id*="toast"]):not([class*="modal"]):not([class*="tooltip"]) {
+    display: none !important;
+  }
+  
+  /* Hide fixed/absolute positioned elements in bottom-right corner */
+  div[style*="position: fixed"][style*="bottom"][style*="right"]:not([class*="toast"]):not([class*="modal"]):not([class*="notification"]) {
+    display: none !important;
+  }
+}
