@@ -97,29 +97,47 @@
             }
             
             // Run when DOM is loaded
-            document.addEventListener('DOMContentLoaded', removeWatermarks);
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', removeWatermarks);
+            } else {
+                removeWatermarks();
+            }
             
             // Run periodically to catch dynamically added elements
-            setInterval(removeWatermarks, 1000);
+            setInterval(removeWatermarks, 2000);
             
             // Use MutationObserver to catch dynamically added elements
-            if (window.MutationObserver) {
-                const observer = new MutationObserver(function(mutations) {
-                    let shouldCheck = false;
-                    mutations.forEach(function(mutation) {
-                        if (mutation.addedNodes.length > 0) {
-                            shouldCheck = true;
+            try {
+                if (window.MutationObserver) {
+                    const observer = new MutationObserver(function(mutations) {
+                        let shouldCheck = false;
+                        mutations.forEach(function(mutation) {
+                            if (mutation.addedNodes.length > 0) {
+                                shouldCheck = true;
+                            }
+                        });
+                        if (shouldCheck) {
+                            setTimeout(removeWatermarks, 200);
                         }
                     });
-                    if (shouldCheck) {
-                        setTimeout(removeWatermarks, 100);
+                    
+                    // Wait for body to be available
+                    if (document.body) {
+                        observer.observe(document.body, {
+                            childList: true,
+                            subtree: true
+                        });
+                    } else {
+                        document.addEventListener('DOMContentLoaded', function() {
+                            observer.observe(document.body, {
+                                childList: true,
+                                subtree: true
+                            });
+                        });
                     }
-                });
-                
-                observer.observe(document.body, {
-                    childList: true,
-                    subtree: true
-                });
+                }
+            } catch (e) {
+                console.log('MutationObserver setup failed:', e);
             }
         </script>
     </body>
