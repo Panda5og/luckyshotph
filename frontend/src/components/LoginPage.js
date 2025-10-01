@@ -31,7 +31,14 @@ const LoginPage = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-800 flex items-center justify-center p-4" style={{
+      minHeight: '100vh',
+      backgroundColor: '#1e293b',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem'
+    }}>
       <div className="w-full max-w-md">
         {/* Logo and Title */}
         <div className="text-center mb-8">
