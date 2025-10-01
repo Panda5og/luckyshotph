@@ -50,95 +50,21 @@
            
         <!-- PostHog analytics removed to prevent errors -->
         
-        <!-- Watermark removal script -->
+        <!-- Simple watermark removal -->
         <script>
-            // Function to remove watermark elements
-            function removeWatermarks() {
-                // Common selectors for watermark elements
-                const selectors = [
-                    '[data-emergent-watermark]',
-                    '[class*="emergent"]:not([class*="pool"]):not([class*="table"]):not([class*="player"]):not([class*="revenue"]):not([class*="daily"])',
-                    '[id*="emergent"]:not([id*="pool"]):not([id*="table"]):not([id*="player"]):not([id*="revenue"]):not([id*="daily"])',
-                    '*[title*="Made with Emergent"]',
-                    '*[alt*="Made with Emergent"]',
-                    'button[title*="Made with Emergent"]',
-                    'a[title*="Made with Emergent"]'
-                ];
-                
-                selectors.forEach(selector => {
-                    try {
-                        const elements = document.querySelectorAll(selector);
-                        elements.forEach(el => {
-                            if (el && el.parentNode) {
-                                el.style.display = 'none';
-                                el.style.visibility = 'hidden';
-                                el.style.opacity = '0';
-                                el.style.position = 'absolute';
-                                el.style.left = '-9999px';
-                                el.style.top = '-9999px';
-                                el.setAttribute('hidden', 'true');
-                            }
+            setTimeout(function() {
+                try {
+                    // Simple watermark removal
+                    setInterval(function() {
+                        const watermarks = document.querySelectorAll('[title*="Made with Emergent"], [alt*="Made with Emergent"]');
+                        watermarks.forEach(function(el) {
+                            if (el) el.style.display = 'none';
                         });
-                    } catch (e) {
-                        // Ignore errors for invalid selectors
-                    }
-                });
-                
-                // Remove elements that contain "Made with Emergent" text
-                const allElements = document.querySelectorAll('*');
-                allElements.forEach(el => {
-                    if (el.textContent && el.textContent.toLowerCase().includes('made with emergent')) {
-                        // Check if it's not part of our main application
-                        if (!el.closest('#root')) {
-                            el.style.display = 'none';
-                        }
-                    }
-                });
-            }
-            
-            // Run when DOM is loaded
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', removeWatermarks);
-            } else {
-                removeWatermarks();
-            }
-            
-            // Run periodically to catch dynamically added elements
-            setInterval(removeWatermarks, 2000);
-            
-            // Use MutationObserver to catch dynamically added elements
-            try {
-                if (window.MutationObserver) {
-                    const observer = new MutationObserver(function(mutations) {
-                        let shouldCheck = false;
-                        mutations.forEach(function(mutation) {
-                            if (mutation.addedNodes.length > 0) {
-                                shouldCheck = true;
-                            }
-                        });
-                        if (shouldCheck) {
-                            setTimeout(removeWatermarks, 200);
-                        }
-                    });
-                    
-                    // Wait for body to be available
-                    if (document.body) {
-                        observer.observe(document.body, {
-                            childList: true,
-                            subtree: true
-                        });
-                    } else {
-                        document.addEventListener('DOMContentLoaded', function() {
-                            observer.observe(document.body, {
-                                childList: true,
-                                subtree: true
-                            });
-                        });
-                    }
+                    }, 1000);
+                } catch (e) {
+                    // Ignore errors
                 }
-            } catch (e) {
-                console.log('MutationObserver setup failed:', e);
-            }
+            }, 1000);
         </script>
     </body>
 </html>
