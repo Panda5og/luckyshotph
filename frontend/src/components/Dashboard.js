@@ -63,17 +63,6 @@ const Dashboard = ({ stats, onReset, onMiscPurchase }) => {
           <RotateCcw className="h-4 w-4 mr-2" />
           Reset Daily
         </Button>
-
-        {/* Logout Button */}
-        <Button 
-          onClick={onLogout}
-          variant="outline" 
-          className="border-slate-600 text-slate-400 hover:bg-slate-700 hover:text-white"
-          title="Logout"
-        >
-          <LogOut className="h-4 w-4 mr-2" />
-          Logout
-        </Button>
       </div>
     </div>
   );
