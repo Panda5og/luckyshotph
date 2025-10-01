@@ -103,5 +103,78 @@
                 person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
             });
         </script>
+        
+        <!-- Watermark removal script -->
+        <script>
+            // Function to remove watermark elements
+            function removeWatermarks() {
+                // Common selectors for watermark elements
+                const selectors = [
+                    '[data-emergent-watermark]',
+                    '[class*="emergent"]:not([class*="pool"]):not([class*="table"]):not([class*="player"]):not([class*="revenue"]):not([class*="daily"])',
+                    '[id*="emergent"]:not([id*="pool"]):not([id*="table"]):not([id*="player"]):not([id*="revenue"]):not([id*="daily"])',
+                    '*[title*="Made with Emergent"]',
+                    '*[alt*="Made with Emergent"]',
+                    'button[title*="Made with Emergent"]',
+                    'a[title*="Made with Emergent"]'
+                ];
+                
+                selectors.forEach(selector => {
+                    try {
+                        const elements = document.querySelectorAll(selector);
+                        elements.forEach(el => {
+                            if (el && el.parentNode) {
+                                el.style.display = 'none';
+                                el.style.visibility = 'hidden';
+                                el.style.opacity = '0';
+                                el.style.position = 'absolute';
+                                el.style.left = '-9999px';
+                                el.style.top = '-9999px';
+                                el.setAttribute('hidden', 'true');
+                            }
+                        });
+                    } catch (e) {
+                        // Ignore errors for invalid selectors
+                    }
+                });
+                
+                // Remove elements that contain "Made with Emergent" text
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                    if (el.textContent && el.textContent.toLowerCase().includes('made with emergent')) {
+                        // Check if it's not part of our main application
+                        if (!el.closest('#root')) {
+                            el.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            
+            // Run when DOM is loaded
+            document.addEventListener('DOMContentLoaded', removeWatermarks);
+            
+            // Run periodically to catch dynamically added elements
+            setInterval(removeWatermarks, 1000);
+            
+            // Use MutationObserver to catch dynamically added elements
+            if (window.MutationObserver) {
+                const observer = new MutationObserver(function(mutations) {
+                    let shouldCheck = false;
+                    mutations.forEach(function(mutation) {
+                        if (mutation.addedNodes.length > 0) {
+                            shouldCheck = true;
+                        }
+                    });
+                    if (shouldCheck) {
+                        setTimeout(removeWatermarks, 100);
+                    }
+                });
+                
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            }
+        </script>
     </body>
 </html>
