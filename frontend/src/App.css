@@ -32,3 +32,35 @@
         transform: rotate(360deg);
     }
 }
+
+/* Hide Emergent watermark/branding */
+[data-emergent-watermark],
+[class*="emergent"],
+[id*="emergent"],
+div[style*="position: fixed"][style*="bottom"],
+div[style*="position: absolute"][style*="bottom"],
+button:has-text("Made with Emergent"),
+a:has-text("Made with Emergent"),
+*[title*="Made with Emergent"],
+*[alt*="Made with Emergent"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+/* Hide common watermark positioning patterns */
+body > div:last-child:not(#root),
+body > div[style*="z-index"][style*="position"][style*="bottom"],
+body > div[style*="z-index"][style*="position"][style*="right"] {
+    display: none !important;
+}
+
+/* Additional specific hiding patterns */
+*[class*="watermark"],
+*[id*="watermark"],
+*[data-testid*="watermark"],
+iframe[src*="emergent"] {
+    display: none !important;
+}
