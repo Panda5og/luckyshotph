@@ -219,6 +219,20 @@ const Home = ({ onLogout }) => {
     setIsDailyAnalyticsModalOpen(true);
   };
 
+  const handleOpenSettings = () => {
+    setSettings(mockAPI.getSettings());
+    setIsSettingsModalOpen(true);
+  };
+
+  const handleUpdateSettings = (newSettings) => {
+    const updatedSettings = mockAPI.updateSettings(newSettings);
+    setSettings(updatedSettings);
+    toast({
+      title: "Settings Updated",
+      description: "Player rates and tax rate have been updated successfully",
+    });
+  };
+
   const handleConfirmReset = () => {
     // NOW actually reset the data
     mockAPI.resetDailyTotal();
