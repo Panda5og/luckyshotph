@@ -211,13 +211,13 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
           {/* Totals Section */}
           <div className="bg-slate-700 p-4 rounded-lg border border-slate-600 space-y-3">
             <div className="flex items-center justify-between text-lg font-medium text-white">
-              <span>Subtotal (Time + Charges):</span>
+              <span>Player Time Charges:</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
             
             {extraItemsTotal > 0 && (
               <div className="flex items-center justify-between font-medium text-blue-400">
-                <span>Additional Items:</span>
+                <span>Additional Items (Taxable):</span>
                 <span>${extraItemsTotal.toFixed(2)}</span>
               </div>
             )}
