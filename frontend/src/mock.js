@@ -3,7 +3,8 @@ const STORAGE_KEYS = {
   TABLES: 'poolhall_tables',
   REVENUE: 'poolhall_revenue',
   NEXT_TABLE_ID: 'poolhall_next_table_id',
-  DAILY_ANALYTICS: 'poolhall_daily_analytics'
+  DAILY_ANALYTICS: 'poolhall_daily_analytics',
+  SETTINGS: 'poolhall_settings'
 };
 
 // Load data from localStorage or use defaults
