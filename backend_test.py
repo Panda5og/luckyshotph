@@ -214,8 +214,8 @@ def run_backend_tests():
     # Test integration
     test_results.append(("Frontend-Backend Integration", verify_frontend_backend_integration()))
     
-    # Test analytics timeValue calculation fix
-    test_results.append(("Analytics TimeValue Fix", test_analytics_timevalue_calculation()))
+    # Test settings system from backend perspective
+    test_results.append(("Settings System Review", test_settings_system_backend_perspective()))
     
     # Summary
     print("\n" + "=" * 60)
