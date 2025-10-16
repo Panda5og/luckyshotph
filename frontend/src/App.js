@@ -33,11 +33,13 @@ const Home = ({ onLogout }) => {
   const [isDailyAnalyticsModalOpen, setIsDailyAnalyticsModalOpen] = useState(false);
   const [isMiscPurchaseModalOpen, setIsMiscPurchaseModalOpen] = useState(false);
   const [isCustomChargeModalOpen, setIsCustomChargeModalOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [checkoutData, setCheckoutData] = useState(null);
   const [confirmActionData, setConfirmActionData] = useState(null);
   const [commentData, setCommentData] = useState(null);
   const [customChargeData, setCustomChargeData] = useState(null);
   const [analyticsData, setAnalyticsData] = useState(null);
+  const [settings, setSettings] = useState(mockState.settings);
   const { toast } = useToast();
 
   // Update stats every second to reflect timer changes
