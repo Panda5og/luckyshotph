@@ -520,5 +520,32 @@ export const mockAPI = {
       currentRevenue: currentRevenue, // Only active players
       dailyTotal: mockState.revenue.daily // Completed checkouts
     };
+  },
+
+  getSettings: () => {
+    return { ...mockState.settings };
+  },
+
+  updateSettings: (newSettings) => {
+    mockState.settings = { ...mockState.settings, ...newSettings };
+    persistData();
+    return mockState.settings;
+  },
+
+  getRateForType: (rateType) => {
+    switch(rateType) {
+      case 'Adult':
+        return mockState.settings.rates.adult;
+      case 'Child':
+        return mockState.settings.rates.child;
+      case 'Member':
+        return mockState.settings.rates.member;
+      default:
+        return mockState.settings.rates.adult;
+    }
+  },
+
+  getTaxRate: () => {
+    return mockState.settings.taxRate;
   }
 };
