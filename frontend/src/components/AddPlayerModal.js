@@ -6,7 +6,7 @@ import { Label } from './ui/label';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { User, UserPlus, Star } from 'lucide-react';
 
-const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName }) => {
+const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) => {
   const [playerName, setPlayerName] = useState('');
   const [rateType, setRateType] = useState('Adult');
 
@@ -16,16 +16,16 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName }) => {
       let rate;
       switch(rateType) {
         case 'Adult':
-          rate = 5;
+          rate = settings?.rates?.adult || 5;
           break;
         case 'Child':
-          rate = 2;
+          rate = settings?.rates?.child || 2;
           break;
         case 'Member':
-          rate = 0;
+          rate = settings?.rates?.member || 0;
           break;
         default:
-          rate = 5;
+          rate = settings?.rates?.adult || 5;
       }
       
       onAddPlayer({
