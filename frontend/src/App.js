@@ -369,6 +369,13 @@ const Home = ({ onLogout }) => {
         playerName={customChargeData?.playerName}
       />
 
+      <SettingsModal
+        isOpen={isSettingsModalOpen}
+        onClose={() => setIsSettingsModalOpen(false)}
+        onUpdateSettings={handleUpdateSettings}
+        settings={settings}
+      />
+
       <Toaster />
     </div>
   );
