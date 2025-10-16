@@ -306,12 +306,15 @@ export const mockAPI = {
     // Get time-based charges only (excluding extra items)
     const timeChargeOnly = checkoutData.timeChargeOnly || subtotal;
     
-    const taxRate = 0.0575; // 5.75%
+    const taxRate = mockState.settings?.taxRate || 0.0575; // Use dynamic tax rate
     const subtotalWithExtras = subtotal + extraItemsTotal;
     const discountAmount = Math.min(discount, subtotalWithExtras);
-    const afterDiscount = subtotalWithExtras - discountAmount;
-    const tax = includeTax ? afterDiscount * taxRate : 0;
-    const total = afterDiscount + tax;
+    
+    // Calculate tax only on items (extraItems), not on player time charges
+    const timeCharges = Math.max(0, subtotal - Math.min(discount, subtotal)); // Time charges after discount
+    const itemCharges = Math.max(0, extraItemsTotal - Math.max(0, discount - subtotal)); // Items after remaining discount
+    const tax = includeTax ? itemCharges * taxRate : 0; // Tax only applies to items
+    const total = timeCharges + itemCharges + tax;
     
     // Now actually remove the players from the table and collect their extra items
     const table = mockState.tables.find(t => t.id === checkoutData.tableId);
