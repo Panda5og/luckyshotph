@@ -285,7 +285,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Settings System Implementation"
+    - "Items-Only Tax Calculation System"
   stuck_tasks:
     - "Enhanced Tournament Bracket Generator with Interactive Features"
   test_all: false
