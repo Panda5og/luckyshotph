@@ -33,9 +33,13 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
   const subtotalWithExtras = subtotal + extraItemsTotal;
   const discountAmount = Math.min(discount, subtotalWithExtras);
   const afterDiscount = subtotalWithExtras - discountAmount;
-  const taxRate = settings?.taxRate || 0.0575; // Use dynamic tax rate
-  const tax = includeTax ? afterDiscount * taxRate : 0;
-  const total = afterDiscount + tax;
+  
+  // Calculate tax only on items (extraItems), not on player time charges
+  const timeCharges = Math.max(0, subtotal - Math.min(discount, subtotal)); // Time charges after discount
+  const itemCharges = Math.max(0, extraItemsTotal - Math.max(0, discount - subtotal)); // Items after remaining discount
+  const taxRate = settings?.taxRate || 0.0575;
+  const tax = includeTax ? itemCharges * taxRate : 0; // Tax only applies to items
+  const total = timeCharges + itemCharges + tax;
 
   const handleAddExtraItem = () => {
     if (newItemDescription.trim() && newItemAmount && parseFloat(newItemAmount) > 0) {
