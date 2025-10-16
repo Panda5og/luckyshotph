@@ -323,6 +323,7 @@ const Home = ({ onLogout }) => {
         onClose={() => setIsAddPlayerModalOpen(false)}
         onAddPlayer={handlePlayerAdded}
         tableName={selectedTable?.name}
+        settings={settings}
       />
 
       <CheckoutModal
@@ -330,6 +331,7 @@ const Home = ({ onLogout }) => {
         onClose={() => setIsCheckoutModalOpen(false)}
         onConfirm={handleCheckoutConfirmed}
         checkoutData={checkoutData}
+        settings={settings}
       />
 
       <ConfirmActionModal
