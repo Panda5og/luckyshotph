@@ -97,7 +97,7 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
                 />
                 <Label htmlFor="child" className="flex-1 cursor-pointer text-slate-200">
                   <span className="font-medium">Child</span>
-                  <span className="ml-2 text-blue-400 font-bold">$2/hour</span>
+                  <span className="ml-2 text-blue-400 font-bold">${(settings?.rates?.child || 2).toFixed(2)}/hour</span>
                 </Label>
               </div>
               <div className="flex items-center space-x-2 p-3 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors bg-slate-700/50">
