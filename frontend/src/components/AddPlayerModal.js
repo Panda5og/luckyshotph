@@ -111,7 +111,9 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
                     <span className="font-medium">Member</span>
                     <Star className="h-3 w-3 text-yellow-400" />
                   </div>
-                  <span className="ml-2 text-yellow-400 font-bold">FREE</span>
+                  <span className="ml-2 text-yellow-400 font-bold">
+                    {(settings?.rates?.member || 0) === 0 ? 'FREE' : `$${(settings?.rates?.member || 0).toFixed(2)}/hour`}
+                  </span>
                 </Label>
               </div>
             </RadioGroup>
