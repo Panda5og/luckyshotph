@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from './ui/button';
-import { RotateCcw, DollarSign, Clock, ShoppingCart } from 'lucide-react';
+import { RotateCcw, DollarSign, Clock, ShoppingCart, Settings } from 'lucide-react';
 
 const Dashboard = ({ stats, onReset, onMiscPurchase, onOpenSettings }) => {
   return (
