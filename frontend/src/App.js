@@ -290,6 +290,7 @@ const Home = ({ onLogout }) => {
         stats={stats} 
         onReset={handleResetDaily}
         onMiscPurchase={handleMiscPurchase}
+        onOpenSettings={handleOpenSettings}
       />
       
       <div className="p-8">
