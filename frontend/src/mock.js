@@ -97,6 +97,7 @@ const persistData = () => {
   saveToStorage(STORAGE_KEYS.REVENUE, mockState.revenue);
   saveToStorage(STORAGE_KEYS.NEXT_TABLE_ID, mockState.nextTableId);
   saveToStorage(STORAGE_KEYS.DAILY_ANALYTICS, mockState.dailyAnalytics);
+  saveToStorage(STORAGE_KEYS.SETTINGS, mockState.settings);
 };
 
 // Mock functions to simulate backend operations with offline persistence
