@@ -254,7 +254,7 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
                 className="border-slate-400 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
               />
               <label htmlFor="includeTax" className="text-sm font-medium cursor-pointer flex-1 text-slate-200">
-                Include Sales Tax ({((settings?.taxRate || 0.0575) * 100).toFixed(2)}%)
+                Include Sales Tax on Items ({((settings?.taxRate || 0.0575) * 100).toFixed(2)}%)
               </label>
               {includeTax && (
                 <span className="text-sm text-slate-300">+${tax.toFixed(2)}</span>
