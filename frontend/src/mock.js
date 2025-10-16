@@ -51,6 +51,14 @@ export const mockState = {
     timeValue: 0,
     extraValue: 0,
     extraItems: [] // Detailed list of extra items
+  }),
+  settings: loadFromStorage(STORAGE_KEYS.SETTINGS, {
+    rates: {
+      adult: 5.00,
+      child: 2.00,
+      member: 0.00
+    },
+    taxRate: 0.0575 // 5.75%
   })
 };
 
