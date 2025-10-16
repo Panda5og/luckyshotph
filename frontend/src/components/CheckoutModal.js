@@ -7,7 +7,7 @@ import { Checkbox } from './ui/checkbox';
 import { LogOut, Clock, DollarSign, User, Users, Receipt, Plus, Minus, ShoppingCart, Percent } from 'lucide-react';
 import { formatTime, calculateElapsedTime } from '../mock';
 
-const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData }) => {
+const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) => {
   const [includeTax, setIncludeTax] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [extraItems, setExtraItems] = useState([]);
