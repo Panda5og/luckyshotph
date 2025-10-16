@@ -33,7 +33,7 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
   const subtotalWithExtras = subtotal + extraItemsTotal;
   const discountAmount = Math.min(discount, subtotalWithExtras);
   const afterDiscount = subtotalWithExtras - discountAmount;
-  const taxRate = 0.0575; // 5.75%
+  const taxRate = settings?.taxRate || 0.0575; // Use dynamic tax rate
   const tax = includeTax ? afterDiscount * taxRate : 0;
   const total = afterDiscount + tax;
 
