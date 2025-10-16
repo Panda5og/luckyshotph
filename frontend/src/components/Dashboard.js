@@ -54,16 +54,6 @@ const Dashboard = ({ stats, onReset, onMiscPurchase, onOpenSettings }) => {
           </span>
         </div>
 
-        {/* Settings Button */}
-        <Button 
-          onClick={onOpenSettings}
-          variant="outline" 
-          className="border-slate-600 text-slate-400 hover:bg-slate-700 hover:text-white"
-        >
-          <Settings className="h-4 w-4 mr-2" />
-          Settings
-        </Button>
-
         {/* Reset Daily Button */}
         <Button 
           onClick={onReset}
@@ -72,6 +62,16 @@ const Dashboard = ({ stats, onReset, onMiscPurchase, onOpenSettings }) => {
         >
           <RotateCcw className="h-4 w-4 mr-2" />
           Reset Daily
+        </Button>
+
+        {/* Settings Button - Icon Only */}
+        <Button 
+          onClick={onOpenSettings}
+          variant="outline" 
+          className="border-slate-600 text-slate-400 hover:bg-slate-700 hover:text-white p-2"
+          title="Settings"
+        >
+          <Settings className="h-4 w-4" />
         </Button>
       </div>
     </div>
