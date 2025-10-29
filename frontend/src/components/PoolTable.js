@@ -31,17 +31,26 @@ const consolidateExtraItems = (extraItems) => {
 const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, onCheckout, onToggleTimer, onUpdateComment, onShowConfirmAction, onRemovePlayer }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [prepaidTimeRemaining, setPrepaidTimeRemaining] = useState(0);
 
   // Update timer every second
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTime(calculateElapsedTime(player));
+      const elapsed = calculateElapsedTime(player);
+      setCurrentTime(elapsed);
+      
+      if (player.isPrepaid) {
+        const remaining = calculatePrepaidTimeRemaining(player);
+        setPrepaidTimeRemaining(remaining);
+      }
     }, 1000);
 
     return () => clearInterval(interval);
   }, [player]);
 
-  const timeDisplay = formatTime(currentTime);
+  const timeDisplay = player.isPrepaid 
+    ? formatCountdownTime(prepaidTimeRemaining)
+    : formatTime(currentTime);
 
   const handleTimeAction = (isAdd) => {
     onShowConfirmAction({
