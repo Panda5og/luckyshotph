@@ -275,7 +275,8 @@ export const mockAPI = {
       const player = table.players.find(p => p.id === playerId);
       if (player) {
         const totalSeconds = calculateElapsedTime(player);
-        const timeCharge = (totalSeconds / 3600) * player.rate;
+        const rawTimeCharge = (totalSeconds / 3600) * player.rate;
+        const timeCharge = Math.round(rawTimeCharge); // Round to nearest dollar
         const extraItemsTotal = player.extraItems ? 
           player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
         const subtotal = timeCharge + player.additionalCharges + extraItemsTotal;
