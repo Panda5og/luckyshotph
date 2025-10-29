@@ -32,6 +32,42 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [prepaidTimeRemaining, setPrepaidTimeRemaining] = useState(0);
+  const [hasPlayedChime, setHasPlayedChime] = useState(false);
+
+  // Chime function
+  const playChime = () => {
+    try {
+      // Create audio context for chime sound
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Create a simple chime sound using oscillators
+      const createTone = (frequency, startTime, duration) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.frequency.setValueAtTime(frequency, startTime);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        gainNode.gain.setValueAtTime(0.3, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + duration);
+      };
+      
+      // Create chime sequence (Westminster chime pattern)
+      const now = audioContext.currentTime;
+      createTone(523.25, now, 0.5); // C5
+      createTone(659.25, now + 0.2, 0.5); // E5
+      createTone(783.99, now + 0.4, 0.8); // G5
+      createTone(523.25, now + 0.8, 1.0); // C5
+      
+    } catch (error) {
+      // Fallback: use system beep if Web Audio API fails
+      console.log('🔔 PREPAID TIME EXPIRED for', player.name);
+    }
+  };
 
   // Update timer every second
   useEffect(() => {
@@ -41,12 +77,24 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
       
       if (player.isPrepaid) {
         const remaining = calculatePrepaidTimeRemaining(player);
+        const prevRemaining = prepaidTimeRemaining;
         setPrepaidTimeRemaining(remaining);
+        
+        // Play chime when timer expires (transitions from >0 to 0)
+        if (prevRemaining > 0 && remaining <= 0 && !hasPlayedChime && !player.isPaused) {
+          playChime();
+          setHasPlayedChime(true);
+        }
+        
+        // Reset chime flag if time is added back
+        if (remaining > 0 && hasPlayedChime) {
+          setHasPlayedChime(false);
+        }
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [player]);
+  }, [player, prepaidTimeRemaining, hasPlayedChime]);
 
   const timeDisplay = player.isPrepaid 
     ? formatCountdownTime(prepaidTimeRemaining)
