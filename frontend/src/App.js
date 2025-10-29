@@ -389,6 +389,13 @@ const Home = ({ onLogout }) => {
         settings={settings}
       />
 
+      <PrepaidCheckoutModal
+        isOpen={isPrepaidCheckoutModalOpen}
+        onClose={() => setIsPrepaidCheckoutModalOpen(false)}
+        onConfirm={handlePrepaidCheckoutConfirmed}
+        playerData={prepaidCheckoutData}
+      />
+
       <ConfirmActionModal
         isOpen={isConfirmActionModalOpen}
         onClose={() => setIsConfirmActionModalOpen(false)}
