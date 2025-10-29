@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 import PoolTable from "./components/PoolTable";
 import AddPlayerModal from "./components/AddPlayerModal";
 import CheckoutModal from "./components/CheckoutModal";
+import PrepaidCheckoutModal from "./components/PrepaidCheckoutModal";
 import ConfirmActionModal from "./components/ConfirmActionModal";
 import PlayerCommentModal from "./components/PlayerCommentModal";
 import DailyAnalyticsModal from "./components/DailyAnalyticsModal";
@@ -15,7 +16,7 @@ import CustomChargeModal from "./components/CustomChargeModal";
 import SettingsModal from "./components/SettingsModal";
 import AddTableButton from "./components/AddTableButton";
 import LoginPage from "./components/LoginPage";
-import { mockState, mockAPI, formatTime, calculateElapsedTime } from "./mock";
+import { mockState, mockAPI, formatTime, calculateElapsedTime, calculatePrepaidTimeRemaining } from "./mock";
 
 const Home = ({ onLogout }) => {
   const [tables, setTables] = useState(mockState.tables);
