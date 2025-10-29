@@ -127,6 +127,23 @@ const Home = ({ onLogout }) => {
     setCommentData(null);
   };
 
+  const handleRemovePlayer = (tableId, playerId) => {
+    const result = mockAPI.removePlayer(tableId, playerId);
+    if (result.success) {
+      setTables([...mockState.tables]);
+      toast({
+        title: "Player Removed",
+        description: `${result.removedPlayer.name} has been removed from the table`,
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: result.error,
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleToggleTimer = (tableId, playerId) => {
     const updatedPlayer = mockAPI.togglePlayerTimer(tableId, playerId);
     if (updatedPlayer) {
