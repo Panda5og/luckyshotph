@@ -285,8 +285,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Prepaid Countdown System"
-    - "Cancel Player Function"
+    - "Improved Prepaid System with Enhanced Features"
   stuck_tasks:
     - "Enhanced Tournament Bracket Generator with Interactive Features"
   test_all: false
