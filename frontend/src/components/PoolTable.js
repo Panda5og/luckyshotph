@@ -265,11 +265,25 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
+                    handleRemovePlayer();
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="text-slate-400 border-slate-500 hover:bg-slate-600/20 bg-slate-600/10 shadow-md font-medium"
+                  title="Remove player from table (no charges)"
+                >
+                  <X className="h-3 w-3 mr-1" />
+                  Cancel
+                </Button>
+                
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
                     onCheckout(tableId, player.id);
                   }}
                   variant="outline"
                   size="sm"
-                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 shadow-md font-medium"
+                  className="text-green-400 border-green-500 hover:bg-green-600/20 bg-green-600/10 shadow-md font-medium"
                 >
                   <LogOut className="h-3 w-3 mr-1" />
                   Checkout
