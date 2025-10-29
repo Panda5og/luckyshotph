@@ -285,7 +285,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Improved Prepaid System with Enhanced Features"
+    - "Rounded Time Fee Calculation for Table Checkout"
   stuck_tasks:
     - "Enhanced Tournament Bracket Generator with Interactive Features"
   test_all: false
