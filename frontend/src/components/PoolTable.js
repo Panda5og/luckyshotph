@@ -413,6 +413,7 @@ const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCustomCharge,
                       onToggleTimer={onToggleTimer}
                       onUpdateComment={onUpdateComment}
                       onShowConfirmAction={onShowConfirmAction}
+                      onRemovePlayer={onRemovePlayer}
                     />
                   ))}
                 </div>
