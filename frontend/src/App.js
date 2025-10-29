@@ -169,8 +169,23 @@ const Home = ({ onLogout }) => {
   const handleCheckout = (tableId, playerId) => {
     const result = mockAPI.checkoutPlayer(tableId, playerId);
     if (result) {
-      setCheckoutData(result);
-      setIsCheckoutModalOpen(true);
+      const player = result.players[0];
+      
+      // Check if player is prepaid - use simple confirmation modal
+      if (player.isPrepaid) {
+        const remainingTime = calculatePrepaidTimeRemaining(player);
+        setPrepaidCheckoutData({
+          player: player,
+          remainingTime: remainingTime,
+          tableId: tableId,
+          playerId: playerId
+        });
+        setIsPrepaidCheckoutModalOpen(true);
+      } else {
+        // Regular checkout with payment calculation
+        setCheckoutData(result);
+        setIsCheckoutModalOpen(true);
+      }
     }
   };
 
