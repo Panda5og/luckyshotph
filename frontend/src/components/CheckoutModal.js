@@ -101,7 +101,8 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
             
             {players.map((player, index) => {
               const playerSeconds = calculateElapsedTime(player);
-              const playerTimeCharge = (playerSeconds / 3600) * player.rate;
+              const rawPlayerTimeCharge = (playerSeconds / 3600) * player.rate;
+              const playerTimeCharge = Math.round(rawPlayerTimeCharge); // Round to match backend
               const playerTotal = playerTimeCharge + player.additionalCharges;
               
               return (
