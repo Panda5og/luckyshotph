@@ -173,6 +173,11 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                 <DollarSign className="h-4 w-4 text-emerald-400" />
                 <strong className="text-white">{player.rateType}</strong> (${player.rate}/hr)
               </span>
+              {player.isPrepaid && (
+                <span className="text-green-300 font-bold bg-green-600/20 px-2 py-1 rounded border border-green-500/50">
+                  PREPAID {player.prepaidHours}h (${player.prepaidAmount})
+                </span>
+              )}
               {player.additionalCharges > 0 && (
                 <span className="text-orange-300 font-bold bg-orange-600/20 px-2 py-1 rounded border border-orange-500/50">
                   +${player.additionalCharges} extra
