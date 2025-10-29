@@ -416,6 +416,18 @@ agent_communication:
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+
+  - task: "Rounded Time Fee Calculation for Table Checkout"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/mock.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "ROUNDED TIME FEE CALCULATION TESTING COMPLETED SUCCESSFULLY: ✅ CODE REVIEW VERIFICATION: Confirmed Math.round() implementation in three critical functions - checkoutPlayer (line 279), checkoutTable (line 312), and getStats (line 550). All time charges are rounded to nearest dollar using Math.round(rawTimeCharge). ✅ ROUNDING ALGORITHM VERIFICATION: Tested mathematical scenarios - 0.5h × $5/hr = $2.50 → $3, 1.3h × $5/hr = $6.50 → $7, 0.8h × $5/hr = $4.00 → $4, 1.7h × $2/hr = $3.40 → $3, 2.4h × $5/hr = $12.00 → $12. All scenarios pass with Math.round() implementation. ✅ UI INTEGRATION VERIFIED: Successfully tested player addition functionality, checkout modal opens correctly, 'Player Time Charges:' section properly separates time-based charges from additional items as specified in requirements. ✅ CURRENT REVENUE DISPLAY: getStats function includes rounded time charges for real-time revenue display in dashboard. ✅ CHECKOUT MODAL STRUCTURE: Verified CheckoutModal.js properly displays 'Player Time Charges:' vs 'Additional Items (Taxable):' sections, ensuring rounded time charges are clearly separated from non-rounded additional items. ✅ TABLE CHECKOUT FUNCTIONALITY: checkoutTable function applies rounding to each individual player's time charges before aggregating totals. ✅ EDGE CASES COVERED: Rounding works correctly for all rate types (Adult $5/hr, Child $2/hr, Member $0/hr), fractional hours are properly rounded, and mixed scenarios with additional charges maintain proper separation. The rounded time fee calculation feature is fully implemented and working correctly across all checkout scenarios as specified in the requirements."
     
   - task: "Cleaned Up Button Layout in Player Cards"
     implemented: true
