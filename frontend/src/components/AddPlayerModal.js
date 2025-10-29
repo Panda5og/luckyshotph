@@ -31,15 +31,6 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
           rate = settings?.rates?.adult || 5;
       }
       
-      console.log('About to call onAddPlayer with:', {
-        name: playerName.trim(),
-        rate,
-        rateType,
-        isPrepaid,
-        prepaidHours: isPrepaid ? prepaidHours : 0,
-        prepaidAmount: isPrepaid ? rate * prepaidHours : 0
-      });
-      
       onAddPlayer({
         name: playerName.trim(),
         rate,
