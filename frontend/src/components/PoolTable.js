@@ -314,15 +314,16 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
               </div>
               
               {/* Other Actions */}
-              <div className="flex gap-2 pt-2 border-t border-slate-600">
+              <div className="flex gap-1.5 pt-2 border-t border-slate-600">
                 <Button
                   onClick={handleCommentClick}
                   variant="outline"
                   size="sm"
-                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 shadow-md font-medium"
+                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 shadow-md font-medium flex-1 px-2"
+                  title={player.comment ? 'Edit player comment' : 'Add player comment'}
                 >
                   <MessageSquare className="h-3 w-3 mr-1" />
-                  {player.comment ? 'Edit Comment' : 'Add Comment'}
+                  <span className="text-xs">{player.comment ? 'Edit' : 'Comment'}</span>
                 </Button>
                 
                 <Button
@@ -332,11 +333,10 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                   }}
                   variant="outline"
                   size="sm"
-                  className="text-slate-400 border-slate-500 hover:bg-slate-600/20 bg-slate-600/10 shadow-md font-medium"
+                  className="text-slate-400 border-slate-500 hover:bg-slate-600/20 bg-slate-600/10 shadow-md font-medium px-3"
                   title="Remove player from table (no charges)"
                 >
-                  <X className="h-3 w-3 mr-1" />
-                  Cancel
+                  <X className="h-3 w-3" />
                 </Button>
                 
                 <Button
@@ -346,10 +346,10 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                   }}
                   variant="outline"
                   size="sm"
-                  className="text-green-400 border-green-500 hover:bg-green-600/20 bg-green-600/10 shadow-md font-medium"
+                  className="text-green-400 border-green-500 hover:bg-green-600/20 bg-green-600/10 shadow-md font-medium flex-1 px-2"
                 >
                   <LogOut className="h-3 w-3 mr-1" />
-                  Checkout
+                  <span className="text-xs">Checkout</span>
                 </Button>
               </div>
             </div>
