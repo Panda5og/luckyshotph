@@ -28,7 +28,7 @@ const consolidateExtraItems = (extraItems) => {
   return Object.values(consolidated);
 };
 
-const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, onCheckout, onToggleTimer, onUpdateComment, onShowConfirmAction }) => {
+const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, onCheckout, onToggleTimer, onUpdateComment, onShowConfirmAction, onRemovePlayer }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
 
