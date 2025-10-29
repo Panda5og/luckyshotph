@@ -297,7 +297,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Checkout Error Fix for Individual Player Checkout"
+    - "Player Addition Debug Testing"
   stuck_tasks:
     - "Enhanced Tournament Bracket Generator with Interactive Features"
   test_all: false
