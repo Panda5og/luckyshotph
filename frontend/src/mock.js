@@ -91,6 +91,25 @@ export const calculateElapsedTime = (player) => {
   return Math.max(0, totalElapsed);
 };
 
+// Helper function to calculate prepaid time remaining (for countdown)
+export const calculatePrepaidTimeRemaining = (player) => {
+  if (!player.isPrepaid) return 0;
+  
+  const elapsedSeconds = calculateElapsedTime(player);
+  const remainingSeconds = Math.max(0, player.prepaidSecondsRemaining - elapsedSeconds);
+  return remainingSeconds;
+};
+
+// Helper function to format countdown time (shows remaining time)
+export const formatCountdownTime = (remainingSeconds) => {
+  if (remainingSeconds <= 0) return "00:00:00 (EXPIRED)";
+  
+  const hours = Math.floor(remainingSeconds / 3600);
+  const minutes = Math.floor((remainingSeconds % 3600) / 60);
+  const seconds = remainingSeconds % 60;
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};
+
 // Helper function to save all data to localStorage
 const persistData = () => {
   saveToStorage(STORAGE_KEYS.TABLES, mockState.tables);
