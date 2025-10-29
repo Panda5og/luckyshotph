@@ -64,18 +64,26 @@ const Home = ({ onLogout }) => {
   };
 
   const handlePlayerAdded = (playerData) => {
+    console.log('handlePlayerAdded called with:', playerData);
+    console.log('selectedTable:', selectedTable);
+    
     const newPlayer = mockAPI.addPlayer(selectedTable.id, playerData);
+    console.log('mockAPI.addPlayer returned:', newPlayer);
+    
     if (newPlayer) {
       // Force React to re-render by creating new table objects
       const updatedTables = mockState.tables.map(table => ({
         ...table,
         players: [...table.players]
       }));
+      console.log('Updated tables:', updatedTables);
       setTables(updatedTables);
       toast({
         title: "Player Added",
         description: `${playerData.name} (${playerData.rateType}) has been added to ${selectedTable.name}`,
       });
+    } else {
+      console.log('Failed to add player - mockAPI.addPlayer returned null');
     }
   };
 
