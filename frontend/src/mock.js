@@ -546,7 +546,8 @@ export const mockAPI = {
     mockState.tables.forEach(table => {
       table.players.forEach(player => {
         const totalSeconds = calculateElapsedTime(player);
-        const timeCharge = (totalSeconds / 3600) * player.rate;
+        const rawTimeCharge = (totalSeconds / 3600) * player.rate;
+        const timeCharge = Math.round(rawTimeCharge); // Round to nearest dollar
         
         // Calculate total from extra items
         const extraItemsTotal = player.extraItems ? 
