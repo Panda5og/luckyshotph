@@ -404,3 +404,27 @@ agent_communication:
         - working: true
           agent: "testing"
           comment: "ITEMS-ONLY TAX CALCULATION TESTING COMPLETED SUCCESSFULLY: ✅ CODE REVIEW VERIFICATION: CheckoutModal.js correctly implements items-only tax calculation (lines 38-42) where tax = includeTax ? itemCharges * taxRate : 0, ensuring tax only applies to extraItems, not player time charges. ✅ UI VERIFICATION: 'Player Time Charges:' label correctly displayed (line 214-216), 'Include Sales Tax on Items' checkbox label found (line 257), 'Additional Items (Taxable):' label appears when items are added (line 218-222). ✅ TAX CALCULATION LOGIC: mock.js completeCheckout function (lines 313-316) properly separates timeCharges from itemCharges for tax calculation, ensuring player time charges are exempt from sales tax. ✅ FUNCTIONAL TESTING: Player addition working correctly, time accumulation functioning, checkout modal opens successfully, additional items can be added during checkout, tax checkbox enables/disables correctly. ✅ SCENARIOS VERIFIED: Time-only checkout (tax should be $0.00 on time charges), Items-only checkout (tax applies to miscellaneous purchases), Mixed checkout (tax only on additional items, not time), Discount functionality (works with tax calculation). ✅ IMPLEMENTATION MATCHES REQUIREMENTS: Tax calculation now only applies to extraItems (additional items), Player time charges are exempt from sales tax, UI shows 'Include Sales Tax on Items' instead of generic 'Include Sales Tax', Checkout breakdown separates 'Player Time Charges' vs 'Additional Items (Taxable)'. The items-only tax calculation system is working correctly and meets all specified requirements."
+
+  - task: "Prepaid Countdown System"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/AddPlayerModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "PREPAID COUNTDOWN SYSTEM TESTING COMPLETED SUCCESSFULLY: ✅ PREPAID CHECKBOX: Prepaid option checkbox working correctly in Add Player modal with proper label 'Prepaid (Pay in advance for set hours)'. ✅ HOUR SELECTION: All hour buttons (1h, 2h, 3h, 4h, 5h, 6h) functional with proper styling and selection states. ✅ COST CALCULATION: Total cost calculation displays correctly (e.g., 'Total: $10.00 ($5.00/hour × 2 hours)') and updates dynamically when hour selection changes. ✅ COUNTDOWN TIMER: Prepaid players show countdown timer with remaining time instead of elapsed time, using green color scheme vs blue for regular players. ✅ PREPAID BADGE: 'PREPAID' badge displays correctly in expanded player view showing hours and total amount (e.g., 'PREPAID 2h ($10.00)'). ✅ TIMER FUNCTIONALITY: Countdown timer counts down properly in real-time, shows format HH:MM:SS, turns red when expired. ✅ MIXED SCENARIOS: Prepaid and regular players coexist correctly on same table with different timer displays and styling. The prepaid countdown system is fully functional and meets all requirements."
+
+  - task: "Cancel Player Function"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/PoolTable.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "CANCEL PLAYER FUNCTION TESTING COMPLETED SUCCESSFULLY: ✅ CANCEL BUTTON PLACEMENT: Cancel button (X icon) correctly placed in 'Other Actions' section of expanded player view. ✅ BUTTON STYLING: Cancel button uses gray styling (slate-400 border-slate-500) as specified in requirements. ✅ FUNCTIONALITY: Cancel button removes player completely from table without any checkout or billing process. ✅ UNIVERSAL AVAILABILITY: Cancel function works for both prepaid and regular players. ✅ NO REVENUE IMPACT: Canceling a player does not affect revenue calculations or create any charges - player is cleanly removed. ✅ UI FEEDBACK: Player disappears immediately from table after cancel, providing clear visual confirmation. ✅ TOOLTIP: Cancel button includes helpful tooltip 'Remove player from table (no charges)'. The cancel player function is working perfectly and provides the expected 'no-billing removal' functionality for both prepaid and regular players."
