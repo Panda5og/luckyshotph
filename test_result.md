@@ -285,9 +285,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Rounded Time Fee Calculation for Table Checkout"
+    - "Checkout Error Fix for Individual Player Checkout"
   stuck_tasks:
     - "Enhanced Tournament Bracket Generator with Interactive Features"
+    - "Player Persistence Issue Blocking Checkout Testing"
   test_all: false
   test_priority: "high_first"
 
