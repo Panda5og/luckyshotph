@@ -82,7 +82,12 @@ const Home = ({ onLogout }) => {
   const handleSetTableTimer = (tableId, hours) => {
     const updatedTable = mockAPI.setTableTimer(tableId, hours);
     if (updatedTable) {
-      setTables([...mockState.tables]);
+      // Force React to re-render by creating new table objects
+      const updatedTables = mockState.tables.map(table => ({
+        ...table,
+        players: [...table.players]
+      }));
+      setTables(updatedTables);
       toast({
         title: "Table Timer Set",
         description: `${updatedTable.name} timer set to ${hours} hours`,
