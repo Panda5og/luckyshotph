@@ -308,7 +308,8 @@ export const mockAPI = {
       // Calculate total for all players
       players.forEach(player => {
         const seconds = calculateElapsedTime(player);
-        const timeCharge = (seconds / 3600) * player.rate;
+        const rawTimeCharge = (seconds / 3600) * player.rate;
+        const timeCharge = Math.round(rawTimeCharge); // Round to nearest dollar
         const extraItemsTotal = player.extraItems ? 
           player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
         subtotal += timeCharge + player.additionalCharges + extraItemsTotal;
