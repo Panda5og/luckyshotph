@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Checkbox } from './ui/checkbox';
 import { User, UserPlus, Star } from 'lucide-react';
 
 const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) => {
