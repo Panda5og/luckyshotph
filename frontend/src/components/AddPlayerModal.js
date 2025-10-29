@@ -9,6 +9,10 @@ import { User, UserPlus, Star } from 'lucide-react';
 const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) => {
   const [playerName, setPlayerName] = useState('');
   const [rateType, setRateType] = useState('Adult');
+  const [isPrepaid, setIsPrepaid] = useState(false);
+  const [prepaidHours, setPrepaidHours] = useState(1);
+  const [isPrepaid, setIsPrepaid] = useState(false);
+  const [prepaidHours, setPrepaidHours] = useState(1);
 
   const handleSubmit = (e) => {
     e.preventDefault();
