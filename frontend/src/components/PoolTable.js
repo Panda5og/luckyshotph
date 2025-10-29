@@ -312,7 +312,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
   );
 };
 
-const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCustomCharge, onCheckout, onCheckoutTable, onToggleTimer, onDeleteTable, onUpdateComment, onShowConfirmAction, onSetTableTimer }) => {
+const PoolTable = ({ table, onAddPlayer, onAddTime, onAddCharge, onCustomCharge, onCheckout, onCheckoutTable, onToggleTimer, onDeleteTable, onUpdateComment, onShowConfirmAction, onSetTableTimer, onRemovePlayer }) => {
   const canDelete = table.id > 5; // Only allow deletion of added tables
   const hasPlayers = table.players.length > 0;
   const hasMultiplePlayers = table.players.length > 1;
