@@ -142,30 +142,77 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
             </div>
             
             {isPrepaid && (
-              <div className="ml-6 space-y-2">
-                <Label className="text-sm text-slate-300">Select Hours:</Label>
-                <div className="flex gap-2 flex-wrap">
-                  {[1, 2, 3, 4, 5, 6].map(hours => (
+              <div className="ml-6 space-y-3">
+                <div>
+                  <Label className="text-sm text-slate-300 mb-2 block">Prepaid Rate Type:</Label>
+                  <div className="flex gap-2">
                     <Button
-                      key={hours}
                       type="button"
-                      variant={prepaidHours === hours ? "default" : "outline"}
+                      variant={rateType === 'Adult' ? "default" : "outline"}
                       size="sm"
-                      onClick={() => setPrepaidHours(hours)}
-                      className={`${prepaidHours === hours 
-                        ? 'bg-green-600 hover:bg-green-700' 
-                        : 'border-slate-600 text-slate-300 hover:bg-slate-700'
+                      onClick={() => setRateType('Adult')}
+                      className={`${rateType === 'Adult' 
+                        ? 'bg-emerald-600 hover:bg-emerald-700 text-white' 
+                        : 'border-emerald-500 text-emerald-400 hover:bg-emerald-600/20'
                       }`}
                     >
-                      {hours}h
+                      Adult (${(settings?.rates?.adult || 5).toFixed(2)}/hr)
                     </Button>
-                  ))}
+                    <Button
+                      type="button"
+                      variant={rateType === 'Child' ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setRateType('Child')}
+                      className={`${rateType === 'Child' 
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                        : 'border-blue-500 text-blue-400 hover:bg-blue-600/20'
+                      }`}
+                    >
+                      Child (${(settings?.rates?.child || 2).toFixed(2)}/hr)
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={rateType === 'Member' ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setRateType('Member')}
+                      className={`${rateType === 'Member' 
+                        ? 'bg-yellow-600 hover:bg-yellow-700 text-white' 
+                        : 'border-yellow-500 text-yellow-400 hover:bg-yellow-600/20'
+                      }`}
+                    >
+                      Member (${(settings?.rates?.member || 0) === 0 ? 'FREE' : `$${(settings?.rates?.member || 0).toFixed(2)}/hr`})
+                    </Button>
+                  </div>
                 </div>
-                <div className="text-sm text-green-400 font-medium">
-                  Total: ${((settings?.rates?.[rateType.toLowerCase()] || 5) * prepaidHours).toFixed(2)} 
-                  <span className="text-slate-400 ml-1">
-                    (${(settings?.rates?.[rateType.toLowerCase()] || 5).toFixed(2)}/hour × {prepaidHours} hours)
-                  </span>
+                
+                <div>
+                  <Label className="text-sm text-slate-300">Select Hours:</Label>
+                  <div className="flex gap-2 flex-wrap mt-2">
+                    {[1, 2, 3, 4, 5, 6].map(hours => (
+                      <Button
+                        key={hours}
+                        type="button"
+                        variant={prepaidHours === hours ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setPrepaidHours(hours)}
+                        className={`${prepaidHours === hours 
+                          ? 'bg-green-600 hover:bg-green-700' 
+                          : 'border-slate-600 text-slate-300 hover:bg-slate-700'
+                        }`}
+                      >
+                        {hours}h
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="bg-green-600/20 border border-green-500 rounded-lg p-3">
+                  <div className="text-sm font-medium text-green-300">
+                    Prepaid Total: ${((settings?.rates?.[rateType.toLowerCase()] || 5) * prepaidHours).toFixed(2)} 
+                    <span className="text-slate-300 ml-1 font-normal">
+                      (${(settings?.rates?.[rateType.toLowerCase()] || 5).toFixed(2)}/hour × {prepaidHours} hours)
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
