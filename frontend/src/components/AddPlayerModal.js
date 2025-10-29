@@ -14,7 +14,6 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
   const [prepaidHours, setPrepaidHours] = useState(1);
 
   const handleSubmit = (e) => {
-    console.log('AddPlayerModal handleSubmit called with:', playerName, rateType);
     e.preventDefault();
     if (playerName.trim()) {
       let rate;
