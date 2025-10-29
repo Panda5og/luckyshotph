@@ -127,6 +127,50 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
               </div>
             </RadioGroup>
           </div>
+
+          {/* Prepaid Option */}
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="isPrepaid"
+                checked={isPrepaid}
+                onCheckedChange={setIsPrepaid}
+                className="border-slate-400 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
+              />
+              <Label htmlFor="isPrepaid" className="text-slate-200 font-medium">
+                Prepaid (Pay in advance for set hours)
+              </Label>
+            </div>
+            
+            {isPrepaid && (
+              <div className="ml-6 space-y-2">
+                <Label className="text-sm text-slate-300">Select Hours:</Label>
+                <div className="flex gap-2 flex-wrap">
+                  {[1, 2, 3, 4, 5, 6].map(hours => (
+                    <Button
+                      key={hours}
+                      type="button"
+                      variant={prepaidHours === hours ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setPrepaidHours(hours)}
+                      className={`${prepaidHours === hours 
+                        ? 'bg-green-600 hover:bg-green-700' 
+                        : 'border-slate-600 text-slate-300 hover:bg-slate-700'
+                      }`}
+                    >
+                      {hours}h
+                    </Button>
+                  ))}
+                </div>
+                <div className="text-sm text-green-400 font-medium">
+                  Total: ${((settings?.rates?.[rateType.toLowerCase()] || 5) * prepaidHours).toFixed(2)} 
+                  <span className="text-slate-400 ml-1">
+                    (${(settings?.rates?.[rateType.toLowerCase()] || 5).toFixed(2)}/hour × {prepaidHours} hours)
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
           
           <DialogFooter className="flex gap-2">
             <Button 
