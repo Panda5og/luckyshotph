@@ -416,6 +416,14 @@ agent_communication:
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+    
+  - task: "Cleaned Up Button Layout in Player Cards"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/PoolTable.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
     status_history:
         - working: true
           agent: "testing"
