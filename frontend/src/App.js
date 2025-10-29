@@ -268,6 +268,25 @@ const Home = ({ onLogout }) => {
     });
   };
 
+  const handlePrepaidCheckoutConfirmed = () => {
+    if (prepaidCheckoutData) {
+      const { tableId, playerId, player } = prepaidCheckoutData;
+      
+      // Simple removal for prepaid players - no payment processing
+      const result = mockAPI.completePrepaidCheckout(tableId, playerId);
+      if (result.success) {
+        setTables([...mockState.tables]);
+        toast({
+          title: "Session Closed",
+          description: `${player.name} has been checked out (already paid: $${player.prepaidAmount.toFixed(2)})`,
+        });
+      }
+      
+      setIsPrepaidCheckoutModalOpen(false);
+      setPrepaidCheckoutData(null);
+    }
+  };
+
   const handleConfirmReset = () => {
     // NOW actually reset the data
     mockAPI.resetDailyTotal();
