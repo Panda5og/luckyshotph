@@ -348,6 +348,7 @@ export const mockAPI = {
     const taxRate = mockState.settings?.taxRate || 0.0575; // Use dynamic tax rate
     const subtotalWithExtras = subtotal + extraItemsTotal;
     const discountAmount = Math.min(discount, subtotalWithExtras);
+    const afterDiscount = subtotalWithExtras - discountAmount; // Add this back for compatibility
     
     // Calculate tax only on items (extraItems), not on player time charges
     const timeCharges = Math.max(0, subtotal - Math.min(discount, subtotal)); // Time charges after discount
