@@ -285,7 +285,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Items-Only Tax Calculation System"
+    - "Prepaid Countdown System"
+    - "Cancel Player Function"
   stuck_tasks:
     - "Enhanced Tournament Bracket Generator with Interactive Features"
   test_all: false
