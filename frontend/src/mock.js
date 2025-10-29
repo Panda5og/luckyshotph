@@ -115,7 +115,11 @@ export const mockAPI = {
         totalElapsedSeconds: 0,
         isPaused: false,
         additionalCharges: 0,
-        comment: ''
+        comment: '',
+        isPrepaid: playerData.isPrepaid || false,
+        prepaidHours: playerData.prepaidHours || 0,
+        prepaidAmount: playerData.prepaidAmount || 0,
+        prepaidSecondsRemaining: playerData.isPrepaid ? playerData.prepaidHours * 3600 : 0
       };
       table.players.push(newPlayer);
       
