@@ -587,5 +587,27 @@ export const mockAPI = {
 
   getTaxRate: () => {
     return mockState.settings.taxRate;
+  },
+
+  completePrepaidCheckout: (tableId, playerId) => {
+    const table = mockState.tables.find(t => t.id === tableId);
+    if (table) {
+      const playerIndex = table.players.findIndex(p => p.id === playerId);
+      if (playerIndex !== -1) {
+        const player = table.players[playerIndex];
+        
+        // For prepaid players, simply remove them - no revenue calculation needed
+        // (they already paid upfront)
+        table.players.splice(playerIndex, 1);
+        persistData();
+        
+        return { 
+          success: true, 
+          player: player,
+          message: `Prepaid session closed for ${player.name} (Already paid: $${player.prepaidAmount.toFixed(2)})`
+        };
+      }
+    }
+    return { success: false, error: "Player not found" };
   }
 };
