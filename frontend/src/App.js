@@ -58,7 +58,7 @@ const Home = ({ onLogout }) => {
   }, [tables, updateStats]);
 
   const handleAddPlayer = (tableId) => {
-    const table = tables.find(t => t.id === tableId);
+    const table = mockState.tables.find(t => t.id === tableId); // Use mockState directly
     setSelectedTable(table);
     setIsAddPlayerModalOpen(true);
   };
