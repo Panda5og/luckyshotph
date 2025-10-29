@@ -35,10 +35,15 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
       onAddPlayer({
         name: playerName.trim(),
         rate,
-        rateType
+        rateType,
+        isPrepaid,
+        prepaidHours: isPrepaid ? prepaidHours : 0,
+        prepaidAmount: isPrepaid ? rate * prepaidHours : 0
       });
       setPlayerName('');
       setRateType('Adult');
+      setIsPrepaid(false);
+      setPrepaidHours(1);
       onClose();
     }
   };
