@@ -184,6 +184,20 @@ export const mockAPI = {
     return null;
   },
 
+  removePlayer: (tableId, playerId) => {
+    const table = mockState.tables.find(t => t.id === tableId);
+    if (table) {
+      const playerIndex = table.players.findIndex(p => p.id === playerId);
+      if (playerIndex !== -1) {
+        const removedPlayer = table.players[playerIndex];
+        table.players.splice(playerIndex, 1);
+        persistData();
+        return { success: true, removedPlayer };
+      }
+    }
+    return { success: false, error: "Player not found" };
+  },
+
   addPlayerCharge: (tableId, playerId, amount) => {
     const table = mockState.tables.find(t => t.id === tableId);
     if (table) {
