@@ -86,6 +86,10 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
     onUpdateComment(tableId, player.id, player.comment || '', player.name);
   };
 
+  const handleRemovePlayer = () => {
+    onRemovePlayer(tableId, player.id);
+  };
+
   return (
     <Card 
       className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 backdrop-blur-sm shadow-xl cursor-pointer transition-all duration-200 hover:shadow-2xl border-2 border-slate-600 hover:border-slate-500"
