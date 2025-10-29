@@ -143,7 +143,12 @@ const Home = ({ onLogout }) => {
   const handleRemovePlayer = (tableId, playerId) => {
     const result = mockAPI.removePlayer(tableId, playerId);
     if (result.success) {
-      setTables([...mockState.tables]);
+      // Force React to re-render by creating new table objects
+      const updatedTables = mockState.tables.map(table => ({
+        ...table,
+        players: [...table.players]
+      }));
+      setTables(updatedTables);
       toast({
         title: "Player Removed",
         description: `${result.removedPlayer.name} has been removed from the table`,
