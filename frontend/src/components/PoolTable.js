@@ -131,9 +131,19 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
               )}
             </div>
             <div className="flex items-center gap-4 mt-2">
-              <div className="flex items-center gap-2 bg-slate-600 px-3 py-1 rounded-lg border border-slate-500">
-                <Clock className="h-4 w-4 text-slate-300" />
-                <span className={`text-lg font-mono font-bold ${player.isPaused ? 'text-orange-400' : 'text-blue-400'}`}>
+              <div className={`flex items-center gap-2 px-3 py-1 rounded-lg border ${
+                player.isPrepaid 
+                  ? 'bg-green-600/20 border-green-500' 
+                  : 'bg-slate-600 border-slate-500'
+              }`}>
+                <Clock className={`h-4 w-4 ${
+                  player.isPrepaid ? 'text-green-300' : 'text-slate-300'
+                }`} />
+                <span className={`text-lg font-mono font-bold ${
+                  player.isPrepaid 
+                    ? (prepaidTimeRemaining <= 0 ? 'text-red-400 animate-pulse' : 'text-green-400')
+                    : (player.isPaused ? 'text-orange-400' : 'text-blue-400')
+                }`}>
                   {timeDisplay}
                 </span>
               </div>
