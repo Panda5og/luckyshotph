@@ -13,6 +13,7 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
   const [extraItems, setExtraItems] = useState([]);
   const [newItemDescription, setNewItemDescription] = useState('');
   const [newItemAmount, setNewItemAmount] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('cash');
   
   // Reset form state whenever modal opens or checkoutData changes
   useEffect(() => {
