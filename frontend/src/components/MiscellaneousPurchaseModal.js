@@ -33,6 +33,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
   const handleClose = () => {
     setDescription('');
     setAmount('');
+    setTransactionType('add');
     onClose();
   };
 
