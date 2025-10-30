@@ -62,6 +62,39 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
               className="bg-slate-700 border-slate-600 text-white placeholder-slate-400 focus:border-purple-500"
             />
           </div>
+
+          {/* Transaction Type Selection */}
+          <div className="space-y-2">
+            <Label className="text-slate-200">Transaction Type</Label>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant={transactionType === 'add' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setTransactionType('add')}
+                className={`flex-1 ${transactionType === 'add' 
+                  ? 'bg-green-600 hover:bg-green-700 text-white' 
+                  : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                }`}
+              >
+                <Plus className="h-3 w-3 mr-1" />
+                Add Revenue
+              </Button>
+              <Button
+                type="button"
+                variant={transactionType === 'deduct' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setTransactionType('deduct')}
+                className={`flex-1 ${transactionType === 'deduct' 
+                  ? 'bg-red-600 hover:bg-red-700 text-white' 
+                  : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                }`}
+              >
+                <Minus className="h-3 w-3 mr-1" />
+                Deduct Amount
+              </Button>
+            </div>
+          </div>
           
           <div className="space-y-2">
             <Label htmlFor="amount" className="text-slate-200">
