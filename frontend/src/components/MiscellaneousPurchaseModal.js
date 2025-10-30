@@ -21,9 +21,10 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
 
   const handleConfirm = () => {
     if (description.trim() && amount && parseFloat(amount) > 0) {
+      const finalAmount = transactionType === 'deduct' ? -parseFloat(amount) : parseFloat(amount);
       onConfirm({
         description: description.trim(),
-        amount: parseFloat(amount)
+        amount: finalAmount
       });
       handleClose();
     }
