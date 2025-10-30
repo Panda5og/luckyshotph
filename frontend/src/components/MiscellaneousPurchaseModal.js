@@ -45,7 +45,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-white">
             <ShoppingCart className="h-5 w-5 text-purple-400" />
-            Add Miscellaneous Purchase
+            {transactionType === 'add' ? 'Add Miscellaneous Purchase' : 'Deduct Amount'}
           </DialogTitle>
         </DialogHeader>
         
