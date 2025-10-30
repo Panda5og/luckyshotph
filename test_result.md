@@ -364,6 +364,30 @@ agent_communication:
           agent: "testing"
           comment: "FORM SUBMISSION DEBUG TESTING COMPLETED SUCCESSFULLY - DEBUG CONSOLE LOGS WORKING PERFECTLY: ✅ ADDPLAYERMODAL DEBUG LOGS CONFIRMED: Both debug console.log statements added by main agent are working correctly - 'AddPlayerModal handleSubmit called with: Form Debug Test Adult' and 'About to call onAddPlayer with: {name: Form Debug Test, rate: 5, rateType: Adult, isPrepaid: false, prepaidHours: 0}' messages captured successfully. ✅ PARENT COMPONENT LOGS CONFIRMED: All parent component debug messages working - 'handlePlayerAdded called with:', 'selectedTable:', 'mockAPI.addPlayer returned:', and 'Updated tables:' logs all captured. ✅ FORM SUBMISSION CHAIN WORKING: Complete form submission flow verified - AddPlayerModal handleSubmit function triggers correctly, onAddPlayer callback executes properly, parent handlePlayerAdded function receives data correctly, mockAPI.addPlayer creates player successfully, React state updates properly. ✅ PLAYER ADDITION SUCCESSFUL: Player 'Form Debug Test' successfully added to Table 1, appears on table with timer running (00:00:06), Active Tables count updates correctly, modal closes after submission. ✅ BUTTON CLICK INVESTIGATION: Identified 5 'Add Player' buttons (one per table), all using consistent styling and classes, correct table-specific modals opening. ✅ ALTERNATIVE TESTING METHODS: Enter key submission works correctly, form validation prevents empty name submission (button disabled), different rate types (Adult/Child/Member) work properly. ✅ CONSOLE MESSAGE VERIFICATION: All requested debug messages captured and verified - form submission debugging is working as intended. The debug console.log statements added by main agent are functioning perfectly and providing the expected debugging information for form submission troubleshooting."
 
+  - task: "Payment Method Selection in Checkout Modal"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/CheckoutModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented payment method selection in checkout modal with Cash 💵, Card 💳, and Venmo 📱 buttons. Added paymentMethod state with default 'cash' selection. Payment method is tracked in analytics and passed to completeCheckout function. Button styling changes based on selection with proper color coding (green for cash, blue for card, purple for venmo)."
+
+  - task: "Add/Deduct Transaction Type in Miscellaneous Purchase Modal"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/MiscellaneousPurchaseModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Enhanced miscellaneous purchase modal with transaction type selection. Added 'Add Revenue' vs 'Deduct Amount' buttons with proper styling (green for add, red for deduct). Dynamic UI labels change based on selection - title changes to 'Deduct Amount', amount label shows '(to deduct)', input border changes to red focus color. Negative amounts are supported for deductions (refunds, corrections) by multiplying amount by -1 when deduct type is selected."
+
   - task: "Enhanced Tournament Bracket Generator with Interactive Features"
     implemented: true
     working: true
