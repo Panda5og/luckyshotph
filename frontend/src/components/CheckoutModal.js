@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Checkbox } from './ui/checkbox';
-import { LogOut, Clock, DollarSign, User, Users, Receipt, Plus, Minus, ShoppingCart, Percent } from 'lucide-react';
+import { LogOut, Clock, DollarSign, User, Users, Receipt, Plus, Minus, ShoppingCart, Percent, CreditCard } from 'lucide-react';
 import { formatTime, calculateElapsedTime } from '../mock';
 
 const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) => {
