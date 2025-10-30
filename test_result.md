@@ -297,9 +297,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Player Addition Debug Testing"
-  stuck_tasks:
-    - "Enhanced Tournament Bracket Generator with Interactive Features"
+    - "Payment Method Selection in Checkout Modal"
+    - "Add/Deduct Transaction Type in Miscellaneous Purchase Modal"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
