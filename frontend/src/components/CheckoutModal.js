@@ -283,6 +283,52 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
             }
           </p>
         </div>
+
+        {/* Payment Method Selection */}
+        <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+          <h3 className="text-white font-medium mb-3 flex items-center gap-2">
+            <CreditCard className="h-4 w-4 text-blue-400" />
+            Payment Method
+          </h3>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant={paymentMethod === 'cash' ? "default" : "outline"}
+              size="sm"
+              onClick={() => setPaymentMethod('cash')}
+              className={`flex-1 ${paymentMethod === 'cash' 
+                ? 'bg-green-600 hover:bg-green-700 text-white' 
+                : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              💵 Cash
+            </Button>
+            <Button
+              type="button"
+              variant={paymentMethod === 'card' ? "default" : "outline"}
+              size="sm"
+              onClick={() => setPaymentMethod('card')}
+              className={`flex-1 ${paymentMethod === 'card' 
+                ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              💳 Card
+            </Button>
+            <Button
+              type="button"
+              variant={paymentMethod === 'venmo' ? "default" : "outline"}
+              size="sm"
+              onClick={() => setPaymentMethod('venmo')}
+              className={`flex-1 ${paymentMethod === 'venmo' 
+                ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              📱 Venmo
+            </Button>
+          </div>
+        </div>
         
         <DialogFooter className="flex gap-2">
           <Button 
