@@ -395,6 +395,12 @@ export const mockAPI = {
     mockState.dailyAnalytics.timeValue += timeChargeOnly; // Only actual time-based charges
     mockState.dailyAnalytics.extraValue += extraItemsTotal;
     
+    // Track payment method
+    const paymentMethod = checkoutOptions.paymentMethod || 'cash';
+    if (mockState.dailyAnalytics.paymentMethods[paymentMethod] !== undefined) {
+      mockState.dailyAnalytics.paymentMethods[paymentMethod] += total;
+    }
+    
     // Initialize extraItems array if it doesn't exist (for backward compatibility)
     if (!mockState.dailyAnalytics.extraItems) {
       mockState.dailyAnalytics.extraItems = [];
