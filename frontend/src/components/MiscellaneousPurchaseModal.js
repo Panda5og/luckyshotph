@@ -98,7 +98,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
           
           <div className="space-y-2">
             <Label htmlFor="amount" className="text-slate-200">
-              Amount
+              Amount {transactionType === 'deduct' ? '(to deduct)' : '(to add)'}
             </Label>
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -110,7 +110,11 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="pl-10 bg-slate-700 border-slate-600 text-white placeholder-slate-400 focus:border-purple-500"
+                className={`pl-10 bg-slate-700 border-slate-600 text-white placeholder-slate-400 ${
+                  transactionType === 'deduct' 
+                    ? 'focus:border-red-500' 
+                    : 'focus:border-green-500'
+                }`}
               />
             </div>
           </div>
