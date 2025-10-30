@@ -68,7 +68,8 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
       extraItemsTotal,
       afterDiscount,
       tax,
-      total
+      total,
+      paymentMethod
     });
   };
 
