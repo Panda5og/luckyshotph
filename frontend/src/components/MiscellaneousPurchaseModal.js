@@ -8,6 +8,7 @@ import { ShoppingCart, DollarSign, Plus } from 'lucide-react';
 const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [transactionType, setTransactionType] = useState('add'); // 'add' or 'deduct'
 
   // Reset form when modal opens
   useEffect(() => {
