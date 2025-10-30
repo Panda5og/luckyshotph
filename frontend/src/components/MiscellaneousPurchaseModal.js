@@ -15,6 +15,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
     if (isOpen) {
       setDescription('');
       setAmount('');
+      setTransactionType('add');
     }
   }, [isOpen]);
 
