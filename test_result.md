@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Complete the implementation of the tournament bracket generator in Tournament.js to fully support a double-elimination format, accommodating all registered players, as per the user's latest reference image and clarification. Ensure all custom charge items, when added to a player, are accurately reflected in the current revenue and, upon checkout, correctly consolidated and added to the daily revenue."
+user_problem_statement: "Test the new payment method selection and deduction features for Lucky Shot Pool Hall Management Website. New Features: 1) Payment Method Selection in Checkout - Added Cash 💵, Card 💳, and Venmo 📱 payment method buttons with tracking in analytics, 2) Add/Deduct in Miscellaneous Purchase - Added Transaction Type selection for Add Revenue vs Deduct Amount with negative amounts support for refunds/corrections."
 
 backend:
   - task: "Backend API Health and Status Endpoints"
