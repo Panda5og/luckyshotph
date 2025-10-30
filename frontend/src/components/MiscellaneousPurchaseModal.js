@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { ShoppingCart, DollarSign, Plus } from 'lucide-react';
+import { ShoppingCart, DollarSign, Plus, Minus } from 'lucide-react';
 
 const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
   const [description, setDescription] = useState('');
