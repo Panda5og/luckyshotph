@@ -23,6 +23,7 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
       setExtraItems([]);
       setNewItemDescription('');
       setNewItemAmount('');
+      setPaymentMethod('cash');
     }
   }, [isOpen, checkoutData]);
   
