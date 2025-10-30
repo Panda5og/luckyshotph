@@ -395,7 +395,15 @@ export const mockAPI = {
     mockState.dailyAnalytics.timeValue += timeChargeOnly; // Only actual time-based charges
     mockState.dailyAnalytics.extraValue += extraItemsTotal;
     
-    // Track payment method
+    // Track payment method (with backward compatibility)
+    if (!mockState.dailyAnalytics.paymentMethods) {
+      mockState.dailyAnalytics.paymentMethods = {
+        cash: 0,
+        card: 0,
+        venmo: 0
+      };
+    }
+    
     const paymentMethod = checkoutOptions.paymentMethod || 'cash';
     if (mockState.dailyAnalytics.paymentMethods[paymentMethod] !== undefined) {
       mockState.dailyAnalytics.paymentMethods[paymentMethod] += total;
