@@ -550,4 +550,20 @@ agent_communication:
     status_history:
         - working: true
           agent: "testing"
+
+  - task: "Prepaid Revenue Tracking in Daily Analytics"
+    implemented: false
+    working: false
+    file: "/app/frontend/src/mock.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "user"
+          comment: "User reported that prepaid values on checkout are not going into the daily total. Investigation revealed that when prepaid players are added (upfront payment), their prepaid amount is stored on the player object but NOT added to daily analytics revenue. When they check out via completePrepaidCheckout(), they are simply removed from the table with no revenue update (which is correct since they already paid). The issue is that the initial prepaid payment is never tracked in dailyAnalytics.totalRevenue when the player is added."
+        - working: false
+          agent: "main"
+          comment: "ISSUE IDENTIFIED: In mock.js addPlayer() function (lines 129-160), when a prepaid player is added, the prepaidAmount is stored on the player object but never added to mockState.dailyAnalytics.totalRevenue or mockState.currentRevenue. The prepaid amount should be added to daily analytics at the time of player addition (when payment is received upfront), not during checkout. Need to update addPlayer() function to track prepaid revenue immediately when player is added."
+
           comment: "CANCEL PLAYER FUNCTION TESTING COMPLETED SUCCESSFULLY: ✅ CANCEL BUTTON PLACEMENT: Cancel button (X icon) correctly placed in 'Other Actions' section of expanded player view. ✅ BUTTON STYLING: Cancel button uses gray styling (slate-400 border-slate-500) as specified in requirements. ✅ FUNCTIONALITY: Cancel button removes player completely from table without any checkout or billing process. ✅ UNIVERSAL AVAILABILITY: Cancel function works for both prepaid and regular players. ✅ NO REVENUE IMPACT: Canceling a player does not affect revenue calculations or create any charges - player is cleanly removed. ✅ UI FEEDBACK: Player disappears immediately from table after cancel, providing clear visual confirmation. ✅ TOOLTIP: Cancel button includes helpful tooltip 'Remove player from table (no charges)'. The cancel player function is working perfectly and provides the expected 'no-billing removal' functionality for both prepaid and regular players."
