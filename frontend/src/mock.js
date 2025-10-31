@@ -155,9 +155,21 @@ export const mockAPI = {
       
       // If prepaid, add prepaid amount to revenue immediately (upfront payment)
       if (newPlayer.isPrepaid && newPlayer.prepaidAmount > 0) {
+        console.log('🎯 PREPAID PLAYER ADDED - Adding revenue immediately!');
+        console.log('   Player:', newPlayer.name);
+        console.log('   Prepaid Amount:', newPlayer.prepaidAmount);
+        console.log('   Revenue BEFORE:', mockState.currentRevenue);
         mockState.dailyAnalytics.totalRevenue += newPlayer.prepaidAmount;
         mockState.dailyAnalytics.timeValue += newPlayer.prepaidAmount; // Prepaid is for table time
         mockState.currentRevenue += newPlayer.prepaidAmount;
+        console.log('   Revenue AFTER:', mockState.currentRevenue);
+        console.log('   ✅ Prepaid revenue added successfully!');
+      } else {
+        console.log('ℹ️  Regular player added (not prepaid):', {
+          name: newPlayer.name,
+          isPrepaid: newPlayer.isPrepaid,
+          prepaidAmount: newPlayer.prepaidAmount
+        });
       }
       
       persistData();
