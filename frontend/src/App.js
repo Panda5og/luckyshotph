@@ -287,10 +287,11 @@ const Home = ({ onLogout }) => {
     if (prepaidCheckoutData) {
       const { tableId, playerId, player } = prepaidCheckoutData;
       
-      // Simple removal for prepaid players - no payment processing
+      // Complete prepaid checkout - moves revenue to daily total
       const result = mockAPI.completePrepaidCheckout(tableId, playerId);
       if (result.success) {
         setTables([...mockState.tables]);
+        updateStats(); // Update stats to reflect new daily total
         toast({
           title: "Session Closed",
           description: `${player.name} has been checked out (already paid: $${player.prepaidAmount.toFixed(2)})`,
