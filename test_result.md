@@ -297,8 +297,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Payment Method Selection in Checkout Modal"
-    - "Add/Deduct Transaction Type in Miscellaneous Purchase Modal"
+    - "Prepaid Revenue Tracking in Daily Analytics"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
