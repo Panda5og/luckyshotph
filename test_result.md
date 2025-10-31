@@ -119,15 +119,18 @@ backend:
 
   - task: "Prepaid Revenue Tracking in Daily Analytics"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/mock.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
         - working: true
           agent: "testing"
           comment: "PREPAID REVENUE TRACKING FIX VERIFIED SUCCESSFULLY: ✅ COMPREHENSIVE CODE VERIFICATION: All prepaid revenue tracking code confirmed in mock.js lines 156-161 - prepaid revenue comment found, totalRevenue update implemented, timeValue update implemented, currentRevenue update implemented. ✅ BACKEND INTEGRATION HEALTH: Backend health check passed and ready for integration. ✅ PREPAID REVENUE LOGIC TESTING: Created comprehensive test suite simulating localStorage behavior. All 5 test scenarios passed: Revenue increases by $10.00 immediately when prepaid player added (not on checkout) ✅, Daily total matches current revenue ✅, Time value correctly includes prepaid amount ✅, Prepaid player appears on table with correct properties ✅, No double counting on checkout - revenue stays same ✅. ✅ IMPLEMENTATION MATCHES REQUIREMENTS: Revenue increases immediately when prepaid player is added (Adult $5/hr × 2h = $10.00), Player appears on table with countdown timer properties, When player is checked out later, revenue stays the same (no double counting), Daily analytics properly track prepaid revenue in timeValue. ✅ FIX VERIFICATION: The fix in addPlayer() function (lines 156-161) correctly adds prepaid revenue immediately rather than waiting until checkout. The prepaid revenue tracking functionality is working perfectly and meets all specified requirements from the review request."
+        - working: false
+          agent: "testing"
+          comment: "COMPREHENSIVE UI TESTING REVEALS PREPAID FUNCTIONALITY ISSUE: ❌ CRITICAL ISSUE IDENTIFIED: Prepaid player addition is NOT working correctly in the UI. Testing results: ✅ Login successful ✅ Daily analytics reset to $0.00 ✅ Add Player modal opens correctly ✅ Player name 'Prepaid Test' filled ✅ Adult rate selected ($5.00/hour) ✅ Prepaid checkbox checked via JavaScript ✅ 2h button clicked via JavaScript ✅ Add Player button clicked ❌ REVENUE NOT INCREASING: After adding prepaid player, found 0 instances of $10.00 on page - revenue did not increase immediately ❌ PLAYER NOT APPEARING: No prepaid player visible on Table 1 after addition ❌ PREPAID FUNCTIONALITY BROKEN: The prepaid checkbox and hour selection appear to not be functioning correctly in the UI, preventing the prepaid revenue tracking fix from being triggered. ✅ CODE IMPLEMENTATION CORRECT: The fix in mock.js lines 156-161 is correctly implemented, but the UI form submission is not properly handling prepaid players. ROOT CAUSE: The prepaid functionality in AddPlayerModal is not working correctly - either the prepaid checkbox state is not being captured properly, or the hour selection is not being processed, preventing the creation of prepaid players and thus the revenue tracking fix cannot be tested. RECOMMENDATION: Main agent should investigate the AddPlayerModal component's prepaid functionality, specifically the checkbox handling and hour selection logic."
 
 frontend:
   - task: "PDF Download for Daily Analytics"
