@@ -153,6 +153,13 @@ export const mockAPI = {
       else if (playerData.rateType === 'Child') mockState.dailyAnalytics.children++;
       else if (playerData.rateType === 'Member') mockState.dailyAnalytics.members++;
       
+      // If prepaid, add prepaid amount to revenue immediately (upfront payment)
+      if (newPlayer.isPrepaid && newPlayer.prepaidAmount > 0) {
+        mockState.dailyAnalytics.totalRevenue += newPlayer.prepaidAmount;
+        mockState.dailyAnalytics.timeValue += newPlayer.prepaidAmount; // Prepaid is for table time
+        mockState.currentRevenue += newPlayer.prepaidAmount;
+      }
+      
       persistData();
       return newPlayer; // Return the new player
     }
