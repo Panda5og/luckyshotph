@@ -646,15 +646,18 @@ export const mockAPI = {
         console.log('💰 PREPAID CHECKOUT - Moving revenue to Daily Total!');
         console.log('   Player:', player.name);
         console.log('   Prepaid Amount:', player.prepaidAmount);
-        console.log('   Daily Total BEFORE:', mockState.dailyAnalytics.totalRevenue);
+        console.log('   Daily Total (revenue.daily) BEFORE:', mockState.revenue.daily);
+        console.log('   Daily Analytics Total BEFORE:', mockState.dailyAnalytics.totalRevenue);
         
-        // Move prepaid amount to Daily Total (currentRevenue is calculated by getStats)
+        // Move prepaid amount to Daily Total (both revenue.daily AND dailyAnalytics)
         if (player.prepaidAmount > 0) {
-          mockState.dailyAnalytics.totalRevenue += player.prepaidAmount;
+          mockState.revenue.daily += player.prepaidAmount; // For dashboard display
+          mockState.dailyAnalytics.totalRevenue += player.prepaidAmount; // For analytics modal
           mockState.dailyAnalytics.timeValue += player.prepaidAmount; // Prepaid is for table time
         }
         
-        console.log('   Daily Total AFTER:', mockState.dailyAnalytics.totalRevenue);
+        console.log('   Daily Total (revenue.daily) AFTER:', mockState.revenue.daily);
+        console.log('   Daily Analytics Total AFTER:', mockState.dailyAnalytics.totalRevenue);
         console.log('   ✅ Prepaid revenue moved to Daily Total successfully!');
         console.log('   ℹ️  Current Revenue will auto-update (calculated by getStats after player removal)');
         
