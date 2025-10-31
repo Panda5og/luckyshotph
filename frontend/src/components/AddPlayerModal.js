@@ -50,6 +50,8 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
   const handleClose = () => {
     setPlayerName('');
     setRateType('Adult');
+    setIsPrepaid(false);
+    setPrepaidHours(1);
     onClose();
   };
 
