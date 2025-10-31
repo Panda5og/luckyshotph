@@ -324,25 +324,43 @@ export const mockAPI = {
       const totalSeconds = [];
       const playerIds = [];
       
+      console.log('🏁 TABLE CHECKOUT - Calculating totals for all players...');
+      
       // Calculate total for all players
       players.forEach(player => {
-        const seconds = calculateElapsedTime(player);
-        const rawTimeCharge = (seconds / 3600) * player.rate;
-        const timeCharge = Math.round(rawTimeCharge); // Round to nearest dollar
-        const extraItemsTotal = player.extraItems ? 
-          player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
-        subtotal += timeCharge + player.additionalCharges + extraItemsTotal;
-        timeChargeOnly += timeCharge + player.additionalCharges; // Time-based charges only
-        totalSeconds.push(seconds);
+        console.log(`   Checking player: ${player.name}, isPrepaid: ${player.isPrepaid}`);
+        
+        // Handle prepaid players differently
+        if (player.isPrepaid && player.prepaidAmount > 0) {
+          // For prepaid players, use their prepaid amount
+          subtotal += player.prepaidAmount;
+          timeChargeOnly += player.prepaidAmount;
+          console.log(`   ✅ Prepaid player: $${player.prepaidAmount.toFixed(2)}`);
+        } else {
+          // For regular players, calculate based on elapsed time
+          const seconds = calculateElapsedTime(player);
+          const rawTimeCharge = (seconds / 3600) * player.rate;
+          const timeCharge = Math.round(rawTimeCharge); // Round to nearest dollar
+          const extraItemsTotal = player.extraItems ? 
+            player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
+          subtotal += timeCharge + player.additionalCharges + extraItemsTotal;
+          timeChargeOnly += timeCharge + player.additionalCharges; // Time-based charges only
+          console.log(`   ✅ Regular player: $${(timeCharge + player.additionalCharges + extraItemsTotal).toFixed(2)}`);
+        }
+        
+        totalSeconds.push(0); // Placeholder for compatibility
         playerIds.push(player.id);
       });
+      
+      console.log(`   💰 Table subtotal: $${subtotal.toFixed(2)}`);
+      console.log(`   💰 Time charges only: $${timeChargeOnly.toFixed(2)}`);
       
       // Don't remove players yet - only prepare checkout data
       return { 
         players, 
         subtotal, 
         totalSeconds,
-        timeChargeOnly, // Time-based charges only
+        timeChargeOnly, // Time-based charges only (includes prepaid amounts)
         isTableCheckout: true,
         tableName: table.name,
         tableId,
