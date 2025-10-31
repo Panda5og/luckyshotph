@@ -637,8 +637,24 @@ export const mockAPI = {
       if (playerIndex !== -1) {
         const player = table.players[playerIndex];
         
-        // For prepaid players, simply remove them - no revenue calculation needed
-        // (they already paid upfront)
+        console.log('💰 PREPAID CHECKOUT - Moving revenue to Daily Total!');
+        console.log('   Player:', player.name);
+        console.log('   Prepaid Amount:', player.prepaidAmount);
+        console.log('   Current Revenue BEFORE:', mockState.currentRevenue);
+        console.log('   Daily Total BEFORE:', mockState.dailyAnalytics.totalRevenue);
+        
+        // Move prepaid amount from Current Revenue to Daily Total
+        if (player.prepaidAmount > 0) {
+          mockState.dailyAnalytics.totalRevenue += player.prepaidAmount;
+          mockState.dailyAnalytics.timeValue += player.prepaidAmount; // Prepaid is for table time
+          mockState.currentRevenue -= player.prepaidAmount; // Remove from current revenue
+        }
+        
+        console.log('   Current Revenue AFTER:', mockState.currentRevenue);
+        console.log('   Daily Total AFTER:', mockState.dailyAnalytics.totalRevenue);
+        console.log('   ✅ Prepaid revenue moved to Daily Total successfully!');
+        
+        // Remove player from table
         table.players.splice(playerIndex, 1);
         persistData();
         
