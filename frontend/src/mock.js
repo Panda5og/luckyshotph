@@ -583,17 +583,27 @@ export const mockAPI = {
     let currentRevenue = 0;
     mockState.tables.forEach(table => {
       table.players.forEach(player => {
-        const totalSeconds = calculateElapsedTime(player);
-        const rawTimeCharge = (totalSeconds / 3600) * player.rate;
-        const timeCharge = Math.round(rawTimeCharge); // Round to nearest dollar
-        
-        // Calculate total from extra items
-        const extraItemsTotal = player.extraItems ? 
-          player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
-        
-        currentRevenue += timeCharge + player.additionalCharges + extraItemsTotal;
+        // For prepaid players, use their prepaid amount (already paid)
+        if (player.isPrepaid && player.prepaidAmount > 0) {
+          currentRevenue += player.prepaidAmount;
+          console.log(`   📊 Adding prepaid player "${player.name}": $${player.prepaidAmount.toFixed(2)}`);
+        } else {
+          // For regular players, calculate based on elapsed time
+          const totalSeconds = calculateElapsedTime(player);
+          const rawTimeCharge = (totalSeconds / 3600) * player.rate;
+          const timeCharge = Math.round(rawTimeCharge); // Round to nearest dollar
+          
+          // Calculate total from extra items
+          const extraItemsTotal = player.extraItems ? 
+            player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
+          
+          currentRevenue += timeCharge + player.additionalCharges + extraItemsTotal;
+          console.log(`   📊 Adding regular player "${player.name}": $${(timeCharge + player.additionalCharges + extraItemsTotal).toFixed(2)}`);
+        }
       });
     });
+    
+    console.log(`💰 Total Current Revenue: $${currentRevenue.toFixed(2)}`);
     
     return {
       activeTables,
