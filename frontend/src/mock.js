@@ -153,16 +153,12 @@ export const mockAPI = {
       else if (playerData.rateType === 'Child') mockState.dailyAnalytics.children++;
       else if (playerData.rateType === 'Member') mockState.dailyAnalytics.members++;
       
-      // If prepaid, add prepaid amount to CURRENT REVENUE only (not daily total yet)
-      // Daily total will be updated when they checkout
+      // If prepaid, just log it - currentRevenue is calculated by getStats()
       if (newPlayer.isPrepaid && newPlayer.prepaidAmount > 0) {
-        console.log('🎯 PREPAID PLAYER ADDED - Adding to Current Revenue!');
+        console.log('🎯 PREPAID PLAYER ADDED!');
         console.log('   Player:', newPlayer.name);
         console.log('   Prepaid Amount:', newPlayer.prepaidAmount);
-        console.log('   Current Revenue BEFORE:', mockState.currentRevenue);
-        mockState.currentRevenue += newPlayer.prepaidAmount;
-        console.log('   Current Revenue AFTER:', mockState.currentRevenue);
-        console.log('   ✅ Prepaid revenue added to Current Revenue (will move to Daily Total on checkout)');
+        console.log('   ✅ Prepaid amount will show in Current Revenue (calculated by getStats)');
       } else {
         console.log('ℹ️  Regular player added (not prepaid):', {
           name: newPlayer.name,
