@@ -212,9 +212,22 @@ export const mockAPI = {
     if (table) {
       const player = table.players.find(p => p.id === playerId);
       if (player) {
-        // Add time as additional seconds to total elapsed
-        const newTime = Math.max(0, (player.totalElapsedSeconds || 0) + (additionalMinutes * 60));
-        player.totalElapsedSeconds = newTime;
+        console.log(`⏱️  Adjusting time for ${player.name}: ${additionalMinutes > 0 ? '+' : ''}${additionalMinutes} minutes`);
+        
+        // First, capture the current total elapsed time (including live session)
+        const currentTotalElapsed = calculateElapsedTime(player);
+        console.log(`   Current total time: ${Math.floor(currentTotalElapsed / 60)} minutes`);
+        
+        // Calculate new time by adding the adjustment
+        const newTimeInSeconds = Math.max(0, currentTotalElapsed + (additionalMinutes * 60));
+        console.log(`   New total time: ${Math.floor(newTimeInSeconds / 60)} minutes`);
+        
+        // Store the new time and reset the session start
+        player.totalElapsedSeconds = newTimeInSeconds;
+        player.lastResumeTime = new Date().toISOString(); // Reset session start to now
+        
+        console.log(`   ✅ Time adjustment applied`);
+        
         persistData();
         return player;
       }
