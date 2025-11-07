@@ -463,6 +463,19 @@ const Home = ({ onLogout }) => {
         playerData={prepaidCheckoutData}
       />
 
+
+      <MovePlayerModal
+        isOpen={isMovePlayerModalOpen}
+        onClose={() => {
+          setIsMovePlayerModalOpen(false);
+          setMovePlayerData(null);
+        }}
+        onConfirm={handleMovePlayerConfirm}
+        playerData={movePlayerData}
+        tables={tables}
+        currentTableId={movePlayerData?.sourceTableId}
+      />
+
       <ConfirmActionModal
         isOpen={isConfirmActionModalOpen}
         onClose={() => setIsConfirmActionModalOpen(false)}
