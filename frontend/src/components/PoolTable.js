@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardContent } from './ui/card';
-import { UserPlus, Clock, Plus, Minus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause, Trash2, MessageSquare, X } from 'lucide-react';
+import { UserPlus, Clock, Plus, Minus, DollarSign, LogOut, User, ChevronDown, ChevronUp, Play, Pause, Trash2, MessageSquare, X, ArrowRightLeft } from 'lucide-react';
 import { formatTime, calculateElapsedTime, calculatePrepaidTimeRemaining, formatCountdownTime } from '../mock';
 
 // Utility function to consolidate extra items
