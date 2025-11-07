@@ -235,6 +235,42 @@ export const mockAPI = {
     return null;
   },
 
+
+  movePlayer: (sourceTableId, playerId, destinationTableId) => {
+    const sourceTable = mockState.tables.find(t => t.id === sourceTableId);
+    const destTable = mockState.tables.find(t => t.id === destinationTableId);
+    
+    if (!sourceTable || !destTable) {
+      return { success: false, error: "Table not found" };
+    }
+    
+    if (sourceTableId === destinationTableId) {
+      return { success: false, error: "Source and destination tables are the same" };
+    }
+    
+    const playerIndex = sourceTable.players.findIndex(p => p.id === playerId);
+    if (playerIndex === -1) {
+      return { success: false, error: "Player not found" };
+    }
+    
+    // Remove player from source table
+    const player = sourceTable.players[playerIndex];
+    sourceTable.players.splice(playerIndex, 1);
+    
+    console.log(`🔄 Moving player "${player.name}" from ${sourceTable.name} to ${destTable.name}`);
+    
+    // Add player to destination table (preserving all data)
+    destTable.players.push(player);
+    
+    persistData();
+    
+    return { 
+      success: true, 
+      player: player,
+      message: `${player.name} moved from ${sourceTable.name} to ${destTable.name}`
+    };
+  },
+
   removePlayer: (tableId, playerId) => {
     const table = mockState.tables.find(t => t.id === tableId);
     if (table) {
