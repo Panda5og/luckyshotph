@@ -163,6 +163,53 @@ const Home = ({ onLogout }) => {
         variant: "destructive"
       });
     }
+
+  const handleMovePlayer = (tableId, playerId) => {
+    const table = tables.find(t => t.id === tableId);
+    const player = table?.players.find(p => p.id === playerId);
+    
+    if (player) {
+      setMovePlayerData({
+        sourceTableId: tableId,
+        playerId: playerId,
+        player: player
+      });
+      setIsMovePlayerModalOpen(true);
+    }
+  };
+
+  const handleMovePlayerConfirm = (destinationTableId) => {
+    if (movePlayerData) {
+      const result = mockAPI.movePlayer(
+        movePlayerData.sourceTableId,
+        movePlayerData.playerId,
+        destinationTableId
+      );
+      
+      if (result.success) {
+        // Force React to re-render by creating new table objects
+        const updatedTables = mockState.tables.map(table => ({
+          ...table,
+          players: [...table.players]
+        }));
+        setTables(updatedTables);
+        toast({
+          title: "Player Moved",
+          description: result.message,
+        });
+      } else {
+        toast({
+          title: "Move Failed",
+          description: result.error,
+          variant: "destructive"
+        });
+      }
+      
+      setIsMovePlayerModalOpen(false);
+      setMovePlayerData(null);
+    }
+  };
+
   };
 
   const handleToggleTimer = (tableId, playerId) => {
