@@ -14,6 +14,7 @@ import DailyAnalyticsModal from "./components/DailyAnalyticsModal";
 import MiscellaneousPurchaseModal from "./components/MiscellaneousPurchaseModal";
 import CustomChargeModal from "./components/CustomChargeModal";
 import SettingsModal from "./components/SettingsModal";
+import MovePlayerModal from "./components/MovePlayerModal";
 import AddTableButton from "./components/AddTableButton";
 import LoginPage from "./components/LoginPage";
 import { mockState, mockAPI, formatTime, calculateElapsedTime, calculatePrepaidTimeRemaining } from "./mock";
