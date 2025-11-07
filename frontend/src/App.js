@@ -211,8 +211,6 @@ const Home = ({ onLogout }) => {
     }
   };
 
-  };
-
   const handleToggleTimer = (tableId, playerId) => {
     const updatedPlayer = mockAPI.togglePlayerTimer(tableId, playerId);
     if (updatedPlayer) {
