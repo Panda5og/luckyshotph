@@ -432,6 +432,7 @@ const Home = ({ onLogout }) => {
                 onShowConfirmAction={handleShowConfirmAction}
                 onSetTableTimer={handleSetTableTimer}
                 onRemovePlayer={handleRemovePlayer}
+                onMovePlayer={handleMovePlayer}
               />
             ))}
             <AddTableButton onAddTable={handleAddTable} />
