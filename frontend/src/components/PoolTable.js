@@ -329,6 +329,19 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
+                    onMovePlayer(tableId, player.id);
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="text-purple-400 border-purple-500 hover:bg-purple-600/20 bg-purple-600/10 shadow-md font-medium px-2"
+                  title="Move player to another table"
+                >
+                  <ArrowRightLeft className="h-3 w-3" />
+                </Button>
+                
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
                     handleRemovePlayer();
                   }}
                   variant="outline"
