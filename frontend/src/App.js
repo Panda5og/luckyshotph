@@ -163,6 +163,7 @@ const Home = ({ onLogout }) => {
         variant: "destructive"
       });
     }
+  };
 
   const handleMovePlayer = (tableId, playerId) => {
     const table = tables.find(t => t.id === tableId);
