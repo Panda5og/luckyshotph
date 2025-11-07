@@ -225,105 +225,105 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
         </div>
         
         {isExpanded && (
-          <div className="mt-4 pt-3 border-t border-slate-600" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center gap-4 mb-3 text-sm text-slate-200 bg-slate-600/50 p-2 rounded-lg border border-slate-500">
-              <span className="flex items-center gap-1">
-                <DollarSign className="h-4 w-4 text-emerald-400" />
-                <strong className="text-white">{player.rateType}</strong> (${player.rate}/hr)
+          <div className="mt-3 pt-2 border-t border-slate-600" onClick={(e) => e.stopPropagation()}>
+            {/* Player Info Row - More Compact */}
+            <div className="flex flex-wrap items-center gap-2 mb-2 text-xs text-slate-200">
+              <span className="flex items-center gap-1 bg-slate-600/50 px-2 py-0.5 rounded border border-slate-500">
+                <DollarSign className="h-3 w-3 text-emerald-400" />
+                <strong className="text-white">{player.rateType}</strong> ${player.rate}/hr
               </span>
               {player.isPrepaid && (
-                <span className="text-green-300 font-bold bg-green-600/20 px-2 py-1 rounded border border-green-500/50">
+                <span className="text-green-300 font-semibold bg-green-600/20 px-2 py-0.5 rounded border border-green-500/50 text-xs">
                   PREPAID {player.prepaidHours}h (${player.prepaidAmount})
                 </span>
               )}
               {player.additionalCharges > 0 && (
-                <span className="text-orange-300 font-bold bg-orange-600/20 px-2 py-1 rounded border border-orange-500/50">
-                  +${player.additionalCharges} extra
+                <span className="text-orange-300 font-semibold bg-orange-600/20 px-2 py-0.5 rounded border border-orange-500/50 text-xs">
+                  +${player.additionalCharges}
                 </span>
               )}
               {player.extraItems && player.extraItems.length > 0 && (
-                <span className="text-purple-300 font-bold bg-purple-600/20 px-2 py-1 rounded border border-purple-500/50">
+                <span className="text-purple-300 font-semibold bg-purple-600/20 px-2 py-0.5 rounded border border-purple-500/50 text-xs">
                   {player.extraItems.length} item{player.extraItems.length > 1 ? 's' : ''}
                 </span>
               )}
             </div>
 
-            {/* Extra Items List */}
+            {/* Extra Items List - More Compact */}
             {player.extraItems && player.extraItems.length > 0 && (
-              <div className="mt-3 space-y-1">
-                <h4 className="text-xs font-medium text-slate-300 uppercase tracking-wide">Extra Items:</h4>
-                <div className="space-y-1 max-h-20 overflow-y-auto">
+              <div className="mb-2 space-y-1">
+                <div className="space-y-0.5 max-h-16 overflow-y-auto">
                   {consolidateExtraItems(player.extraItems).map((item, index) => (
-                    <div key={index} className="flex justify-between items-center text-xs bg-slate-700/50 p-1.5 rounded border border-slate-600">
-                      <span className="text-slate-300">
+                    <div key={index} className="flex justify-between items-center text-xs bg-slate-700/50 px-2 py-0.5 rounded border border-slate-600">
+                      <span className="text-slate-300 text-xs">
                         {item.description}
                         {item.count > 1 && <span className="text-purple-400"> ({item.count}x)</span>}
                       </span>
-                      <span className="text-purple-300 font-medium">${item.totalAmount.toFixed(2)}</span>
+                      <span className="text-purple-300 font-medium text-xs">${item.totalAmount.toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
             
-            <div className="space-y-3">
-              {/* Time Controls */}
-              <div className="flex gap-2">
+            {/* Compact Control Grid */}
+            <div className="space-y-1.5">
+              {/* Time & Charge Controls - Smaller buttons in 2-column grid */}
+              <div className="grid grid-cols-2 gap-1.5">
                 <Button
                   onClick={() => handleTimeAction(false)}
                   variant="outline"
                   size="sm"
-                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 shadow-md font-medium"
-                  disabled={currentTime < 15 * 60} // Disable if less than 15 minutes
+                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 font-medium h-7 text-xs"
+                  disabled={currentTime < 15 * 60}
+                  title="Subtract 15 minutes"
                 >
-                  <Minus className="h-3 w-3 mr-1" />
+                  <Minus className="h-3 w-3 mr-0.5" />
                   -15 min
                 </Button>
                 <Button
                   onClick={() => handleTimeAction(true)}
                   variant="outline"
                   size="sm"
-                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 shadow-md font-medium"
+                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 font-medium h-7 text-xs"
+                  title="Add 15 minutes"
                 >
-                  <Plus className="h-3 w-3 mr-1" />
+                  <Plus className="h-3 w-3 mr-0.5" />
                   +15 min
                 </Button>
-              </div>
-              
-              {/* Charge Controls */}
-              <div className="flex gap-2">
                 <Button
                   onClick={() => handleChargeAction(false)}
                   variant="outline"
                   size="sm"
-                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 shadow-md font-medium"
-                  disabled={player.additionalCharges < 1} // Disable if no charges to remove
+                  className="text-red-400 border-red-500 hover:bg-red-600/20 bg-red-600/10 font-medium h-7 text-xs"
+                  disabled={player.additionalCharges < 1}
+                  title="Remove $1"
                 >
-                  <Minus className="h-3 w-3 mr-1" />
+                  <Minus className="h-3 w-3 mr-0.5" />
                   -$1
                 </Button>
                 <Button
                   onClick={() => handleChargeAction(true)}
                   variant="outline"
                   size="sm"
-                  className="text-orange-400 border-orange-500 hover:bg-orange-600/20 bg-orange-600/10 shadow-md font-medium"
+                  className="text-orange-400 border-orange-500 hover:bg-orange-600/20 bg-orange-600/10 font-medium h-7 text-xs"
+                  title="Add custom charge"
                 >
-                  <DollarSign className="h-3 w-3 mr-1" />
-                  $
+                  <DollarSign className="h-3 w-3 mr-0.5" />
+                  Custom
                 </Button>
               </div>
               
-              {/* Other Actions */}
-              <div className="flex gap-1.5 pt-2 border-t border-slate-600">
+              {/* Action Buttons - Compact Row */}
+              <div className="flex gap-1 pt-1 border-t border-slate-600">
                 <Button
                   onClick={handleCommentClick}
                   variant="outline"
                   size="sm"
-                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 shadow-md font-medium flex-1 px-2"
+                  className="text-blue-400 border-blue-500 hover:bg-blue-600/20 bg-blue-600/10 font-medium h-7 px-2 text-xs"
                   title={player.comment ? 'Edit player comment' : 'Add player comment'}
                 >
-                  <MessageSquare className="h-3 w-3 mr-1" />
-                  <span className="text-xs">{player.comment ? 'Edit' : 'Comment'}</span>
+                  <MessageSquare className="h-3 w-3" />
                 </Button>
                 
                 <Button
@@ -333,7 +333,7 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                   }}
                   variant="outline"
                   size="sm"
-                  className="text-purple-400 border-purple-500 hover:bg-purple-600/20 bg-purple-600/10 shadow-md font-medium px-2"
+                  className="text-purple-400 border-purple-500 hover:bg-purple-600/20 bg-purple-600/10 font-medium h-7 px-2 text-xs"
                   title="Move player to another table"
                 >
                   <ArrowRightLeft className="h-3 w-3" />
@@ -346,8 +346,8 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                   }}
                   variant="outline"
                   size="sm"
-                  className="text-slate-400 border-slate-500 hover:bg-slate-600/20 bg-slate-600/10 shadow-md font-medium px-3"
-                  title="Remove player from table (no charges)"
+                  className="text-slate-400 border-slate-500 hover:bg-slate-600/20 bg-slate-600/10 font-medium h-7 px-2 text-xs"
+                  title="Remove player (no charges)"
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -359,10 +359,13 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                   }}
                   variant="outline"
                   size="sm"
-                  className="text-green-400 border-green-500 hover:bg-green-600/20 bg-green-600/10 shadow-md font-medium flex-1 px-2"
+                  className="text-green-400 border-green-500 hover:bg-green-600/20 bg-green-600/10 font-medium h-7 flex-1 px-2 text-xs"
+                  title="Checkout player"
                 >
                   <LogOut className="h-3 w-3 mr-1" />
-                  <span className="text-xs">Checkout</span>
+                  Checkout
+                </Button>
+              </div>
                 </Button>
               </div>
             </div>
