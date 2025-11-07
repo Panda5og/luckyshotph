@@ -37,8 +37,10 @@ const Home = ({ onLogout }) => {
   const [isCustomChargeModalOpen, setIsCustomChargeModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isPrepaidCheckoutModalOpen, setIsPrepaidCheckoutModalOpen] = useState(false);
+  const [isMovePlayerModalOpen, setIsMovePlayerModalOpen] = useState(false);
   const [checkoutData, setCheckoutData] = useState(null);
   const [prepaidCheckoutData, setPrepaidCheckoutData] = useState(null);
+  const [movePlayerData, setMovePlayerData] = useState(null);
   const [confirmActionData, setConfirmActionData] = useState(null);
   const [commentData, setCommentData] = useState(null);
   const [customChargeData, setCustomChargeData] = useState(null);
