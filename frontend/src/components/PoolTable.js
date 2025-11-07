@@ -366,8 +366,6 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
                   Checkout
                 </Button>
               </div>
-                </Button>
-              </div>
             </div>
           </div>
         )}
