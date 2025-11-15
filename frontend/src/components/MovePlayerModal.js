@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 
@@ -33,6 +33,9 @@ const MovePlayerModal = ({ isOpen, onClose, onConfirm, playerData, tables, curre
             <ArrowRight className="h-5 w-5 text-blue-400" />
             Move Player
           </DialogTitle>
+          <DialogDescription className="text-slate-400">
+            Select a destination table to move {player.name} to.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
