@@ -9,6 +9,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [transactionType, setTransactionType] = useState('add'); // 'add' or 'deduct'
+  const [paymentMethod, setPaymentMethod] = useState('cash'); // 'cash', 'creditCard', or 'venmo'
 
   // Reset form when modal opens
   useEffect(() => {
@@ -16,6 +17,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
       setDescription('');
       setAmount('');
       setTransactionType('add');
+      setPaymentMethod('cash');
     }
   }, [isOpen]);
 
@@ -24,7 +26,8 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
       const finalAmount = transactionType === 'deduct' ? -parseFloat(amount) : parseFloat(amount);
       onConfirm({
         description: description.trim(),
-        amount: finalAmount
+        amount: finalAmount,
+        paymentMethod: paymentMethod
       });
       handleClose();
     }
@@ -34,6 +37,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
     setDescription('');
     setAmount('');
     setTransactionType('add');
+    setPaymentMethod('cash');
     onClose();
   };
 
