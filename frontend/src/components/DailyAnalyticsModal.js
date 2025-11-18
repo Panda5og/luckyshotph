@@ -142,6 +142,33 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
     doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
     doc.text(`Total Revenue: $${totalRevenue.toFixed(2)}`, 25, yPosition);
+    yPosition += 15;
+    
+    // Payment Methods Breakdown
+    if (analytics.paymentMethods) {
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('Payment Methods Breakdown', 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'normal');
+      doc.text(`Cash: $${analytics.paymentMethods.cash.toFixed(2)}`, 25, yPosition);
+      yPosition += 8;
+      doc.text(`Credit Card: $${analytics.paymentMethods.creditCard.toFixed(2)}`, 25, yPosition);
+      yPosition += 8;
+      doc.text(`Venmo: $${analytics.paymentMethods.venmo.toFixed(2)}`, 25, yPosition);
+      yPosition += 8;
+      
+      // Draw line before total
+      doc.line(25, yPosition, 100, yPosition);
+      yPosition += 8;
+      
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
+      const totalCollected = analytics.paymentMethods.cash + analytics.paymentMethods.creditCard + analytics.paymentMethods.venmo;
+      doc.text(`Total Collected: $${totalCollected.toFixed(2)}`, 25, yPosition);
+    }
     
     // Generate filename with current date
     const filename = `daily-analytics-${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}.pdf`;
