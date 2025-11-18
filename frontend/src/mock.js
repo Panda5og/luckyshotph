@@ -581,6 +581,11 @@ export const mockAPI = {
       mockState.dailyAnalytics.extraItems = [];
     }
     
+    // Ensure paymentMethods exists for backward compatibility
+    if (!mockState.dailyAnalytics.paymentMethods) {
+      mockState.dailyAnalytics.paymentMethods = { cash: 0, creditCard: 0, venmo: 0 };
+    }
+    
     // Return a copy of current analytics without resetting anything
     return {
       totalPlayers: mockState.dailyAnalytics.totalPlayers,
@@ -592,7 +597,8 @@ export const mockAPI = {
       totalDiscount: mockState.dailyAnalytics.totalDiscount,
       timeValue: mockState.dailyAnalytics.timeValue,
       extraValue: mockState.dailyAnalytics.extraValue,
-      extraItems: [...mockState.dailyAnalytics.extraItems]
+      extraItems: [...mockState.dailyAnalytics.extraItems],
+      paymentMethods: { ...mockState.dailyAnalytics.paymentMethods }
     };
   },
 
