@@ -265,6 +265,47 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
             )}
           </div>
 
+          {/* Payment Methods Breakdown */}
+          {analytics.paymentMethods && (
+            <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+              <h3 className="flex items-center gap-2 font-semibold text-white mb-3">
+                <DollarSign className="h-4 w-4 text-green-400" />
+                Payment Methods Breakdown
+              </h3>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="flex items-center gap-2 text-slate-300">
+                    <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                    Cash:
+                  </span>
+                  <span className="text-green-400 font-medium">${analytics.paymentMethods.cash.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="flex items-center gap-2 text-slate-300">
+                    <span className="w-3 h-3 rounded-full bg-blue-500"></span>
+                    Credit Card:
+                  </span>
+                  <span className="text-blue-400 font-medium">${analytics.paymentMethods.creditCard.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="flex items-center gap-2 text-slate-300">
+                    <span className="w-3 h-3 rounded-full bg-purple-500"></span>
+                    Venmo:
+                  </span>
+                  <span className="text-purple-400 font-medium">${analytics.paymentMethods.venmo.toFixed(2)}</span>
+                </div>
+                <div className="border-t border-slate-600 pt-2 mt-2">
+                  <div className="flex justify-between font-semibold">
+                    <span className="text-white">Total Collected:</span>
+                    <span className="text-green-400">
+                      ${(analytics.paymentMethods.cash + analytics.paymentMethods.creditCard + analytics.paymentMethods.venmo).toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Warning Message */}
           <div className="bg-red-900/20 border border-red-600/50 p-4 rounded-lg">
             <p className="text-red-300 text-sm text-center">
