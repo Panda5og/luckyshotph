@@ -12,6 +12,7 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
   const [rateType, setRateType] = useState('Adult');
   const [isPrepaid, setIsPrepaid] = useState(false);
   const [prepaidHours, setPrepaidHours] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState('cash');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,12 +38,14 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
         rateType,
         isPrepaid,
         prepaidHours: isPrepaid ? prepaidHours : 0,
-        prepaidAmount: isPrepaid ? rate * prepaidHours : 0
+        prepaidAmount: isPrepaid ? rate * prepaidHours : 0,
+        paymentMethod: isPrepaid ? paymentMethod : null
       });
       setPlayerName('');
       setRateType('Adult');
       setIsPrepaid(false);
       setPrepaidHours(1);
+      setPaymentMethod('cash');
       onClose();
     }
   };
@@ -52,6 +55,7 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
     setRateType('Adult');
     setIsPrepaid(false);
     setPrepaidHours(1);
+    setPaymentMethod('cash');
     onClose();
   };
 
