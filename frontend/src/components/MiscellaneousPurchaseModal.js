@@ -99,6 +99,49 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
               </Button>
             </div>
           </div>
+
+          {/* Payment Method Selection */}
+          <div className="space-y-2">
+            <Label className="text-slate-200">Payment Method</Label>
+            <div className="grid grid-cols-3 gap-2">
+              <Button
+                type="button"
+                variant={paymentMethod === 'cash' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPaymentMethod('cash')}
+                className={`${paymentMethod === 'cash' 
+                  ? 'bg-green-600 hover:bg-green-700 text-white' 
+                  : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                }`}
+              >
+                Cash
+              </Button>
+              <Button
+                type="button"
+                variant={paymentMethod === 'creditCard' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPaymentMethod('creditCard')}
+                className={`${paymentMethod === 'creditCard' 
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                  : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                }`}
+              >
+                Credit Card
+              </Button>
+              <Button
+                type="button"
+                variant={paymentMethod === 'venmo' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPaymentMethod('venmo')}
+                className={`${paymentMethod === 'venmo' 
+                  ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                  : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                }`}
+              >
+                Venmo
+              </Button>
+            </div>
+          </div>
           
           <div className="space-y-2">
             <Label htmlFor="amount" className="text-slate-200">
