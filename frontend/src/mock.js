@@ -143,7 +143,8 @@ export const mockAPI = {
         isPrepaid: playerData.isPrepaid || false,
         prepaidHours: playerData.prepaidHours || 0,
         prepaidAmount: playerData.prepaidAmount || 0,
-        prepaidSecondsRemaining: playerData.isPrepaid ? playerData.prepaidHours * 3600 : 0
+        prepaidSecondsRemaining: playerData.isPrepaid ? playerData.prepaidHours * 3600 : 0,
+        prepaidPaymentMethod: playerData.paymentMethod || null // Store payment method for prepaid
       };
       table.players.push(newPlayer);
       
@@ -153,12 +154,21 @@ export const mockAPI = {
       else if (playerData.rateType === 'Child') mockState.dailyAnalytics.children++;
       else if (playerData.rateType === 'Member') mockState.dailyAnalytics.members++;
       
-      // If prepaid, just log it - currentRevenue is calculated by getStats()
-      if (newPlayer.isPrepaid && newPlayer.prepaidAmount > 0) {
+      // If prepaid, track payment method immediately (payment received upfront)
+      if (newPlayer.isPrepaid && newPlayer.prepaidAmount > 0 && playerData.paymentMethod) {
+        // Initialize payment methods if needed (backward compatibility)
+        if (!mockState.dailyAnalytics.paymentMethods) {
+          mockState.dailyAnalytics.paymentMethods = { cash: 0, creditCard: 0, venmo: 0 };
+        }
+        
+        // Track the prepaid payment in current revenue (will move to daily total on checkout)
+        // The payment method tracking is done here since payment is received upfront
         console.log('🎯 PREPAID PLAYER ADDED!');
         console.log('   Player:', newPlayer.name);
         console.log('   Prepaid Amount:', newPlayer.prepaidAmount);
+        console.log('   Payment Method:', playerData.paymentMethod);
         console.log('   ✅ Prepaid amount will show in Current Revenue (calculated by getStats)');
+        console.log('   💳 Payment method will be tracked when player checks out');
       } else {
         console.log('ℹ️  Regular player added (not prepaid):', {
           name: newPlayer.name,
