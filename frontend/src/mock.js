@@ -735,6 +735,7 @@ export const mockAPI = {
         console.log('💰 PREPAID CHECKOUT - Moving revenue to Daily Total!');
         console.log('   Player:', player.name);
         console.log('   Prepaid Amount:', player.prepaidAmount);
+        console.log('   Payment Method:', player.prepaidPaymentMethod);
         console.log('   Daily Total (revenue.daily) BEFORE:', mockState.revenue.daily);
         console.log('   Daily Analytics Total BEFORE:', mockState.dailyAnalytics.totalRevenue);
         
@@ -743,6 +744,15 @@ export const mockAPI = {
           mockState.revenue.daily += player.prepaidAmount; // For dashboard display
           mockState.dailyAnalytics.totalRevenue += player.prepaidAmount; // For analytics modal
           mockState.dailyAnalytics.timeValue += player.prepaidAmount; // Prepaid is for table time
+          
+          // Track payment method (payment was received when player was added)
+          if (player.prepaidPaymentMethod) {
+            if (!mockState.dailyAnalytics.paymentMethods) {
+              mockState.dailyAnalytics.paymentMethods = { cash: 0, creditCard: 0, venmo: 0 };
+            }
+            mockState.dailyAnalytics.paymentMethods[player.prepaidPaymentMethod] += player.prepaidAmount;
+            console.log('   💳 Payment method tracked:', player.prepaidPaymentMethod, '+$' + player.prepaidAmount.toFixed(2));
+          }
         }
         
         console.log('   Daily Total (revenue.daily) AFTER:', mockState.revenue.daily);
