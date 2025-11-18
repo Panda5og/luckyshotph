@@ -627,13 +627,25 @@ export const mockAPI = {
       mockState.dailyAnalytics.extraItems = [];
     }
     
+    // Track payment method (backward compatibility: default to cash if not provided)
+    const paymentMethod = purchaseData.paymentMethod || 'cash';
+    if (!mockState.dailyAnalytics.paymentMethods) {
+      mockState.dailyAnalytics.paymentMethods = { cash: 0, creditCard: 0, venmo: 0 };
+    }
+    
+    // Add to payment method tracking
+    mockState.dailyAnalytics.paymentMethods[paymentMethod] += purchaseData.amount;
+    
     // Add to detailed extra items tracking
     mockState.dailyAnalytics.extraItems.push({
       description: purchaseData.description,
       amount: purchaseData.amount,
       type: 'miscellaneous',
+      paymentMethod: paymentMethod,
       timestamp: new Date().toISOString()
     });
+    
+    console.log(`💳 Miscellaneous purchase added: ${purchaseData.description} - $${purchaseData.amount.toFixed(2)} via ${paymentMethod}`);
     
     persistData();
     return purchaseData;
