@@ -608,6 +608,11 @@ export const mockAPI = {
       mockState.dailyAnalytics.extraItems = [];
     }
     
+    // Ensure paymentMethods exists before creating analytics
+    if (!mockState.dailyAnalytics.paymentMethods) {
+      mockState.dailyAnalytics.paymentMethods = { cash: 0, creditCard: 0, venmo: 0 };
+    }
+    
     const analytics = { ...mockState.dailyAnalytics };
     
     // Reset everything
@@ -623,7 +628,8 @@ export const mockAPI = {
       totalDiscount: 0,
       timeValue: 0,
       extraValue: 0,
-      extraItems: []
+      extraItems: [],
+      paymentMethods: { cash: 0, creditCard: 0, venmo: 0 }
     };
     
     persistData();
