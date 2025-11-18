@@ -212,6 +212,49 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
                   </div>
                 </div>
                 
+                {/* Payment Method Selection */}
+                <div>
+                  <Label className="text-sm text-slate-300 mb-2 block">Payment Method:</Label>
+                  <div className="grid grid-cols-3 gap-2">
+                    <Button
+                      type="button"
+                      variant={paymentMethod === 'cash' ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setPaymentMethod('cash')}
+                      className={`${paymentMethod === 'cash' 
+                        ? 'bg-green-600 hover:bg-green-700 text-white' 
+                        : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      Cash
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={paymentMethod === 'creditCard' ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setPaymentMethod('creditCard')}
+                      className={`${paymentMethod === 'creditCard' 
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                        : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      Credit Card
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={paymentMethod === 'venmo' ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setPaymentMethod('venmo')}
+                      className={`${paymentMethod === 'venmo' 
+                        ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                        : 'border-slate-500 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      Venmo
+                    </Button>
+                  </div>
+                </div>
+                
                 <div className="bg-green-600/20 border border-green-500 rounded-lg p-3">
                   <div className="text-sm font-medium text-green-300">
                     Prepaid Total: ${((settings?.rates?.[rateType.toLowerCase()] || 5) * prepaidHours).toFixed(2)} 
