@@ -21,6 +21,9 @@ const PrepaidCheckoutModal = ({ isOpen, onClose, onConfirm, playerData }) => {
             <CheckCircle className="h-5 w-5 text-green-400" />
             Close Prepaid Session
           </DialogTitle>
+          <DialogDescription className="text-slate-400 sr-only">
+            Confirm closing prepaid session for {playerData.player.name}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
