@@ -180,13 +180,13 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg bg-slate-800 border-slate-700 text-white">
+      <DialogContent className="sm:max-w-lg bg-slate-800 border-slate-700 text-white max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-white">
             <BarChart3 className="h-5 w-5 text-blue-400" />
             Daily Analytics Summary
-          <DialogDescription className="text-slate-400">View and download daily revenue analytics</DialogDescription>
           </DialogTitle>
+          <DialogDescription className="text-slate-400">View and download daily revenue analytics</DialogDescription>
         </DialogHeader>
         
         <div className="space-y-6">
