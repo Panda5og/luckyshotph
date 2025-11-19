@@ -90,6 +90,11 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, checkoutData, settings }) =
             <Receipt className="h-5 w-5 text-green-400" />
             {isTableCheckout ? `Checkout ${tableName}` : 'Checkout Player'}
           </DialogTitle>
+          <DialogDescription className="text-slate-400">
+            {isTableCheckout 
+              ? `Review charges for all players at ${tableName} and complete checkout.`
+              : 'Review charges and complete player checkout.'}
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4">
