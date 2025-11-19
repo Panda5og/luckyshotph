@@ -29,7 +29,6 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
 
   const handleSave = () => {
     const newSettings = {
-          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
       rates: {
         adult: parseFloat(rates.adult),
         child: parseFloat(rates.child),
@@ -39,7 +38,6 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
     };
     
     onUpdateSettings(newSettings);
-          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
     onClose();
   };
 
