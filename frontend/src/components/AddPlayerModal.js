@@ -66,6 +66,7 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
           <DialogTitle className="flex items-center gap-2 text-white">
             <UserPlus className="h-5 w-5 text-emerald-400" />
             Add Player to {tableName}
+          <DialogDescription className="text-slate-400">Add a new player to {tableName}</DialogDescription>
           </DialogTitle>
         </DialogHeader>
         
@@ -282,6 +283,7 @@ const AddPlayerModal = ({ isOpen, onClose, onAddPlayer, tableName, settings }) =
               disabled={!playerName.trim()}
             >
               Add Player
+          <DialogDescription className="text-slate-400">Add a new player to {tableName}</DialogDescription>
             </Button>
           </DialogFooter>
         </form>

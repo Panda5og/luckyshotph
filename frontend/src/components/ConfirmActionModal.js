@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
+          <DialogDescription className="text-slate-400 sr-only">Confirm the selected action</DialogDescription>
 import { Button } from './ui/button';
 import { Clock, DollarSign, AlertCircle } from 'lucide-react';
 
@@ -40,9 +41,11 @@ const ConfirmActionModal = ({ isOpen, onClose, onConfirm, actionData }) => {
       <DialogContent className="sm:max-w-md bg-slate-800 border-slate-700 text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-white">
+          <DialogDescription className="text-slate-400 sr-only">Confirm the selected action</DialogDescription>
             {getIcon()}
             {getTitle()}
           </DialogTitle>
+          <DialogDescription className="text-slate-400 sr-only">Confirm the selected action</DialogDescription>
         </DialogHeader>
         
         <div className="py-4">

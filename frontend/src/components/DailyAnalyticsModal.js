@@ -59,6 +59,7 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
     doc.text('Lucky Shot Pool Hall', 105, 20, { align: 'center' });
     doc.setFontSize(16);
     doc.text('Daily Analytics Report', 105, 30, { align: 'center' });
+          <DialogDescription className="text-slate-400">View and download daily revenue analytics</DialogDescription>
     
     // Date and time
     doc.setFontSize(12);
@@ -184,6 +185,7 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
           <DialogTitle className="flex items-center gap-2 text-white">
             <BarChart3 className="h-5 w-5 text-blue-400" />
             Daily Analytics Summary
+          <DialogDescription className="text-slate-400">View and download daily revenue analytics</DialogDescription>
           </DialogTitle>
         </DialogHeader>
         
@@ -365,6 +367,7 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
           >
             <BarChart3 className="h-4 w-4 mr-2" />
             Reset Daily Analytics
+          <DialogDescription className="text-slate-400">View and download daily revenue analytics</DialogDescription>
           </Button>
         </DialogFooter>
       </DialogContent>

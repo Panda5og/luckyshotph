@@ -4,8 +4,10 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Settings, Save, RotateCcw, Users, Percent } from 'lucide-react';
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
 
 const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
   const [rates, setRates] = useState({
     adult: 5.00,
     child: 2.00,
@@ -27,6 +29,7 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
 
   const handleSave = () => {
     const newSettings = {
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
       rates: {
         adult: parseFloat(rates.adult),
         child: parseFloat(rates.child),
@@ -36,6 +39,7 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
     };
     
     onUpdateSettings(newSettings);
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
     onClose();
   };
 
@@ -67,7 +71,9 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl font-semibold">
             <Settings className="h-5 w-5 text-blue-400" />
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
             Pool Hall Settings
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
           </DialogTitle>
         </DialogHeader>
 
@@ -200,6 +206,7 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
             >
               <Save className="h-4 w-4 mr-2" />
               Save Settings
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
             </Button>
           </div>
         </div>
@@ -209,3 +216,4 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
 };
 
 export default SettingsModal;
+          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>

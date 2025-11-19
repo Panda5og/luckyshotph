@@ -190,6 +190,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Purchase
+          <DialogDescription className="text-slate-400 sr-only">Add miscellaneous purchase to daily total</DialogDescription>
           </Button>
         </DialogFooter>
       </DialogContent>

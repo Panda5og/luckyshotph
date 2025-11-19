@@ -47,6 +47,7 @@ const CustomChargeModal = ({ isOpen, onClose, onConfirm, playerName }) => {
           <DialogTitle className="flex items-center gap-2 text-white">
             <DollarSign className="h-5 w-5 text-orange-400" />
             Add Custom Charge
+          <DialogDescription className="text-slate-400 sr-only">Add custom charge to player</DialogDescription>
           </DialogTitle>
         </DialogHeader>
         
