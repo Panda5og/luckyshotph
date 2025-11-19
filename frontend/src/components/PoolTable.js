@@ -228,13 +228,15 @@ const PlayerCard = ({ player, tableId, onAddTime, onAddCharge, onCustomCharge, o
           <div className="mt-3 pt-2 border-t border-slate-600" onClick={(e) => e.stopPropagation()}>
             {/* Player Info Row - More Compact */}
             <div className="flex flex-wrap items-center gap-2 mb-2 text-xs text-slate-200">
-              <span className="flex items-center gap-1 bg-slate-600/50 px-2 py-0.5 rounded border border-slate-500">
-                <DollarSign className="h-3 w-3 text-emerald-400" />
-                <strong className="text-white">{player.rateType}</strong> ${player.rate}/hr
-              </span>
+              {!player.isPrepaid && (
+                <span className="flex items-center gap-1 bg-slate-600/50 px-2 py-0.5 rounded border border-slate-500">
+                  <DollarSign className="h-3 w-3 text-emerald-400" />
+                  <strong className="text-white">{player.rateType}</strong> ${player.rate}/hr
+                </span>
+              )}
               {player.isPrepaid && (
                 <span className="text-green-300 font-semibold bg-green-600/20 px-2 py-0.5 rounded border border-green-500/50 text-xs">
-                  PREPAID {player.prepaidHours}h (${player.prepaidAmount})
+                  PREPAID {player.prepaidHours}h (${player.prepaidAmount}) - {player.rateType}
                 </span>
               )}
               {player.additionalCharges > 0 && (
