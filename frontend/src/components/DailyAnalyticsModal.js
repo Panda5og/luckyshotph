@@ -367,7 +367,6 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
           >
             <BarChart3 className="h-4 w-4 mr-2" />
             Reset Daily Analytics
-          <DialogDescription className="text-slate-400">View and download daily revenue analytics</DialogDescription>
           </Button>
         </DialogFooter>
       </DialogContent>
