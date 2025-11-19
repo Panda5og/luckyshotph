@@ -342,7 +342,7 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
           </div>
         </div>
         
-        <DialogFooter className="flex gap-2">
+        <DialogFooter className="flex flex-row justify-end gap-2 pt-4">
           <Button 
             type="button" 
             variant="outline" 
