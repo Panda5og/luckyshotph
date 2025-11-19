@@ -69,10 +69,11 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl font-semibold">
             <Settings className="h-5 w-5 text-blue-400" />
-          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
             Pool Hall Settings
-          <DialogDescription className="text-slate-400">Configure player rates and sales tax</DialogDescription>
           </DialogTitle>
+          <DialogDescription className="text-slate-400">
+            Configure player rates and sales tax percentage.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
