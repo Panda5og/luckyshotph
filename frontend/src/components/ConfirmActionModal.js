@@ -1,6 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
-          <DialogDescription className="text-slate-400 sr-only">Confirm the selected action</DialogDescription>
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './ui/dialog';
 import { Button } from './ui/button';
 import { Clock, DollarSign, AlertCircle } from 'lucide-react';
 
