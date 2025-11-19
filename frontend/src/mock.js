@@ -683,7 +683,6 @@ export const mockAPI = {
         // For prepaid players, use their prepaid amount (already paid)
         if (player.isPrepaid && player.prepaidAmount > 0) {
           currentRevenue += player.prepaidAmount;
-          console.log(`   📊 Adding prepaid player "${player.name}": $${player.prepaidAmount.toFixed(2)}`);
         } else {
           // For regular players, calculate based on elapsed time
           const totalSeconds = calculateElapsedTime(player);
@@ -695,12 +694,9 @@ export const mockAPI = {
             player.extraItems.reduce((sum, item) => sum + item.amount, 0) : 0;
           
           currentRevenue += timeCharge + player.additionalCharges + extraItemsTotal;
-          console.log(`   📊 Adding regular player "${player.name}": $${(timeCharge + player.additionalCharges + extraItemsTotal).toFixed(2)}`);
         }
       });
     });
-    
-    console.log(`💰 Total Current Revenue: $${currentRevenue.toFixed(2)}`);
     
     return {
       activeTables,
