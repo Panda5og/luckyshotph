@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './ui/dialog';
 import { Button } from './ui/button';
 import { BarChart3, Users, DollarSign, Percent, Clock, ShoppingBag, Download } from 'lucide-react';
 import { jsPDF } from 'jspdf';
