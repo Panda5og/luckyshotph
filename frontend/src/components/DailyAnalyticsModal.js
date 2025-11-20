@@ -146,7 +146,7 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
     yPosition += 15;
     
     // Payment Methods Breakdown
-    if (analytics.paymentMethods) {
+    if (analytics.paymentMethods && (analytics.paymentMethods.cash || analytics.paymentMethods.creditCard || analytics.paymentMethods.venmo)) {
       doc.setFontSize(14);
       doc.setFont(undefined, 'bold');
       doc.text('Payment Methods Breakdown', 20, yPosition);
@@ -154,11 +154,11 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
       
       doc.setFontSize(11);
       doc.setFont(undefined, 'normal');
-      doc.text(`Cash: $${analytics.paymentMethods.cash.toFixed(2)}`, 25, yPosition);
+      doc.text(`Cash: $${(analytics.paymentMethods.cash || 0).toFixed(2)}`, 25, yPosition);
       yPosition += 8;
-      doc.text(`Credit Card: $${analytics.paymentMethods.creditCard.toFixed(2)}`, 25, yPosition);
+      doc.text(`Credit Card: $${(analytics.paymentMethods.creditCard || 0).toFixed(2)}`, 25, yPosition);
       yPosition += 8;
-      doc.text(`Venmo: $${analytics.paymentMethods.venmo.toFixed(2)}`, 25, yPosition);
+      doc.text(`Venmo: $${(analytics.paymentMethods.venmo || 0).toFixed(2)}`, 25, yPosition);
       yPosition += 8;
       
       // Draw line before total
@@ -167,7 +167,7 @@ const DailyAnalyticsModal = ({ isOpen, onClose, onConfirm, analytics }) => {
       
       doc.setFontSize(12);
       doc.setFont(undefined, 'bold');
-      const totalCollected = analytics.paymentMethods.cash + analytics.paymentMethods.creditCard + analytics.paymentMethods.venmo;
+      const totalCollected = (analytics.paymentMethods.cash || 0) + (analytics.paymentMethods.creditCard || 0) + (analytics.paymentMethods.venmo || 0);
       doc.text(`Total Collected: $${totalCollected.toFixed(2)}`, 25, yPosition);
     }
     
