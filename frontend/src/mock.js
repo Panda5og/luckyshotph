@@ -441,7 +441,7 @@ export const mockAPI = {
     // Get time-based charges only (excluding extra items)
     const timeChargeOnly = checkoutData.timeChargeOnly || subtotal;
     
-    const taxRate = mockState.settings?.taxRate || 0.0575; // Use dynamic tax rate
+    const taxRate = mockState.settings?.taxRate || 0.0725; // Use dynamic tax rate
     const subtotalWithExtras = subtotal + extraItemsTotal;
     const discountAmount = Math.min(discount, subtotalWithExtras);
     const afterDiscount = subtotalWithExtras - discountAmount; // Add this back for compatibility
