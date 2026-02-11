@@ -3,13 +3,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { Checkbox } from './ui/checkbox';
 import { ShoppingCart, DollarSign, Plus, Minus } from 'lucide-react';
 
-const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
+const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm, settings }) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [transactionType, setTransactionType] = useState('add'); // 'add' or 'deduct'
   const [paymentMethod, setPaymentMethod] = useState('cash'); // 'cash', 'creditCard', or 'venmo'
+  const [includeTax, setIncludeTax] = useState(false);
 
   // Reset form when modal opens
   useEffect(() => {
@@ -18,16 +20,23 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
       setAmount('');
       setTransactionType('add');
       setPaymentMethod('cash');
+      setIncludeTax(false);
     }
   }, [isOpen]);
 
   const handleConfirm = () => {
     if (description.trim() && amount && parseFloat(amount) > 0) {
-      const finalAmount = transactionType === 'deduct' ? -parseFloat(amount) : parseFloat(amount);
+      const baseAmount = parseFloat(amount);
+      const taxRate = settings?.taxRate || 0.0725;
+      const taxAmount = includeTax ? baseAmount * taxRate : 0;
+      const totalAmount = baseAmount + taxAmount;
+      const finalAmount = transactionType === 'deduct' ? -totalAmount : totalAmount;
+      
       onConfirm({
         description: description.trim(),
         amount: finalAmount,
-        paymentMethod: paymentMethod
+        paymentMethod: paymentMethod,
+        includedTax: includeTax ? taxAmount : 0
       });
       handleClose();
     }
@@ -38,6 +47,7 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm }) => {
     setAmount('');
     setTransactionType('add');
     setPaymentMethod('cash');
+    setIncludeTax(false);
     onClose();
   };
 
