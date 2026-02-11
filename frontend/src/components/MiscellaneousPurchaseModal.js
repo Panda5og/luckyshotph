@@ -176,6 +176,39 @@ const MiscellaneousPurchaseModal = ({ isOpen, onClose, onConfirm, settings }) =>
             </div>
           </div>
           
+          {/* Sales Tax Checkbox */}
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="includeTax"
+              checked={includeTax}
+              onCheckedChange={setIncludeTax}
+              className="border-slate-500"
+            />
+            <Label
+              htmlFor="includeTax"
+              className="text-sm text-slate-200 cursor-pointer"
+            >
+              Add Sales Tax ({((settings?.taxRate || 0.0725) * 100).toFixed(2)}%)
+              {includeTax && amount && (
+                <span className="ml-2 text-green-400">
+                  +${(parseFloat(amount || 0) * (settings?.taxRate || 0.0725)).toFixed(2)}
+                </span>
+              )}
+            </Label>
+          </div>
+          
+          {/* Total Display */}
+          {amount && parseFloat(amount) > 0 && (
+            <div className="bg-slate-700 border border-slate-600 p-3 rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-300 text-sm">Total Amount:</span>
+                <span className="text-green-400 font-semibold text-lg">
+                  ${(parseFloat(amount) * (1 + (includeTax ? (settings?.taxRate || 0.0725) : 0))).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          )}
+          
           <div className="bg-purple-900/20 border border-purple-600/50 p-3 rounded-lg">
             <p className="text-purple-300 text-sm text-center">
               This amount will be added directly to today's daily total revenue.
