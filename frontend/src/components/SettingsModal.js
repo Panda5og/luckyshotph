@@ -47,7 +47,7 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
       child: 2.00,
       member: 0.00
     });
-    setTaxRate(5.75);
+    setTaxRate(7.25);
   };
 
   const handleRateChange = (type, value) => {
