@@ -7,14 +7,22 @@ const Dashboard = ({ stats, onReset, onMiscPurchase, onOpenSettings }) => {
     <div className="bg-slate-900 text-white p-6 shadow-lg">
       <div className="flex items-center justify-evenly max-w-7xl mx-auto gap-6">
         {/* Logo */}
-        <img src="/ls_logo.png" alt="Lucky Shot" className="h-20 w-auto" />
+        <img
+          src={`${process.env.PUBLIC_URL}/ls_logo.png`}
+          alt="Lucky Shot"
+          className="h-20 w-auto"
+        />
         
         {/* Tournament Button */}
         <Button
           onClick={() => window.open('https://brackethq.com/', '_blank')}
           className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
         >
-          <img src="/bracket.png" alt="Tournament" className="h-5 w-5 mr-3" />
+          <img
+            src={`${process.env.PUBLIC_URL}/bracket.png`}
+            alt="Tournament"
+            className="h-5 w-5 mr-3"
+          />
           Tournament
         </Button>
 
