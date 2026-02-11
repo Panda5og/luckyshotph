@@ -3,25 +3,33 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { Checkbox } from './ui/checkbox';
 import { DollarSign, Plus, Coffee, AlertTriangle } from 'lucide-react';
 
-const CustomChargeModal = ({ isOpen, onClose, onConfirm, playerName }) => {
+const CustomChargeModal = ({ isOpen, onClose, onConfirm, playerName, settings }) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [includeTax, setIncludeTax] = useState(false);
 
   // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
       setDescription('');
       setAmount('');
+      setIncludeTax(false);
     }
   }, [isOpen]);
 
   const handleConfirm = () => {
     if (description.trim() && amount && parseFloat(amount) > 0) {
+      const baseAmount = parseFloat(amount);
+      const taxRate = settings?.taxRate || 0.0725;
+      const taxAmount = includeTax ? baseAmount * taxRate : 0;
+      const totalAmount = baseAmount + taxAmount;
+      
       onConfirm({
         description: description.trim(),
-        amount: parseFloat(amount)
+        amount: totalAmount
       });
       handleClose();
     }
@@ -35,6 +43,7 @@ const CustomChargeModal = ({ isOpen, onClose, onConfirm, playerName }) => {
   const handleClose = () => {
     setDescription('');
     setAmount('');
+    setIncludeTax(false);
     onClose();
   };
 
