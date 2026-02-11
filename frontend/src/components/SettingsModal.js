@@ -169,7 +169,7 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
                   value={taxRate}
                   onChange={(e) => handleTaxRateChange(e.target.value)}
                   className="bg-slate-800 border-slate-600 text-white focus:border-green-500"
-                  placeholder="5.75"
+                  placeholder="7.25"
                 />
                 <span className="text-slate-400">%</span>
               </div>
