@@ -13,7 +13,7 @@ const SettingsModal = ({ isOpen, onClose, onUpdateSettings, settings }) => {
     child: 2.00,
     member: 0.00
   });
-  const [taxRate, setTaxRate] = useState(5.75);
+  const [taxRate, setTaxRate] = useState(7.25);
 
   // Initialize form with current settings
   useEffect(() => {
