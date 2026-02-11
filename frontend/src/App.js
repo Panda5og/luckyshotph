@@ -501,6 +501,7 @@ const Home = ({ onLogout }) => {
         isOpen={isMiscPurchaseModalOpen}
         onClose={() => setIsMiscPurchaseModalOpen(false)}
         onConfirm={handleMiscPurchaseConfirm}
+        settings={settings}
       />
 
       <CustomChargeModal
