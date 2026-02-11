@@ -67,6 +67,13 @@ export const mockState = {
   })
 };
 
+// Migration: Update old 5.75% tax rate to new 7.25%
+if (mockState.settings.taxRate === 0.0575) {
+  console.log('📋 Migrating tax rate from 5.75% to 7.25%');
+  mockState.settings.taxRate = 0.0725;
+  saveToStorage(STORAGE_KEYS.SETTINGS, mockState.settings);
+}
+
 // Helper function to format time in hh:mm:ss
 export const formatTime = (totalSeconds) => {
   const hours = Math.floor(totalSeconds / 3600);
