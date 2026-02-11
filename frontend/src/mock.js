@@ -63,7 +63,7 @@ export const mockState = {
       child: 2.00,
       member: 0.00
     },
-    taxRate: 0.0575 // 5.75%
+    taxRate: 0.0725 // 7.25%
   })
 };
 
