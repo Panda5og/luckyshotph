@@ -128,6 +128,39 @@ const CustomChargeModal = ({ isOpen, onClose, onConfirm, playerName, settings })
             </div>
           </div>
           
+          {/* Sales Tax Checkbox */}
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="includeTax"
+              checked={includeTax}
+              onCheckedChange={setIncludeTax}
+              className="border-slate-500"
+            />
+            <Label
+              htmlFor="includeTax"
+              className="text-sm text-slate-200 cursor-pointer"
+            >
+              Add Sales Tax ({((settings?.taxRate || 0.0725) * 100).toFixed(2)}%)
+              {includeTax && amount && (
+                <span className="ml-2 text-green-400">
+                  +${(parseFloat(amount || 0) * (settings?.taxRate || 0.0725)).toFixed(2)}
+                </span>
+              )}
+            </Label>
+          </div>
+          
+          {/* Total Display */}
+          {amount && parseFloat(amount) > 0 && (
+            <div className="bg-slate-700 border border-slate-600 p-3 rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-300 text-sm">Total Charge:</span>
+                <span className="text-orange-400 font-semibold text-lg">
+                  ${(parseFloat(amount) * (1 + (includeTax ? (settings?.taxRate || 0.0725) : 0))).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          )}
+          
           <div className="bg-orange-900/20 border border-orange-600/50 p-3 rounded-lg">
             <p className="text-orange-300 text-sm text-center">
               This charge will be tracked as an extra item for analytics.
