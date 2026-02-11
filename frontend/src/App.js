@@ -509,6 +509,7 @@ const Home = ({ onLogout }) => {
         onClose={() => setIsCustomChargeModalOpen(false)}
         onConfirm={handleCustomChargeConfirm}
         playerName={customChargeData?.playerName}
+        settings={settings}
       />
 
       <SettingsModal
